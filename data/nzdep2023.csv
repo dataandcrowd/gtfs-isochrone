@@ -1,0 +1,2322 @@
+SA22023_V1_00,SA22023_name,NZDep2023_decile,NZDep2023,SA32023_code,SA32023_name
+100100,North Cape,10.0,1127.0,50010,Te Hiku
+100200,Rangaunu Harbour,9.0,1110.0,50010,Te Hiku
+100301,Inlets Far North District,10.0,1128.0,50020,Inlets Far North District
+100400,Karikari Peninsula,9.0,1072.0,50030,Doubtless Bay
+100500,Tangonge,9.0,1109.0,50010,Te Hiku
+100600,Ahipara,9.0,1091.0,50010,Te Hiku
+100700,Kaitaia East,10.0,1223.0,50070,Kaitaia
+100800,Kaitaia West,10.0,1223.0,50070,Kaitaia
+100900,Rangitihi,9.0,1065.0,50010,Te Hiku
+101000,Oruru-Parapara,10.0,1118.0,50030,Doubtless Bay
+101101,Doubtless Bay,8.0,1045.0,50030,Doubtless Bay
+101200,Herekino-Takahue,10.0,1153.0,50050,Herekino-Takahue-Peria
+101300,Peria,10.0,1157.0,50050,Herekino-Takahue-Peria
+101400,Taemaro-Oruaiti,9.0,1114.0,50030,Doubtless Bay
+101500,Whakapaku,10.0,1144.0,50040,Whangaroa
+101600,Hokianga North,10.0,1278.0,50060,Hokianga
+101700,Kohukohu-Broadwood,10.0,1218.0,50060,Hokianga
+101801,Whakarara,10.0,1143.0,50040,Whangaroa
+101900,Kaeo,10.0,1170.0,50040,Whangaroa
+102000,Omahuta Forest-Horeke,10.0,1229.0,50060,Hokianga
+102100,Hokianga South,10.0,1234.0,50060,Hokianga
+102201,Lake Manuwai-Kapiro,5.0,965.0,50080,Manuwai-Purerua
+102300,Okaihau,7.0,1027.0,50090,Far North District Other
+102401,Rangitane-Purerua,8.0,1039.0,50080,Manuwai-Purerua
+102501,Waipapa,6.0,998.0,50100,Kerikeri Rural
+102600,Puketotara,4.0,962.0,50100,Kerikeri Rural
+102700,Waima Forest,10.0,1292.0,50060,Hokianga
+102801,Riverview,4.0,955.0,50120,Kerikeri
+102900,Waipoua Forest,10.0,1182.0,50060,Hokianga
+103000,Kerikeri Central,8.0,1056.0,50120,Kerikeri
+103101,Kerikeri South,3.0,942.0,50120,Kerikeri
+103200,Ohaeawai-Waimate North,8.0,1051.0,50090,Far North District Other
+103301,Puketona-Waitangi,5.0,975.0,50110,Bay of Islands
+103401,Ngapuhi,10.0,1214.0,50130,Kaikohe-Ngapuhi
+103501,Kaikohe,10.0,1262.0,50130,Kaikohe-Ngapuhi
+103600,Pakaraka,7.0,1012.0,50090,Far North District Other
+103700,Haruru,7.0,1025.0,50110,Bay of Islands
+103800,Russell,6.0,993.0,50110,Bay of Islands
+103900,Paihia,9.0,1080.0,50110,Bay of Islands
+104000,Mataraua Forest,10.0,1234.0,50090,Far North District Other
+104101,Matawaia-Taumarere,10.0,1171.0,50090,Far North District Other
+104200,Russell Peninsula,6.0,993.0,50110,Bay of Islands
+104301,Opua (Far North District),6.0,994.0,50110,Bay of Islands
+104400,Russell Forest-Rawhiti,10.0,1170.0,50110,Bay of Islands
+104501,Moerewa,10.0,1232.0,50090,Far North District Other
+104600,Kawakawa,10.0,1169.0,50090,Far North District Other
+104700,Maromaku,9.0,1100.0,50090,Far North District Other
+104800,Mangakahia-Hukerenui,10.0,1119.0,50140,Whangarei District North
+104900,Whangaruru,9.0,1072.0,50140,Whangarei District North
+105001,Inlets other Whangarei District,,,50150,Inlets Whangarei District
+105101,Matarau,3.0,934.0,50170,Whangarei District West
+105200,Hikurangi,9.0,1088.0,50140,Whangarei District North
+105300,Kauri,3.0,936.0,50140,Whangarei District North
+105400,Maungatapere,4.0,951.0,50170,Whangarei District West
+105500,Kamo West,6.0,1001.0,50180,Kamo
+105601,Matapouri-Tutukaka,5.0,967.0,50160,Whangarei District East
+105700,Kiripaka,6.0,985.0,50160,Whangarei District East
+105800,Kamo East,9.0,1082.0,50180,Kamo
+105901,Granfield Reserve,5.0,965.0,50180,Kamo
+106000,Kamo Central,8.0,1034.0,50180,Kamo
+106100,Whau Valley,7.0,1020.0,50220,Whau Valley
+106201,Tikipunga North,9.0,1074.0,50190,Tikipunga
+106301,Pukenui,1.0,906.0,50170,Whangarei District West
+106401,Otangarei,10.0,1358.0,50210,Otangarei
+106501,Tikipunga South,9.0,1072.0,50190,Tikipunga
+106600,Kensington (Whangarei District),9.0,1063.0,50230,Kensington (Whangarei District)
+106700,Abbey Caves-Glenbervie,2.0,914.0,50160,Whangarei District East
+106800,Mairtown,9.0,1068.0,50230,Kensington (Whangarei District)
+106901,Maunu,3.0,942.0,50280,Maunu
+106902,Horahora,8.0,1059.0,50270,Horahora
+107000,Woodhill-Vinetown,9.0,1085.0,50260,Woodhill-Vinetown
+107100,Whangarei Central,10.0,1133.0,50240,Whangarei Centre
+107200,Riverside,7.0,1010.0,50250,Riverside
+107300,Raumanga,10.0,1185.0,50290,Raumanga-Port Whangarei
+107401,Tarewa,10.0,1208.0,50290,Raumanga-Port Whangarei
+107501,Morningside (Whangarei District),9.0,1085.0,50240,Whangarei Centre
+107600,Ngunguru,5.0,977.0,50160,Whangarei District East
+107700,Otaika-Portland,6.0,1000.0,50200,Whangarei District South
+107800,Oakleigh-Mangapai,5.0,979.0,50200,Whangarei District South
+107901,Port-Limeburners,6.0,986.0,50290,Raumanga-Port Whangarei
+108000,Pataua,6.0,987.0,50160,Whangarei District East
+108100,Onerahi Park,6.0,995.0,50300,Onerahi
+108200,Sherwood Rise,9.0,1088.0,50300,Onerahi
+108300,Onerahi,9.0,1076.0,50300,Onerahi
+108400,Inlet Whangarei Harbour,,,50150,Inlets Whangarei District
+108500,Parua Bay,2.0,923.0,50160,Whangarei District East
+108601,Bream Bay,7.0,1005.0,50310,Bream Bay
+108701,One Tree Point,4.0,956.0,50310,Bream Bay
+108800,Ruakaka,9.0,1065.0,50310,Bream Bay
+108900,Bream Head,3.0,943.0,50160,Whangarei District East
+109003,Waipu,6.0,990.0,50320,Waipu
+109004,Waipu Rural,2.0,930.0,50320,Waipu
+109101,Kaipara Coastal,9.0,1077.0,50330,Kaipara District North
+109200,Maungaru,7.0,1026.0,50330,Kaipara District North
+109301,Dargaville,9.0,1112.0,50330,Kaipara District North
+109400,Ruawai-Matakohe,9.0,1090.0,50340,Kaipara District South
+109500,Otamatea (Kaipara District),7.0,1018.0,50340,Kaipara District South
+109600,Maungaturoto,6.0,994.0,50340,Kaipara District South
+109700,Kaiwaka,8.0,1030.0,50340,Kaipara District South
+109800,Mangawhai Rural,4.0,952.0,50350,Mangawhai
+109900,Mangawhai Heads,5.0,967.0,50350,Mangawhai
+110100,Mangawhai,5.0,976.0,50350,Mangawhai
+110201,Okahukura Peninsula,7.0,1010.0,50410,Rodney East
+110400,Cape Rodney,5.0,969.0,50390,Rodney North
+110501,Wellsford,8.0,1050.0,50390,Rodney North
+110600,Oceanic Auckland Region East,,,50370,Oceanic Auckland Region East
+110700,South Head,6.0,995.0,50460,Rodney West
+110800,Kaipara Hills,6.0,993.0,50410,Rodney East
+110900,Dome Valley-Matakana,3.0,945.0,50390,Rodney North
+111100,Warkworth West,4.0,956.0,50420,Warkworth
+111200,Puhoi Valley,3.0,937.0,50410,Rodney East
+111300,Warkworth East,5.0,976.0,50420,Warkworth
+111400,Sandspit,2.0,913.0,50430,Mahurangi Peninsula
+111500,Tawharanui Peninsula,2.0,919.0,50390,Rodney North
+111601,Kaukapakapa,1.0,904.0,50470,Kaukapakapa-Waitoki
+111602,Kaukapakapa Rural,2.0,931.0,50470,Kaukapakapa-Waitoki
+111700,Snells Beach,5.0,970.0,50430,Mahurangi Peninsula
+111801,Barrier Islands,9.0,1088.0,50380,Barrier Islands
+111901,Mahurangi Peninsula,3.0,948.0,50430,Mahurangi Peninsula
+112001,Inlets other Auckland,,,50400,Inlets Auckland
+112101,Wainui-Waiwera,3.0,935.0,50410,Rodney East
+112102,Ara Hill,1.0,869.0,50480,Orewa
+112200,Parakai,8.0,1042.0,50460,Rodney West
+112301,Helensville Rural,4.0,951.0,50500,Helensville
+112401,Helensville,5.0,979.0,50500,Helensville
+112500,Waitoki,2.0,919.0,50470,Kaukapakapa-Waitoki
+112600,Waikoukou Valley,1.0,911.0,50500,Helensville
+112701,Orewa North,1.0,909.0,50480,Orewa
+112702,Orewa West,1.0,893.0,50480,Orewa
+112800,Hatfields Beach,3.0,941.0,50490,Hatfields Beach
+112901,Orewa South,5.0,967.0,50480,Orewa
+112902,Millwater North,1.0,898.0,50480,Orewa
+113000,Orewa Central,6.0,1003.0,50480,Orewa
+113101,Millwater Central,1.0,893.0,50520,Silverdale (Auckland)
+113201,Waipatukahu,5.0,966.0,50460,Rodney West
+113300,Millwater South,1.0,911.0,50520,Silverdale (Auckland)
+113401,Milldale,1.0,887.0,50520,Silverdale (Auckland)
+113402,Dairy Flat North,7.0,1025.0,50530,Dairy Flat
+113500,Dairy Flat West,3.0,945.0,50530,Dairy Flat
+113600,Kingsway,2.0,926.0,50540,Red Beach
+113700,Riverhead Forest,,,50510,Coatesville-Riverhead
+113800,Silverdale Central (Auckland),6.0,988.0,50520,Silverdale (Auckland)
+113900,Red Beach West,2.0,928.0,50540,Red Beach
+114000,Red Beach East,3.0,934.0,50540,Red Beach
+114101,Silverdale South (Auckland),4.0,951.0,50440,Hibiscus and Bays Rural
+114102,Stillwater,1.0,910.0,50440,Hibiscus and Bays Rural
+114201,Waimauku,1.0,900.0,50460,Rodney West
+114300,Gulf Islands,4.0,964.0,50440,Hibiscus and Bays Rural
+114400,Vipond,3.0,940.0,50570,Stanmore Bay
+114500,Muriwai,2.0,921.0,50460,Rodney West
+114600,Stanmore Bay West,3.0,946.0,50570,Stanmore Bay
+114701,Kumeu Rural West,5.0,971.0,50610,Kumeu
+114801,Okura Bush,2.0,931.0,50440,Hibiscus and Bays Rural
+114901,Whangaparaoa Central,4.0,954.0,50570,Stanmore Bay
+114902,Wade Heads-Arkles Bay,2.0,916.0,50590,Wade Heads-Arkles Bay
+115001,Kumeu-Huapai North,1.0,901.0,50610,Kumeu
+115002,Kumeu-Huapai South,1.0,907.0,50610,Kumeu
+115100,Stanmore Bay East,5.0,970.0,50570,Stanmore Bay
+115200,Manly West,3.0,941.0,50580,Manly
+115300,Muriwai Valley-Bethells Beach,2.0,929.0,50460,Rodney West
+115400,Tindalls-Matakatia,2.0,930.0,50560,Tindalls-Matakatia
+115501,Coatesville,1.0,905.0,50510,Coatesville-Riverhead
+115601,Dairy Flat South,3.0,934.0,50530,Dairy Flat
+115700,Gulf Harbour North,2.0,913.0,50550,Gulf Harbour
+115800,Manly East,4.0,954.0,50580,Manly
+115901,Riverhead,1.0,901.0,50510,Coatesville-Riverhead
+116000,Army Bay,3.0,938.0,50600,Army Bay
+116101,Kumeu Rural East,6.0,999.0,50610,Kumeu
+116200,Gulf Harbour South,3.0,933.0,50550,Gulf Harbour
+116300,Paremoremo West,2.0,925.0,50630,Paremoremo
+116401,Taupaki,4.0,961.0,50870,Taupaki
+116500,Long Bay,1.0,911.0,50660,Long Bay
+116601,Paremoremo East,4.0,963.0,50630,Paremoremo
+116701,Albany Heights,3.0,943.0,50620,Albany
+116801,Awaruku,3.0,935.0,50670,Torbay-Waiake
+116900,Fairview Heights,4.0,951.0,50680,Fairview Heights
+117001,Whenuapai,2.0,923.0,50890,Whenuapai
+117002,Whenuapai West,5.0,976.0,50890,Whenuapai
+117003,Massey Red Hills,8.0,1035.0,50940,Massey
+117100,Waitakere Ranges North,2.0,932.0,50860,Waitakere West
+117201,Torbay West,3.0,950.0,50670,Torbay-Waiake
+117202,Torbay East,2.0,918.0,50670,Torbay-Waiake
+117300,Albany Central,7.0,1024.0,50620,Albany
+117400,Albany West,4.0,961.0,50620,Albany
+117500,Glamorgan,4.0,951.0,50670,Torbay-Waiake
+117600,Oteha East,4.0,953.0,50700,Oteha
+117700,Northcross,3.0,948.0,50690,Northcross
+117800,Oteha West,4.0,960.0,50700,Oteha
+117900,Waiake,2.0,931.0,50670,Torbay-Waiake
+118001,Waitakere,3.0,949.0,50860,Waitakere West
+118100,Albany South,4.0,963.0,50620,Albany
+118200,Browns Bay South West,4.0,954.0,50710,Browns Bay
+118300,Browns Bay Central,4.0,962.0,50710,Browns Bay
+118400,Schnapper Rock,2.0,924.0,50640,Schnapper Rock
+118501,Pinehill North,4.0,958.0,50730,Pinehill
+118502,Pinehill South,4.0,962.0,50730,Pinehill
+118600,North Harbour,7.0,1025.0,50750,North Harbour/Rosedale
+118700,Browns Bay South East,3.0,938.0,50710,Browns Bay
+118800,Westgate Central,,,50930,Westgate
+118900,Greenhithe West,1.0,896.0,50650,Greenhithe
+119000,Rothesay Bay,1.0,911.0,50720,Rothesay Bay
+119100,Greenhithe East,2.0,914.0,50650,Greenhithe
+119201,Hobsonville,3.0,939.0,50910,Hobsonville
+119301,Inlet Waitemata Harbour,,,50400,Inlets Auckland
+119400,Greenhithe South,1.0,903.0,50650,Greenhithe
+119500,Murrays Bay West,2.0,930.0,50740,Murrays Bay
+119600,Westgate South,6.0,996.0,50930,Westgate
+119700,Windsor Park,4.0,956.0,50760,Windsor Park
+119800,West Harbour West,9.0,1086.0,50920,West Harbour
+119901,Unsworth Heights West,3.0,938.0,50800,Unsworth Heights
+120000,Murrays Bay East,2.0,917.0,50740,Murrays Bay
+120101,Birdwood West,5.0,974.0,50860,Waitakere West
+120201,Hobsonville Point Catalina Bay,1.0,896.0,50910,Hobsonville
+120202,Hobsonville Point Park,1.0,897.0,50910,Hobsonville
+120203,Hobsonville Scott Point,2.0,914.0,50910,Hobsonville
+120301,West Harbour Clearwater Cove,2.0,933.0,50920,West Harbour
+120400,Unsworth Heights East,5.0,968.0,50800,Unsworth Heights
+120500,Mairangi Bay North,3.0,942.0,50770,Mairangi Bay
+120600,Massey Central,9.0,1070.0,50940,Massey
+120701,West Harbour Luckens Point,3.0,942.0,50920,West Harbour
+120800,Mairangi Bay South,2.0,922.0,50770,Mairangi Bay
+120900,Massey Royal Road West,8.0,1054.0,50940,Massey
+121001,Bayview East (Auckland),5.0,972.0,50990,Bayview (Auckland)
+121100,Swanson Rural,3.0,940.0,51290,Waitakere East
+121200,Sunnynook South,6.0,1002.0,50790,Sunnynook
+121300,Sunnynook North,5.0,977.0,50790,Sunnynook
+121401,Bayview West (Auckland),4.0,961.0,50990,Bayview (Auckland)
+121500,Totara Vale North,5.0,970.0,50830,Totara Vale
+121600,Royal Heights North,7.0,1022.0,50940,Massey
+121701,Massey West,8.0,1031.0,50940,Massey
+121800,Beach Haven West,3.0,942.0,50900,Beach Haven
+121901,Totara Vale South,6.0,1002.0,50830,Totara Vale
+122001,Swanson,5.0,966.0,50880,Swanson
+122101,Bayview South (Auckland),4.0,960.0,50990,Bayview (Auckland)
+122200,Campbells Bay,1.0,902.0,50780,Campbells Bay
+122300,Royal Heights South,9.0,1080.0,50940,Massey
+122400,Beach Haven East,8.0,1060.0,50900,Beach Haven
+122501,Massey Keegan,9.0,1078.0,50940,Massey
+122600,Forrest Hill North,4.0,961.0,50810,Forrest Hill
+122700,Glenfield North,5.0,977.0,50840,Glenfield
+122801,Birkdale North,7.0,1009.0,51020,Birkdale
+122802,Birkdale Central,5.0,973.0,51020,Birkdale
+122901,Massey South,9.0,1069.0,50940,Massey
+123000,Ranui North,10.0,1130.0,50970,Ranui (Auckland)
+123100,Glenfield West,6.0,989.0,50840,Glenfield
+123200,Te Atatu Peninsula North West,6.0,993.0,50950,Te Atatu Peninsula
+123300,Glenfield South West,4.0,956.0,50840,Glenfield
+123400,Forrest Hill West,5.0,967.0,50810,Forrest Hill
+123500,Wairau Valley,5.0,980.0,50840,Glenfield
+123600,Forrest Hill East,4.0,952.0,50810,Forrest Hill
+123701,Castor Bay North,1.0,912.0,50820,Castor Bay
+123702,Castor Bay South,2.0,922.0,50820,Castor Bay
+123800,Ranui Domain,10.0,1130.0,50970,Ranui (Auckland)
+123900,Beach Haven South,1.0,900.0,50900,Beach Haven
+124000,Glenfield Central,6.0,989.0,50840,Glenfield
+124100,Piha,4.0,953.0,50860,Waitakere West
+124200,Ranui South West,7.0,1025.0,50970,Ranui (Auckland)
+124301,Henderson Larnoch,10.0,1127.0,50960,Henderson
+124401,Birkdale South,4.0,962.0,51020,Birkdale
+124500,Te Atatu Peninsula Central,8.0,1031.0,50950,Te Atatu Peninsula
+124600,Glenfield East,6.0,996.0,50840,Glenfield
+124700,Henderson Valley,3.0,947.0,51290,Waitakere East
+124800,Te Atatu Peninsula West,6.0,1001.0,50950,Te Atatu Peninsula
+124900,Henderson Lincoln West,9.0,1090.0,50960,Henderson
+125000,Ranui South East,8.0,1050.0,50970,Ranui (Auckland)
+125100,Henderson Lincoln East,6.0,995.0,50960,Henderson
+125201,Birkenhead West,2.0,921.0,51050,Birkenhead
+125202,Birkenhead North West,1.0,912.0,51050,Birkenhead
+125300,Te Atatu Peninsula East,4.0,962.0,50950,Te Atatu Peninsula
+125400,Milford West,3.0,947.0,51000,Milford
+125500,Westlake,4.0,965.0,51000,Milford
+125600,Hillcrest North (Auckland),6.0,991.0,51030,Hillcrest (Auckland)
+125701,Henderson Lincoln South,9.0,1063.0,50960,Henderson
+125800,Hillcrest West (Auckland),3.0,939.0,51030,Hillcrest (Auckland)
+125900,Milford Central,1.0,911.0,51000,Milford
+126000,Summerland South,3.0,944.0,50960,Henderson
+126100,Summerland North,4.0,959.0,50960,Henderson
+126200,Hillcrest East (Auckland),3.0,948.0,51030,Hillcrest (Auckland)
+126300,Chatswood,2.0,918.0,51100,Chatswood
+126401,Te Atatu South-Edmonton,8.0,1048.0,50980,Te Atatu South
+126500,Birkenhead North,4.0,953.0,51050,Birkenhead
+126601,Takapuna West,5.0,981.0,51010,Takapuna
+126701,Henderson North,9.0,1104.0,50960,Henderson
+126702,Henderson West,8.0,1058.0,50960,Henderson
+126801,Takapuna Central,3.0,950.0,51010,Takapuna
+126901,Western Heights (Auckland),4.0,951.0,50960,Henderson
+127001,Te Atatu South-North,7.0,1014.0,50980,Te Atatu South
+127002,Te Atatu South-Central,7.0,1016.0,50980,Te Atatu South
+127100,Northcote Central (Auckland),7.0,1021.0,51040,Northcote (Auckland)
+127200,Akoranga,8.0,1050.0,51040,Northcote (Auckland)
+127300,Northcote South (Auckland),3.0,941.0,51040,Northcote (Auckland)
+127400,Birkenhead South,1.0,900.0,51050,Birkenhead
+127500,Henderson Central,9.0,1098.0,50960,Henderson
+127601,Waiatarua,3.0,935.0,51290,Waitakere East
+127701,Te Atatu South-McLeod North,8.0,1042.0,50980,Te Atatu South
+127801,Henderson Valley Park,9.0,1105.0,50960,Henderson
+127900,Henderson North East,8.0,1052.0,50960,Henderson
+128000,Waitakere Ranges South,6.0,985.0,50860,Waitakere West
+128101,Northcote Tuff Crater,3.0,942.0,51040,Northcote (Auckland)
+128200,Northcote Point (Auckland),2.0,914.0,51110,Northcote Point (Auckland)
+128301,McLaren Memorial Park,9.0,1102.0,50960,Henderson
+128401,Henderson East,8.0,1059.0,50960,Henderson
+128501,Te Atatu South-McLeod South,7.0,1008.0,50980,Te Atatu South
+128601,Takapuna South,3.0,936.0,51010,Takapuna
+128700,Rosebank Peninsula,,,51300,Avondale (Auckland)
+128800,Hauraki,3.0,935.0,51060,Hauraki
+128901,Glendene North West,7.0,1004.0,51310,Glendene
+128902,Glendene North East,9.0,1074.0,51310,Glendene
+129000,Sunnyvale West-Parrs Park,9.0,1066.0,51330,Sunnyvale
+129101,Sunnyvale East,7.0,1015.0,51330,Sunnyvale
+129201,Point Chevalier West,4.0,960.0,51220,Point Chevalier
+129300,Belmont (Auckland),4.0,958.0,51070,Belmont (Auckland)
+129400,Bayswater,4.0,953.0,51090,Bayswater
+129501,Glendene South,8.0,1058.0,51310,Glendene
+129600,Glen Eden West,8.0,1047.0,51340,Glen Eden
+129700,Herne Bay,1.0,907.0,51160,Herne Bay
+129800,Westmere North,2.0,922.0,51210,Westmere
+129901,Point Chevalier North,1.0,899.0,51220,Point Chevalier
+129902,Point Chevalier East,5.0,970.0,51220,Point Chevalier
+130000,Oratia,2.0,913.0,51290,Waitakere East
+130100,Glen Eden Rosier,7.0,1019.0,51340,Glen Eden
+130200,Saint Marys Bay,2.0,922.0,51140,Saint Marys Bay
+130300,Westmere South-Western Springs,3.0,939.0,51210,Westmere
+130400,Ponsonby West,4.0,951.0,51170,Ponsonby
+130500,Kelston North,9.0,1079.0,51320,Kelston
+130601,Avondale Rosebank (Auckland),8.0,1056.0,51300,Avondale (Auckland)
+130700,Narrow Neck,2.0,921.0,51080,Narrow Neck
+130801,Glen Eden North,9.0,1088.0,51340,Glen Eden
+130901,Glen Eden Woodglen,7.0,1023.0,51340,Glen Eden
+130902,Glen Eden Konini,4.0,961.0,51340,Glen Eden
+131000,Kelston South,9.0,1099.0,51320,Kelston
+131100,Waterview,9.0,1078.0,51470,Waterview
+131200,Ponsonby East,3.0,934.0,51170,Ponsonby
+131300,Wynyard-Viaduct,2.0,930.0,51150,Auckland City Centre
+131400,Stanley Point,1.0,889.0,51130,Stanley Point
+131500,Glen Eden Central,7.0,1021.0,51340,Glen Eden
+131600,Grey Lynn North,3.0,934.0,51380,Grey Lynn
+131700,Avondale West (Auckland),9.0,1093.0,51300,Avondale (Auckland)
+131801,Freemans Bay,6.0,990.0,51180,Freemans Bay
+131802,College Hill,1.0,910.0,51180,Freemans Bay
+131900,Mount Albert West,7.0,1005.0,51440,Mount Albert
+132001,Avondale North West (Auckland),8.0,1039.0,51300,Avondale (Auckland)
+132002,Avondale North East (Auckland),6.0,985.0,51300,Avondale (Auckland)
+132100,Grey Lynn West,7.0,1008.0,51380,Grey Lynn
+132200,Mount Albert North,7.0,1004.0,51440,Mount Albert
+132300,New Lynn North,9.0,1064.0,51350,New Lynn
+132400,Victoria Park,6.0,1001.0,51150,Auckland City Centre
+132501,Konini Road,2.0,927.0,51360,Titirangi
+132600,New Lynn North West,8.0,1057.0,51350,New Lynn
+132700,Hobson Ridge North,8.0,1036.0,51150,Auckland City Centre
+132800,Grey Lynn Central,3.0,941.0,51380,Grey Lynn
+132900,Fruitvale,8.0,1037.0,51350,New Lynn
+133000,Devonport,2.0,913.0,51120,Devonport
+133100,Avondale Central (Auckland),8.0,1048.0,51300,Avondale (Auckland)
+133200,Queen Street,8.0,1033.0,51150,Auckland City Centre
+133301,Quay Street-Customs Street,8.0,1043.0,51150,Auckland City Centre
+133400,Hobson Ridge Central,9.0,1094.0,51150,Auckland City Centre
+133500,Grey Lynn East,3.0,949.0,51380,Grey Lynn
+133600,Morningside (Auckland),4.0,964.0,51450,Morningside (Auckland)
+133700,Shortland Street,5.0,983.0,51150,Auckland City Centre
+133800,Hobson Ridge South,8.0,1057.0,51150,Auckland City Centre
+133900,New Lynn Central,8.0,1041.0,51350,New Lynn
+134000,Cheltenham,1.0,901.0,51120,Devonport
+134100,Queen Street South West,8.0,1053.0,51150,Auckland City Centre
+134200,Mount Albert Central,4.0,954.0,51440,Mount Albert
+134301,Karangahape West,4.0,962.0,51150,Auckland City Centre
+134302,Karangahape East,7.0,1018.0,51150,Auckland City Centre
+134400,Kingsland,4.0,963.0,51410,Kingsland
+134500,Anzac Avenue,7.0,1019.0,51150,Auckland City Centre
+134600,Waima-Woodlands Park,1.0,908.0,51360,Titirangi
+134700,Kaurilands,2.0,932.0,51360,Titirangi
+134800,Auckland-University,8.0,1049.0,51150,Auckland City Centre
+134900,New Lynn Seabrook,8.0,1052.0,51350,New Lynn
+135000,Avondale South (Auckland),8.0,1055.0,51300,Avondale (Auckland)
+135100,Symonds Street North West,9.0,1088.0,51150,Auckland City Centre
+135200,Mount Albert South,3.0,942.0,51440,Mount Albert
+135300,Symonds Street West,9.0,1097.0,51150,Auckland City Centre
+135401,Titirangi East,2.0,931.0,51360,Titirangi
+135500,Owairaka West,8.0,1030.0,51440,Mount Albert
+135600,New Lynn Central South,9.0,1068.0,51350,New Lynn
+135700,The Strand,7.0,1011.0,51150,Auckland City Centre
+135800,St Lukes,7.0,1016.0,51440,Mount Albert
+135900,Symonds Street East,9.0,1081.0,51150,Auckland City Centre
+136001,Eden Terrace,4.0,961.0,51390,Eden Terrace
+136002,Grafton West,4.0,957.0,51230,Grafton
+136100,Grafton,6.0,998.0,51230,Grafton
+136200,Eden Park,3.0,944.0,51430,Mount Eden
+136300,Sandringham North,4.0,965.0,51480,Sandringham
+136400,Parnell West,5.0,970.0,51200,Parnell
+136501,New Lynn South,7.0,1016.0,51350,New Lynn
+136502,New Lynn South East,6.0,1003.0,51350,New Lynn
+136601,New Windsor North,7.0,1014.0,51510,New Windsor
+136700,Titirangi South,2.0,914.0,51360,Titirangi
+136801,Owairaka East,7.0,1019.0,51440,Mount Albert
+136900,Eden Valley,5.0,975.0,51430,Mount Eden
+137000,Sandringham Central,8.0,1037.0,51480,Sandringham
+137100,Glenavon,10.0,1124.0,51300,Avondale (Auckland)
+137201,Blockhouse Bay North,7.0,1017.0,51560,Blockhouse Bay
+137202,Blockhouse Bay Central,6.0,994.0,51560,Blockhouse Bay
+137300,Green Bay North,6.0,991.0,51370,Green Bay
+137400,Parnell East,2.0,932.0,51200,Parnell
+137500,Laingholm,1.0,909.0,51950,Laingholm
+137600,Sandringham West,5.0,970.0,51480,Sandringham
+137701,Mount Eden North East,7.0,1028.0,51430,Mount Eden
+137800,Mount Eden North,5.0,979.0,51430,Mount Eden
+137901,Wesley West,10.0,1194.0,51520,Wesley
+138000,Green Bay South,3.0,950.0,51370,Green Bay
+138100,Balmoral,5.0,970.0,51430,Mount Eden
+138200,Sandringham East,7.0,1014.0,51480,Sandringham
+138301,New Windsor South,6.0,994.0,51510,New Windsor
+138302,New Windsor East,8.0,1059.0,51510,New Windsor
+138400,Mount Eden West,3.0,940.0,51430,Mount Eden
+138501,Newmarket,7.0,1019.0,51420,Newmarket
+138502,Newmarket Park,3.0,940.0,51400,Remuera
+138600,Blockhouse Bay North East,6.0,996.0,51560,Blockhouse Bay
+138700,Epsom North,5.0,980.0,51460,Epsom
+138800,Wesley South,9.0,1069.0,51520,Wesley
+138901,Blockhouse Bay South,3.0,950.0,51560,Blockhouse Bay
+139000,Mount Eden East,4.0,951.0,51430,Mount Eden
+139100,Wesley East,10.0,1167.0,51520,Wesley
+139201,Orakei West,4.0,961.0,51190,Orakei
+139300,Maungawhau,2.0,928.0,51430,Mount Eden
+139400,Remuera West,2.0,929.0,51400,Remuera
+139501,Blockhouse Bay East,6.0,993.0,51560,Blockhouse Bay
+139601,Mount Roskill West,6.0,986.0,51590,Lynfield
+139700,Mount Roskill North,7.0,1009.0,51530,Mount Roskill
+139801,Mount Roskill White Swan,7.0,1009.0,51530,Mount Roskill
+139802,Mount Roskill Nirvana,7.0,1017.0,51530,Mount Roskill
+139900,Mount Eden South,2.0,932.0,51430,Mount Eden
+140000,Remuera Waitaramoa,2.0,920.0,51400,Remuera
+140100,Orakei East,8.0,1032.0,51190,Orakei
+140200,Epsom Central-North,5.0,974.0,51460,Epsom
+140300,Mount St John,6.0,994.0,51460,Epsom
+140400,Mount Roskill Central North,9.0,1069.0,51530,Mount Roskill
+140500,Remuera North,1.0,904.0,51400,Remuera
+140601,Mount Roskill North East,10.0,1130.0,51530,Mount Roskill
+140700,Mount Roskill Central South,10.0,1168.0,51530,Mount Roskill
+140800,Epsom Central-South,4.0,954.0,51460,Epsom
+140901,Lynfield Central,5.0,971.0,51590,Lynfield
+140902,Lynfield Harbour View,3.0,934.0,51590,Lynfield
+141000,Remuera South,3.0,949.0,51400,Remuera
+141101,Mission Bay,2.0,921.0,51250,Mission Bay
+141102,Mission Bay Eastridge,2.0,926.0,51250,Mission Bay
+141201,Three Kings North,3.0,941.0,51540,Three Kings
+141300,Mount Roskill South,4.0,957.0,51530,Mount Roskill
+141500,Epsom East,4.0,963.0,51460,Epsom
+141600,Remuera Waiata,1.0,906.0,51400,Remuera
+141700,Epsom South,3.0,933.0,51460,Epsom
+141801,Kohimarama Bay,2.0,913.0,51270,Kohimarama
+141802,Kohimarama Stadium,1.0,896.0,51270,Kohimarama
+141900,Meadowbank West,2.0,924.0,51630,Meadowbank
+142001,Three Kings South,6.0,990.0,51540,Three Kings
+142002,Hillsborough North (Auckland),5.0,965.0,51580,Hillsborough (Auckland)
+142101,Mount Roskill Central East,4.0,962.0,51530,Mount Roskill
+142201,Greenlane North,4.0,953.0,51490,Greenlane
+142202,Greenlane Central,3.0,944.0,51490,Greenlane
+142301,Mount Roskill South East,9.0,1111.0,51530,Mount Roskill
+142400,Remuera East,1.0,902.0,51400,Remuera
+142501,Waikowhai Bay,3.0,938.0,51600,Waikowhai
+142600,Royal Oak West (Auckland),5.0,967.0,51550,Royal Oak (Auckland)
+142700,Saint Heliers West,1.0,898.0,51240,Saint Heliers
+142801,One Tree Hill Oranga,7.0,1007.0,51500,One Tree Hill
+142802,One Tree Hill Amaru,5.0,966.0,51500,One Tree Hill
+142901,Hillsborough Central (Auckland),5.0,970.0,51580,Hillsborough (Auckland)
+143000,Saint Heliers North,1.0,904.0,51240,Saint Heliers
+143100,Remuera Abbotts Park,3.0,945.0,51400,Remuera
+143200,Meadowbank East,2.0,929.0,51630,Meadowbank
+143301,Ellerslie Central,3.0,944.0,51700,Ellerslie
+143400,Royal Oak East (Auckland),7.0,1003.0,51550,Royal Oak (Auckland)
+143500,Saint Heliers South,2.0,916.0,51240,Saint Heliers
+143600,Hillsborough South (Auckland),2.0,930.0,51580,Hillsborough (Auckland)
+143700,Saint Johns West,2.0,920.0,51660,Saint Johns
+143800,Greenlane South,5.0,971.0,51490,Greenlane
+143900,Remuera Waiatarua,3.0,933.0,51400,Remuera
+144001,Glendowie North,1.0,888.0,51260,Glendowie
+144101,Onehunga West,4.0,964.0,51570,Onehunga
+144201,Ellerslie West,6.0,994.0,51700,Ellerslie
+144300,Onehunga North,7.0,1016.0,51570,Onehunga
+144400,Ellerslie East,2.0,926.0,51700,Ellerslie
+144500,Saint Johns East,6.0,992.0,51660,Saint Johns
+144600,Oneroa West,4.0,962.0,50850,Waiheke Island
+144700,Glen Innes West,9.0,1107.0,51640,Glen Innes-Wai O Taiki Bay
+144800,Ellerslie South,3.0,934.0,51700,Ellerslie
+144900,Stonefields West,1.0,890.0,51690,Stonefields
+145000,Onehunga Central,7.0,1023.0,51570,Onehunga
+145101,Glendowie South West,2.0,916.0,51260,Glendowie
+145102,Glendowie South East,3.0,949.0,51260,Glendowie
+145200,Oranga,10.0,1146.0,51570,Onehunga
+145300,Mount Wellington North West,5.0,978.0,51710,Mount Wellington
+145400,Panmure Glen Innes Industrial,10.0,1127.0,51660,Saint Johns
+145500,Onehunga-Te Papapa Industrial,8.0,1053.0,51570,Onehunga
+145600,Te Papapa,6.0,1003.0,51570,Onehunga
+145700,Stonefields East,1.0,905.0,51690,Stonefields
+145800,Glen Innes East-Wai O Taiki Bay,9.0,1093.0,51640,Glen Innes-Wai O Taiki Bay
+145900,Penrose,6.0,1001.0,51750,Penrose
+146000,Mount Wellington North East,5.0,971.0,51710,Mount Wellington
+146100,Mangere Bridge Ambury,6.0,985.0,51610,Mangere Bridge
+146201,Mount Wellington Ferndale,8.0,1030.0,51710,Mount Wellington
+146301,Point England North,10.0,1284.0,51680,Point England
+146302,Point England South,10.0,1182.0,51680,Point England
+146400,Bucklands Beach North,3.0,934.0,51280,Bucklands Beach
+146501,Mount Wellington East,7.0,1028.0,51710,Mount Wellington
+146600,Mount Wellington West,8.0,1029.0,51710,Mount Wellington
+146700,Panmure West,10.0,1122.0,51720,Panmure
+146800,Mangere Bridge,7.0,1025.0,51610,Mangere Bridge
+146900,Oneroa East-Palm Beach,4.0,955.0,50850,Waiheke Island
+147001,Tamaki West,10.0,1168.0,51720,Panmure
+147002,Tamaki East,10.0,1125.0,51720,Panmure
+147100,Panmure East,8.0,1052.0,51720,Panmure
+147201,Mount Wellington Central,8.0,1038.0,51710,Mount Wellington
+147202,Mount Wellington Hamlin,8.0,1040.0,51710,Mount Wellington
+147300,Bays Waiheke Island,,,50400,Inlets Auckland
+147400,Sylvia Park,8.0,1061.0,51710,Mount Wellington
+147500,Mangere Mountain View,9.0,1073.0,51610,Mangere Bridge
+147600,Surfdale,5.0,973.0,50850,Waiheke Island
+147700,Mount Wellington Industrial,,,51710,Mount Wellington
+147800,Half Moon Bay West,2.0,928.0,51670,Half Moon Bay
+147900,Auckland Airport,10.0,1160.0,51960,Mangere
+148000,Eastern Beach,3.0,942.0,51650,Eastern Beach
+148101,Sunnyhills West,2.0,929.0,51740,Sunnyhills
+148102,Pakuranga North,6.0,996.0,51790,Pakuranga
+148200,Favona North,10.0,1155.0,51620,Favona
+148300,Bucklands Beach Central,4.0,962.0,51280,Bucklands Beach
+148401,Farm Cove,2.0,922.0,51730,Farm Cove
+148501,Mangere North,10.0,1191.0,51960,Mangere
+148600,Favona West,10.0,1181.0,51620,Favona
+148700,Ostend,5.0,981.0,50850,Waiheke Island
+148800,Half Moon Bay North East,4.0,963.0,51670,Half Moon Bay
+148901,Mangere West,10.0,1242.0,51960,Mangere
+149001,Pakuranga West,8.0,1038.0,51790,Pakuranga
+149100,Mount Wellington South West,8.0,1051.0,51710,Mount Wellington
+149200,Sunnyhills East,5.0,967.0,51740,Sunnyhills
+149300,Half Moon Bay South East,7.0,1007.0,51670,Half Moon Bay
+149400,Favona East,10.0,1118.0,51620,Favona
+149500,Mount Wellington South East,10.0,1173.0,51710,Mount Wellington
+149600,Otahuhu Industrial,,,51830,Otahuhu
+149701,Bucklands Beach Murvale,5.0,966.0,51280,Bucklands Beach
+149702,Bucklands Beach South,5.0,982.0,51280,Bucklands Beach
+149800,Pakuranga Central,7.0,1021.0,51790,Pakuranga
+149901,Awhitu,7.0,1019.0,52150,Franklin West
+150000,Harania North,10.0,1246.0,52010,Mangere East
+150101,Otahuhu Central,10.0,1197.0,51830,Otahuhu
+150200,Mangere Central,10.0,1203.0,51960,Mangere
+150301,Otahuhu North West,10.0,1260.0,51830,Otahuhu
+150302,Otahuhu North East,10.0,1183.0,51830,Otahuhu
+150400,Howick West,4.0,962.0,51870,Howick
+150500,Pakuranga Heights North West,6.0,1001.0,51760,Pakuranga Heights
+150600,Mellons Bay,1.0,906.0,51850,Mellons Bay
+150700,Pakuranga Heights East,7.0,1014.0,51760,Pakuranga Heights
+150800,Sutton Park,10.0,1192.0,52010,Mangere East
+150900,Otahuhu East,9.0,1087.0,51830,Otahuhu
+151000,Mangere South,10.0,1159.0,51960,Mangere
+151100,Onetangi,5.0,973.0,50850,Waiheke Island
+151200,Harania South,10.0,1198.0,52010,Mangere East
+151301,Highland Park (Auckland),6.0,990.0,51770,Highland Park (Auckland)
+151400,Otahuhu South West,10.0,1166.0,51830,Otahuhu
+151500,Pakuranga Heights South West,7.0,1012.0,51760,Pakuranga Heights
+151600,Mangere Mascot,10.0,1192.0,51960,Mangere
+151700,Waiheke East,5.0,976.0,50850,Waiheke Island
+151800,Massey Road West,10.0,1182.0,52010,Mangere East
+151900,Otahuhu South,10.0,1139.0,51830,Otahuhu
+152000,Howick Central,4.0,954.0,51870,Howick
+152101,Massey Road North,10.0,1137.0,52010,Mangere East
+152201,Botany Downs West,4.0,957.0,51780,Botany Downs
+152300,East Tamaki,8.0,1035.0,51820,East Tamaki
+152400,Howick East,4.0,959.0,51870,Howick
+152500,Burswood,4.0,961.0,51810,Burswood
+152600,Massey Road South,10.0,1137.0,52010,Mangere East
+152700,Middlemore,,,52010,Mangere East
+152800,Mangere South East,9.0,1078.0,51960,Mangere
+152900,Botany Downs East,3.0,947.0,51780,Botany Downs
+153000,Grange,10.0,1192.0,51990,Papatoetoe
+153100,Golflands,3.0,946.0,51800,Golflands
+153200,Aorere North,10.0,1122.0,52010,Mangere East
+153301,Mangere East,9.0,1075.0,52010,Mangere East
+153400,Cockle Bay,1.0,895.0,51890,Cockle Bay
+153500,Otara West,10.0,1278.0,51980,Otara
+153600,Aorere Central,9.0,1115.0,52010,Mangere East
+153700,Northpark North,2.0,930.0,51920,Northpark
+153800,Somerville,2.0,927.0,51910,Somerville
+153900,Northpark South,2.0,928.0,51920,Northpark
+154001,Papatoetoe North,9.0,1108.0,51990,Papatoetoe
+154101,Dingwall,8.0,1050.0,51990,Papatoetoe
+154201,Aorere South West,9.0,1079.0,51990,Papatoetoe
+154202,Aorere South East,9.0,1108.0,51990,Papatoetoe
+154300,Shelly Park,1.0,903.0,51900,Shelly Park
+154400,Otara Central,10.0,1241.0,51980,Otara
+154500,Huntington Park,5.0,978.0,51820,East Tamaki
+154600,Botany Central,,,51820,East Tamaki
+154701,Dannemora North-Shamrock Park,2.0,931.0,51930,Dannemora
+154801,Papatoetoe North West,10.0,1124.0,51990,Papatoetoe
+154802,Papatoetoe West,9.0,1090.0,51990,Papatoetoe
+154901,Papatoetoe Central West,8.0,1060.0,51990,Papatoetoe
+154902,Papatoetoe Central East,9.0,1068.0,51990,Papatoetoe
+155000,Sunkist Bay,2.0,917.0,51860,Beachlands
+155100,Otara East,10.0,1281.0,51980,Otara
+155200,Redcastle,4.0,961.0,51820,East Tamaki
+155301,Dannemora South,2.0,931.0,51930,Dannemora
+155401,Armoy,5.0,982.0,51820,East Tamaki
+155500,Manukau Central,9.0,1109.0,52030,Manukau
+155601,Papatoetoe North East,9.0,1102.0,51990,Papatoetoe
+155602,Papatoetoe East,9.0,1105.0,51990,Papatoetoe
+155701,Otara South West,10.0,1229.0,51980,Otara
+155702,Otara South,10.0,1263.0,51980,Otara
+155801,Ferguson,10.0,1272.0,51980,Otara
+155901,Papatoetoe South West,10.0,1123.0,51990,Papatoetoe
+156000,Botany Junction,7.0,1029.0,51820,East Tamaki
+156101,Middlefield,3.0,943.0,51940,East Tamaki Heights
+156201,Papatoetoe South,8.0,1056.0,51990,Papatoetoe
+156301,Point View,2.0,923.0,51940,East Tamaki Heights
+156400,Te Puru,1.0,883.0,51860,Beachlands
+156500,Puhinui North,8.0,1047.0,51990,Papatoetoe
+156601,Savonna,3.0,943.0,52000,Flat Bush
+156700,Puhinui South,9.0,1078.0,51990,Papatoetoe
+156800,Rongomai West,10.0,1268.0,51980,Otara
+156901,Baverstock,5.0,970.0,52000,Flat Bush
+157000,Puhinui East,9.0,1071.0,52030,Manukau
+157101,Turanga,2.0,917.0,51880,Franklin North
+157200,Rongomai East,10.0,1210.0,51980,Otara
+157301,Ormiston North,4.0,954.0,52000,Flat Bush
+157400,Maraetai,1.0,912.0,51840,Maraetai
+157500,Chapel Downs,9.0,1074.0,52000,Flat Bush
+157600,Wiri West,10.0,1168.0,52060,Wiri
+157701,Clover Park North,10.0,1178.0,52020,Clover Park
+157702,Clover Park East,10.0,1176.0,52020,Clover Park
+157800,Mission Heights North,3.0,946.0,52000,Flat Bush
+157901,Clover Park South,9.0,1081.0,52020,Clover Park
+158001,Donegal Park West,8.0,1034.0,52000,Flat Bush
+158002,Donegal Park East,2.0,929.0,52000,Flat Bush
+158101,Ormiston Central,4.0,964.0,52000,Flat Bush
+158102,Ormiston South,3.0,947.0,52000,Flat Bush
+158200,Mission Heights South,3.0,950.0,52000,Flat Bush
+158300,Hilltop (Auckland),5.0,983.0,52000,Flat Bush
+158401,Wiri North,10.0,1205.0,52060,Wiri
+158402,Wiri East,10.0,1195.0,52060,Wiri
+158501,Goodwood Heights West,8.0,1054.0,52040,Goodwood Heights
+158502,Goodwood Heights East,6.0,984.0,52040,Goodwood Heights
+158601,Ormiston East,5.0,969.0,52000,Flat Bush
+158602,Bremner Ridge,2.0,924.0,52000,Flat Bush
+158603,Ormiston South East,2.0,926.0,52000,Flat Bush
+158700,Clendon Park North,10.0,1219.0,52130,Clendon Park
+158800,Burbank,10.0,1247.0,52100,Manurewa
+158900,Tuscany Heights,1.0,908.0,52000,Flat Bush
+159000,Totara Heights,5.0,982.0,52070,Totara Heights
+159101,Homai East,10.0,1117.0,52100,Manurewa
+159201,Homai West,10.0,1209.0,52100,Manurewa
+159202,Homai Central,10.0,1150.0,52100,Manurewa
+159301,The Gardens (Auckland),3.0,936.0,52050,The Gardens (Auckland)
+159401,Clarks Beach,3.0,945.0,52150,Franklin West
+159500,Clendon Park West,10.0,1162.0,52130,Clendon Park
+159600,Hillpark North,7.0,1012.0,52090,Hillpark
+159700,Clendon Park East,10.0,1235.0,52130,Clendon Park
+159801,Karaka Creek,2.0,928.0,52150,Franklin West
+159900,Rowandale West,10.0,1225.0,52100,Manurewa
+160000,Rowandale East,10.0,1171.0,52100,Manurewa
+160100,Manurewa Central,10.0,1126.0,52100,Manurewa
+160201,Weymouth West,10.0,1128.0,52140,Weymouth
+160202,Weymouth Central,10.0,1120.0,52140,Weymouth
+160300,Hillpark South,8.0,1032.0,52090,Hillpark
+160401,Alfriston,6.0,993.0,52080,Alfriston
+160501,Weymouth East,10.0,1148.0,52140,Weymouth
+160601,Leabank,10.0,1210.0,52100,Manurewa
+160700,Weymouth South,10.0,1134.0,52140,Weymouth
+160800,Manurewa East,10.0,1164.0,52100,Manurewa
+160901,Manurewa West,10.0,1125.0,52100,Manurewa
+160902,Manurewa South,10.0,1194.0,52100,Manurewa
+161000,Randwick Park East,8.0,1044.0,52120,Randwick Park
+161100,Wattle Downs West,4.0,956.0,52170,Wattle Downs
+161201,Wattle Downs North,10.0,1213.0,52170,Wattle Downs
+161300,Randwick Park West,10.0,1211.0,52120,Randwick Park
+161400,Kingseat-Karaka,5.0,970.0,51970,Franklin Central
+161500,Wattle Downs East,5.0,972.0,52170,Wattle Downs
+161600,Takanini North,9.0,1093.0,52110,Takanini
+161700,Takanini Industrial,,,52110,Takanini
+161800,Conifer Grove West,2.0,922.0,52160,Conifer Grove
+161900,Conifer Grove East,10.0,1135.0,52160,Conifer Grove
+162000,Takanini West,10.0,1146.0,52110,Takanini
+162101,Takanini South,5.0,981.0,52110,Takanini
+162102,Takanini East,4.0,951.0,52110,Takanini
+162200,Takanini Central,6.0,985.0,52110,Takanini
+162300,Ardmore,5.0,970.0,51970,Franklin Central
+162400,Glenbrook,4.0,957.0,52150,Franklin West
+162500,Hingaia,2.0,933.0,52180,Karaka
+162601,Takanini South East,5.0,972.0,52200,Papakura
+162602,Takanini McLennan,9.0,1082.0,52200,Papakura
+162701,Kawakawa Bay-Orere,5.0,979.0,51880,Franklin North
+162800,Papakura West,9.0,1069.0,52200,Papakura
+162901,Clevedon,2.0,921.0,51880,Franklin North
+163001,Papakura North,9.0,1113.0,52200,Papakura
+163100,Pahurehure,6.0,988.0,52210,Pahurehure
+163200,Papakura Central,10.0,1139.0,52200,Papakura
+163301,Papakura North East,10.0,1115.0,52200,Papakura
+163302,Twin Parks Rise,3.0,946.0,52200,Papakura
+163400,Karaka Lakes,2.0,913.0,52180,Karaka
+163501,Papakura Kelvin,10.0,1155.0,52200,Papakura
+163502,Papakura Eastburn,10.0,1258.0,52200,Papakura
+163600,Papakura Massey Park,10.0,1196.0,52200,Papakura
+163700,Rosehill,9.0,1090.0,52240,Rosehill
+163801,Patumahoe,1.0,912.0,52260,Patumahoe
+163803,Patumahoe Rural,3.0,939.0,52260,Patumahoe
+163901,Papakura East,9.0,1110.0,52200,Papakura
+163902,Harbour View Heights,4.0,954.0,52200,Papakura
+164001,Opaheke,7.0,1023.0,52230,Opaheke
+164100,Papakura Industrial,10.0,1162.0,52200,Papakura
+164201,Red Hill,10.0,1189.0,52220,Red Hill
+164301,Drury West,4.0,964.0,52250,Drury
+164302,Drury East,9.0,1089.0,52250,Drury
+164401,Tamakae,6.0,1001.0,52320,Waiuku
+164500,Hamilton Estate,7.0,1018.0,52320,Waiuku
+164601,Runciman,7.0,1015.0,51970,Franklin Central
+164602,Drury South Crossing,2.0,930.0,51970,Franklin Central
+164603,Waihoehoe,4.0,965.0,51970,Franklin Central
+164700,Waiuku Central,7.0,1017.0,52320,Waiuku
+164800,Waiuku East,6.0,1003.0,52320,Waiuku
+164900,Kendallvale,2.0,923.0,52320,Waiuku
+165001,Puni,5.0,981.0,52260,Patumahoe
+165101,Ramarama,2.0,929.0,51970,Franklin Central
+165200,Hunua,2.0,926.0,52190,Hunua-Ararimu
+165301,Pukekohe North,7.0,1012.0,52270,Pukekohe North West
+165302,Pukekohe North West,10.0,1173.0,52270,Pukekohe North West
+165400,Anselmi Ridge,2.0,915.0,52280,Pukekohe North East
+165501,Pukekohe West,10.0,1128.0,52290,Pukekohe West
+165502,Pukekohe South West,4.0,965.0,52290,Pukekohe West
+165600,Cape Hill,2.0,920.0,52280,Pukekohe North East
+165700,Rosa Birch Park,7.0,1016.0,52290,Pukekohe West
+165800,Rooseville Park,6.0,988.0,52280,Pukekohe North East
+165901,Cloverlea (Auckland),4.0,956.0,52300,Pukekohe South
+166000,Pukekohe Central,10.0,1178.0,52310,Pukekohe Centre
+166100,Pukekohe Hospital,6.0,988.0,52310,Pukekohe Centre
+166200,Buckland,4.0,961.0,52300,Pukekohe South
+166301,Bombay Hills,2.0,933.0,51970,Franklin Central
+166400,Ararimu,2.0,918.0,52190,Hunua-Ararimu
+166500,Colville,9.0,1083.0,52330,Thames-Coromandel District North
+166600,Islands Thames-Coromandel District,,,52340,Mercury Bay
+166700,Coromandel,8.0,1053.0,52330,Thames-Coromandel District North
+166801,Inlets Thames-Coromandel District,,,52350,Inlets Thames-Coromandel District
+166900,Mercury Bay North,5.0,969.0,52340,Mercury Bay
+167000,Whitianga North,4.0,963.0,52360,Whitianga
+167101,Whitianga South,8.0,1031.0,52360,Whitianga
+167102,Whitianga Waterways,3.0,938.0,52360,Whitianga
+167200,Thames Coast,7.0,1019.0,52370,Thames-Coromandel District West
+167300,Cooks Beach-Ferry Landing,4.0,954.0,52340,Mercury Bay
+167400,Mercury Bay South,5.0,970.0,52340,Mercury Bay
+167501,Kauaeranga,3.0,944.0,52370,Thames-Coromandel District West
+167600,Thames North,8.0,1041.0,52390,Thames
+167700,Thames Central,10.0,1138.0,52390,Thames
+167800,Thames South,9.0,1066.0,52390,Thames
+167900,Hikuai,7.0,1028.0,52380,Thames-Coromandel District East
+168001,Totora-Kopu,4.0,960.0,52390,Thames
+168101,Tairua,6.0,995.0,52380,Thames-Coromandel District East
+168200,Pauanui,3.0,942.0,52380,Thames-Coromandel District East
+168300,Matatoki-Puriri,6.0,993.0,52370,Thames-Coromandel District West
+168400,Whangamata Rural,6.0,989.0,52400,Whangamata
+168501,Whangamata West,2.0,928.0,52400,Whangamata
+168502,Whangamata East,6.0,986.0,52400,Whangamata
+168600,Miranda-Pukorokoro,8.0,1050.0,52410,Hauraki Plains
+168701,Hauraki Plains North,7.0,1024.0,52410,Hauraki Plains
+168800,Hauraki Plains East,7.0,1013.0,52410,Hauraki Plains
+168901,Ngatea,6.0,991.0,52410,Hauraki Plains
+169000,Hauraki Plains South,9.0,1062.0,52410,Hauraki Plains
+169100,Paeroa Rural,7.0,1022.0,52420,Paeroa
+169200,Paeroa,9.0,1078.0,52420,Paeroa
+169301,Waihi Rural,7.0,1016.0,52430,Waihi
+169401,Waihi North,9.0,1089.0,52430,Waihi
+169500,Waihi East,9.0,1063.0,52430,Waihi
+169600,Waihi South,9.0,1090.0,52430,Waihi
+169700,Aka Aka,4.0,951.0,52470,Waikato District North West
+169800,Mangatangi,6.0,998.0,52440,Waikato District North East
+169901,Tuakau Rural,4.0,963.0,52450,Tuakau
+170001,Tuakau North,7.0,1026.0,52450,Tuakau
+170101,Onewhero,6.0,998.0,52470,Waikato District North West
+170201,Pokeno Rural,4.0,956.0,52460,Pokeno
+170300,Tuakau South,8.0,1050.0,52450,Tuakau
+170400,Port Waikato-Waikaretu,9.0,1112.0,52470,Waikato District North West
+170501,Pokeno North,2.0,930.0,52460,Pokeno
+170502,Pokeno South,1.0,910.0,52460,Pokeno
+170600,Pukekawa,4.0,951.0,52470,Waikato District North West
+170700,Maramarua,7.0,1018.0,52440,Waikato District North East
+170802,Te Kauwhata West,3.0,938.0,52440,Waikato District North East
+170803,Whangamarino,8.0,1043.0,52440,Waikato District North East
+170901,Te Akau,6.0,1002.0,52470,Waikato District North West
+171101,Te Kauwhata East,7.0,1008.0,52440,Waikato District North East
+171201,Huntly Rural,8.0,1034.0,52490,Huntly
+171300,Waerenga,5.0,972.0,52440,Waikato District North East
+171400,Huntly West,10.0,1233.0,52490,Huntly
+171501,Huntly East,9.0,1100.0,52490,Huntly
+171502,Huntly South,9.0,1072.0,52490,Huntly
+171601,Raglan,6.0,993.0,52530,Waikato District South West
+171700,Whitikahu,4.0,959.0,52440,Waikato District North East
+171801,Te Uku,4.0,964.0,52530,Waikato District South West
+171803,Whale Bay,5.0,971.0,52530,Waikato District South West
+171901,Taupiri-Lake Kainui,6.0,985.0,52500,Waikato District South East
+172001,Ngaruawahia North,9.0,1070.0,52510,Ngaruawahia-Horotiu
+172100,Ngaruawahia Central,8.0,1061.0,52510,Ngaruawahia-Horotiu
+172201,Ngaruawahia South,8.0,1030.0,52510,Ngaruawahia-Horotiu
+172300,Kainui-Gordonton,3.0,950.0,52500,Waikato District South East
+172401,Te Kowhai,2.0,920.0,52520,Whatawhata-Te Kowhai
+172500,Whatawhata West,4.0,954.0,52520,Whatawhata-Te Kowhai
+172601,Horotiu,6.0,985.0,52510,Ngaruawahia-Horotiu
+172700,Horsham Downs,2.0,920.0,52500,Waikato District South East
+172800,Whatawhata East,3.0,950.0,52520,Whatawhata-Te Kowhai
+172900,Rotokauri,2.0,915.0,52520,Whatawhata-Te Kowhai
+173000,Hamilton Park,3.0,933.0,52500,Waikato District South East
+173100,Eureka-Tauwhare,2.0,926.0,52500,Waikato District South East
+173201,Tamahere North,1.0,891.0,52540,Waikato District Tamahere
+173202,Tamahere West,1.0,874.0,52540,Waikato District Tamahere
+173300,Pukemoremore,3.0,935.0,52500,Waikato District South East
+173400,Tamahere South,1.0,912.0,52540,Waikato District Tamahere
+173500,Tahuna-Mangateparu,5.0,977.0,52550,Morrinsville Rural
+173600,Mangaiti,7.0,1018.0,52560,Te Aroha Rural
+173700,Tatuanui,5.0,973.0,52550,Morrinsville Rural
+173801,Tahuroa,6.0,989.0,52550,Morrinsville Rural
+173901,Morrinsville North,3.0,949.0,52580,Morrinsville
+173902,Morrinsville East,5.0,969.0,52580,Morrinsville
+174001,Morrinsville West,8.0,1034.0,52580,Morrinsville
+174100,Te Aroha East,9.0,1070.0,52570,Te Aroha
+174200,Te Aroha West,6.0,1000.0,52570,Te Aroha
+174300,Waihou-Manawaru,7.0,1012.0,52560,Te Aroha Rural
+174400,Waitoa-Ngarua,7.0,1026.0,52560,Te Aroha Rural
+174500,Richmond Downs-Wardville,6.0,990.0,52590,Matamata Rural
+174601,Waharoa-Peria,9.0,1068.0,52590,Matamata Rural
+174701,Okauia,5.0,983.0,52590,Matamata Rural
+174801,Hinuera,5.0,974.0,52590,Matamata Rural
+174901,Matamata North,7.0,1021.0,52600,Matamata
+175001,Matamata West,6.0,999.0,52600,Matamata
+175002,Matamata East,5.0,974.0,52600,Matamata
+175100,Te Poi,7.0,1011.0,52590,Matamata Rural
+175201,Te Rapa North,7.0,1020.0,52610,Burbush-Baverstock-Te Rapa
+175301,Flagstaff North West,1.0,895.0,52630,Flagstaff
+175302,Flagstaff North East,2.0,922.0,52630,Flagstaff
+175401,Burbush-Baverstock,3.0,941.0,52610,Burbush-Baverstock-Te Rapa
+175501,Flagstaff South,1.0,893.0,52630,Flagstaff
+175601,Rototuna North,3.0,945.0,52620,Rototuna
+175700,Pukete West,7.0,1007.0,52640,Pukete
+175801,Flagstaff East,3.0,943.0,52630,Flagstaff
+175901,Rototuna West,3.0,947.0,52620,Rototuna
+175902,Rototuna East,4.0,958.0,52620,Rototuna
+176000,Pukete East,5.0,972.0,52640,Pukete
+176101,Te Manatu,4.0,960.0,52670,Huntington
+176201,Rototuna South West,3.0,936.0,52620,Rototuna
+176202,Rototuna South East,3.0,939.0,52620,Rototuna
+176301,Te Rapa South,10.0,1117.0,52610,Burbush-Baverstock-Te Rapa
+176400,Saint Andrews West,9.0,1065.0,52660,Saint Andrews
+176500,Saint Andrews East,5.0,979.0,52660,Saint Andrews
+176600,Queenwood (Hamilton City),4.0,956.0,52650,Queenwood (Hamilton City)
+176700,St James,2.0,925.0,52670,Huntington
+176800,Crawshaw,10.0,1154.0,52710,Nawton
+176900,Huntington,1.0,907.0,52670,Huntington
+177000,Western Heights (Hamilton City),3.0,944.0,52750,Western Heights (Hamilton City)
+177100,Nawton West,7.0,1025.0,52710,Nawton
+177200,Nawton East,9.0,1097.0,52710,Nawton
+177300,Chartwell,10.0,1141.0,52680,Chartwell-Chedworth
+177400,Forest Lake (Hamilton City),7.0,1018.0,52720,Forest Lake (Hamilton City)
+177500,Chedworth,5.0,982.0,52680,Chartwell-Chedworth
+177600,Beerescourt,5.0,975.0,52700,Beerescourt
+177700,Miropiko,5.0,967.0,52690,Fairfield (Hamilton City)
+177800,Porritt,10.0,1136.0,52680,Chartwell-Chedworth
+177901,Dinsdale North,7.0,1023.0,52770,Dinsdale
+178000,Maeroa,9.0,1072.0,52730,Maeroa
+178100,Dinsdale South,7.0,1005.0,52770,Dinsdale
+178201,Fairfield North (Hamilton City),10.0,1197.0,52690,Fairfield (Hamilton City)
+178202,Fairfield South (Hamilton City),9.0,1112.0,52690,Fairfield (Hamilton City)
+178301,Whitiora,10.0,1136.0,52740,Whitiora
+178400,Enderley North,10.0,1186.0,52840,Enderley
+178500,Fairview Downs,8.0,1029.0,52830,Fairview Downs
+178600,Temple View,6.0,998.0,52790,Temple View
+178701,Swarbrick,9.0,1095.0,52760,Frankton (Hamilton City)
+178800,Kahikatea,9.0,1098.0,52760,Frankton (Hamilton City)
+178901,Frankton Junction,9.0,1068.0,52760,Frankton (Hamilton City)
+179001,Kirikiriroa,9.0,1064.0,52870,Hamilton Centre
+179100,Enderley South,10.0,1169.0,52840,Enderley
+179201,Greenhill Park,1.0,901.0,52820,Ruakura
+179202,Ruakura,7.0,1004.0,52820,Ruakura
+179300,Claudelands,8.0,1061.0,52860,Claudelands
+179401,Hamilton Central,7.0,1013.0,52870,Hamilton Centre
+179501,Hamilton Lake North,8.0,1046.0,52780,Hamilton Lake
+179502,Hamilton Lake South,5.0,978.0,52780,Hamilton Lake
+179600,Peachgrove,8.0,1034.0,52850,Peachgrove-Greensboro
+179700,Hamilton East Village,9.0,1082.0,52880,Hamilton East
+179801,Hamilton West,8.0,1054.0,52870,Hamilton Centre
+179901,Greensboro,10.0,1124.0,52850,Peachgrove-Greensboro
+180000,Hamilton East Cook,9.0,1072.0,52880,Hamilton East
+180100,Melville North,8.0,1055.0,52800,Melville
+180200,Hamilton East,7.0,1018.0,52880,Hamilton East
+180300,Melville South,9.0,1098.0,52800,Melville
+180400,Deanwell,9.0,1082.0,52810,Deanwell
+180500,Bader,10.0,1173.0,52920,Bader
+180601,Hillcrest West (Hamilton City),7.0,1025.0,52900,Hillcrest (Hamilton City)
+180700,Hillcrest East (Hamilton City),8.0,1047.0,52900,Hillcrest (Hamilton City)
+180800,Silverdale (Hamilton City),8.0,1055.0,52890,Silverdale (Hamilton City)
+180900,Glenview,8.0,1030.0,52940,Glenview
+181000,Resthill,5.0,977.0,52940,Glenview
+181101,Fitzroy (Hamilton City),5.0,968.0,52930,Fitzroy-Peacocke
+181200,Riverlea,5.0,979.0,52910,Riverlea
+181301,Peacocke,4.0,959.0,52930,Fitzroy-Peacocke
+181400,Te Pahu,2.0,927.0,52950,Waipa District West
+181500,Ngahinapouri,1.0,911.0,52950,Waipa District West
+181600,Lake Cameron,2.0,922.0,52950,Waipa District West
+181700,Lake Ngaroto,3.0,939.0,52950,Waipa District West
+181800,Kaipaki,2.0,928.0,52950,Waipa District West
+181900,Pirongia,1.0,911.0,52950,Waipa District West
+182000,Hautapu Rural,4.0,952.0,52960,Waipa District East
+182101,Pokuru,4.0,962.0,52970,Waipa District South
+182201,Te Rahu,2.0,930.0,52970,Waipa District South
+182300,Fencourt,2.0,922.0,52960,Waipa District East
+182400,Hautapu,3.0,946.0,52980,Cambridge West
+182500,Karapiro,2.0,917.0,52960,Waipa District East
+182600,Cambridge North,1.0,892.0,52990,Cambridge North East
+182700,Cambridge West,3.0,950.0,52980,Cambridge West
+182800,Cambridge East,5.0,976.0,53000,Cambridge Centre
+182900,Cambridge Park-River Garden,1.0,901.0,53010,Leamington
+183000,Oaklands-St Kilda,1.0,886.0,52990,Cambridge North East
+183101,Pukerimu,2.0,922.0,52960,Waipa District East
+183200,Cambridge Central,6.0,999.0,53000,Cambridge Centre
+183300,Te Awamutu North,5.0,977.0,53030,Te Awamutu North
+183401,Te Awamutu West,6.0,990.0,53030,Te Awamutu North
+183500,Leamington West,5.0,966.0,53010,Leamington
+183600,Goodfellow Park,8.0,1049.0,53030,Te Awamutu North
+183701,Leamington South,2.0,928.0,53010,Leamington
+183800,Leamington Central,6.0,986.0,53010,Leamington
+183900,Leamington East,3.0,939.0,53010,Leamington
+184000,Te Awamutu Stadium,6.0,987.0,53020,Te Awamutu South
+184100,Te Awamutu Central,9.0,1068.0,53030,Te Awamutu North
+184201,Pekerau,6.0,997.0,53020,Te Awamutu South
+184300,Fraser Street,6.0,986.0,53020,Te Awamutu South
+184400,Sherwin Park,7.0,1007.0,53020,Te Awamutu South
+184501,St Leger,1.0,908.0,52970,Waipa District South
+184601,Rotoorangi,4.0,965.0,52970,Waipa District South
+184700,Tokanui,10.0,1133.0,52970,Waipa District South
+184800,Kihikihi Central,6.0,1002.0,52970,Waipa District South
+184900,Maungatautari,3.0,935.0,52960,Waipa District East
+185000,Rotongata,7.0,1020.0,52960,Waipa District East
+185200,Pirongia Forest,10.0,1146.0,53040,Otorohanga District West
+185300,Honikiwi,5.0,976.0,53040,Otorohanga District West
+185400,Te Kawa,5.0,983.0,53060,Otorohanga District East
+185500,Otorohanga,9.0,1074.0,53060,Otorohanga District East
+185600,Maihiihi,7.0,1005.0,53060,Otorohanga District East
+185700,Puniu,7.0,1007.0,53060,Otorohanga District East
+185800,Tirau,6.0,1002.0,53070,Putaruru-Tirau
+185900,Putaruru Rural,6.0,988.0,53070,Putaruru-Tirau
+186000,Putaruru,9.0,1105.0,53070,Putaruru-Tirau
+186100,Kinleith,6.0,991.0,53080,Kinleith
+186200,Paraonui,9.0,1075.0,53090,Tokoroa North
+186300,Parkdale,9.0,1081.0,53090,Tokoroa North
+186400,Matarawa,10.0,1156.0,53090,Tokoroa North
+186500,Stanley Park,10.0,1169.0,53090,Tokoroa North
+186600,Strathmore (South Waikato District),10.0,1177.0,53100,Tokoroa South
+186700,Tokoroa Central,10.0,1175.0,53100,Tokoroa South
+186800,Moananui,9.0,1088.0,53100,Tokoroa South
+187000,Herangi,8.0,1037.0,53110,Waitomo District Rural
+187100,Hangatiki,6.0,988.0,53110,Waitomo District Rural
+187200,Aria,8.0,1041.0,53110,Waitomo District Rural
+187300,Te Kuiti West,10.0,1132.0,53130,Te Kuiti
+187400,Te Kuiti East,10.0,1171.0,53130,Te Kuiti
+187500,Waipa Valley,8.0,1034.0,53110,Waitomo District Rural
+187600,Tiroa,10.0,1156.0,53110,Waitomo District Rural
+187701,Marotiri,6.0,1003.0,53140,Taupo District South
+187702,Mangakino,10.0,1189.0,53140,Taupo District South
+187800,Ohakuri,5.0,969.0,53150,Taupo District North
+187900,Lake Taupo Bays,8.0,1037.0,53140,Taupo District South
+188001,Mapara,1.0,903.0,53150,Taupo District North
+188002,Kinloch,1.0,906.0,53150,Taupo District North
+188100,Inland water Lake Taupo,,,53160,Inland water Taupo District
+188200,Wairakei-Broadlands,7.0,1026.0,53150,Taupo District North
+188300,Acacia Bay,1.0,901.0,53200,Acacia Bay
+188400,Brentwood (Taupo District),3.0,949.0,53180,Nukuhau-Rangatira Park
+188501,Nukuhau,6.0,997.0,53180,Nukuhau-Rangatira Park
+188502,Rangatira Park,2.0,922.0,53180,Nukuhau-Rangatira Park
+188600,Taupo Central West,7.0,1028.0,53190,Taupo Centre
+188701,Tauhara,9.0,1088.0,53170,Tauhara
+188702,Centennial,3.0,947.0,53170,Tauhara
+188800,Taupo Central East,8.0,1058.0,53190,Taupo Centre
+188900,Mountview,8.0,1033.0,53170,Tauhara
+189000,Bird Area,3.0,943.0,53210,Bird Area-Hilltop
+189101,Hilltop (Taupo District),5.0,969.0,53210,Bird Area-Hilltop
+189102,Invergarry,8.0,1030.0,53210,Bird Area-Hilltop
+189200,Waipahihi,3.0,936.0,53220,Waipahihi
+189300,Richmond Heights,6.0,990.0,53230,Richmond Heights
+189400,Wharewaka,1.0,904.0,53240,Wharewaka
+189500,Kaimanawa,,,53140,Taupo District South
+189600,Waitahanui,9.0,1073.0,53150,Taupo District North
+189700,Turangi,10.0,1125.0,53140,Taupo District South
+189800,Rangataiki,7.0,1008.0,53140,Taupo District South
+189900,Taharua,8.0,1046.0,53140,Taupo District South
+190100,Waiau,9.0,1064.0,53250,Western Bay of Plenty District North
+190200,Waihi Beach-Bowentown,5.0,968.0,53250,Western Bay of Plenty District North
+190300,Tahawai,5.0,979.0,53250,Western Bay of Plenty District North
+190400,Athenree,5.0,966.0,53250,Western Bay of Plenty District North
+190501,Aongatete,4.0,961.0,53270,Katikati
+190601,Katikati North,7.0,1016.0,53270,Katikati
+190602,Katikati South,8.0,1055.0,53270,Katikati
+190800,Matakana Island,10.0,1171.0,53250,Western Bay of Plenty District North
+190901,Pahoia West,3.0,940.0,53270,Katikati
+190902,Pahoia East,4.0,951.0,53280,Western Bay of Plenty District West
+191001,Omokoroa North,3.0,934.0,53290,Omokoroa
+191101,Omokoroa South,4.0,954.0,53290,Omokoroa
+191201,Te Puna,5.0,975.0,53280,Western Bay of Plenty District West
+191300,Minden,2.0,919.0,53280,Western Bay of Plenty District West
+191400,Kaimai,4.0,962.0,53300,Western Bay of Plenty District South
+191501,Kopurererua,3.0,935.0,53300,Western Bay of Plenty District South
+191502,Keenan Road,5.0,968.0,53510,Pyes Pa
+191601,Waitao,5.0,967.0,53300,Western Bay of Plenty District South
+191700,Waiorohi,3.0,947.0,53300,Western Bay of Plenty District South
+191801,Otawa,6.0,984.0,53310,Western Bay of Plenty District East
+191901,Te Puke West,8.0,1046.0,53320,Te Puke
+192000,Rangiuru,8.0,1052.0,53310,Western Bay of Plenty District East
+192101,Te Puke East,8.0,1061.0,53320,Te Puke
+192102,Te Puke South,6.0,1000.0,53320,Te Puke
+192300,Maketu,9.0,1101.0,53310,Western Bay of Plenty District East
+192400,Pukehina Beach,5.0,978.0,53310,Western Bay of Plenty District East
+192500,Pongakawa,6.0,1003.0,53310,Western Bay of Plenty District East
+192600,Matua North,2.0,915.0,53350,Matua
+192700,Inlet Tauranga Harbour South,,,53330,Inlet Tauranga City
+192800,Mount Maunganui North,4.0,963.0,53340,Mount Maunganui
+192900,Matua South,5.0,969.0,53350,Matua
+193000,Bethlehem North,4.0,957.0,53390,Bethlehem-Tauriko
+193100,Bellevue,5.0,980.0,53380,Bellevue
+193201,Otumoetai North,5.0,972.0,53370,Otumoetai
+193202,Otumoetai East,4.0,963.0,53370,Otumoetai
+193301,Otumoetai South,4.0,952.0,53370,Otumoetai
+193400,Brookfield West,7.0,1017.0,53400,Brookfield
+193500,Bethlehem Central,2.0,916.0,53390,Bethlehem-Tauriko
+193600,Brookfield East,7.0,1006.0,53400,Brookfield
+193700,Mount Maunganui South,2.0,925.0,53340,Mount Maunganui
+193800,Tauranga Central,7.0,1027.0,53360,Tauranga Centre
+193900,Mount Maunganui Central,7.0,1023.0,53340,Mount Maunganui
+194000,Judea,8.0,1048.0,53410,Judea
+194100,Te Reti,6.0,993.0,53390,Bethlehem-Tauriko
+194200,Bethlehem South,2.0,913.0,53390,Bethlehem-Tauriko
+194300,Omanu Beach,3.0,937.0,53340,Mount Maunganui
+194400,Tauranga Hospital,9.0,1073.0,53360,Tauranga Centre
+194500,Tauriko,4.0,962.0,53390,Bethlehem-Tauriko
+194601,Gate Pa,9.0,1062.0,53430,Gate Pa
+194700,Greerton South,8.0,1029.0,53470,Greerton-Poike
+194801,Tauranga South,7.0,1019.0,53420,Tauranga South
+194802,Fraser Cove,9.0,1073.0,53420,Tauranga South
+194900,Arataki North,5.0,974.0,53340,Mount Maunganui
+195000,Matapihi,9.0,1088.0,53490,Matapihi-Kairua
+195101,Pyes Pa North West,2.0,925.0,53510,Pyes Pa
+195102,Pyes Pa West,2.0,930.0,53510,Pyes Pa
+195200,Greerton North,7.0,1027.0,53470,Greerton-Poike
+195300,Yatton Park,10.0,1122.0,53460,Yatton Park
+195401,Pyes Pa North,5.0,971.0,53510,Pyes Pa
+195500,Arataki South,7.0,1011.0,53340,Mount Maunganui
+195601,Pyes Pa South,1.0,911.0,53510,Pyes Pa
+195700,Poike,5.0,980.0,53470,Greerton-Poike
+195800,Te Maunga North,7.0,1017.0,53340,Mount Maunganui
+195900,Maungatapu,5.0,977.0,53440,Maungatapu
+196000,Hairini,7.0,1007.0,53480,Hairini
+196100,Pyes Pa East,5.0,966.0,53510,Pyes Pa
+196201,Te Maunga South,5.0,971.0,53340,Mount Maunganui
+196202,Pacific Lakes,2.0,915.0,53500,Papamoa Beach
+196301,Kaitemako,5.0,971.0,53450,Welcome Bay
+196400,Ohauiti,2.0,920.0,53520,Ohauiti
+196500,Baypark-Kairua,9.0,1113.0,53490,Matapihi-Kairua
+196600,Welcome Bay West,6.0,1002.0,53450,Welcome Bay
+196700,Welcome Bay East,6.0,1001.0,53450,Welcome Bay
+196800,Pacific View,3.0,937.0,53500,Papamoa Beach
+196900,Welcome Bay South,3.0,938.0,53450,Welcome Bay
+197000,Palm Beach North,6.0,998.0,53500,Papamoa Beach
+197100,Palm Beach South-Gravatt,3.0,937.0,53500,Papamoa Beach
+197200,Papamoa Beach North,6.0,989.0,53500,Papamoa Beach
+197300,Doncaster,6.0,988.0,53500,Papamoa Beach
+197400,Papamoa Beach South,5.0,976.0,53500,Papamoa Beach
+197500,Motiti,3.0,947.0,53500,Papamoa Beach
+197601,Wairakei West,5.0,980.0,53500,Papamoa Beach
+197602,Wairakei Central,1.0,906.0,53500,Papamoa Beach
+197603,Wairakei East-Te Tumu,5.0,967.0,53500,Papamoa Beach
+197700,Tui Ridge,4.0,963.0,53530,Rotorua District North
+197800,Arahiwi,7.0,1020.0,53540,Rotorua District South
+197900,Ngongotaha Valley,8.0,1046.0,53540,Rotorua District South
+198000,Hamurana,4.0,956.0,53530,Rotorua District North
+198100,Ngongotaha East,8.0,1060.0,53550,Ngongotaha
+198200,Ngongotaha West,7.0,1024.0,53550,Ngongotaha
+198400,Ngongotaha South,7.0,1025.0,53550,Ngongotaha
+198500,Selwyn Heights,9.0,1108.0,53630,Selwyn Heights
+198600,Pleasant Heights,10.0,1142.0,53570,Western Heights (Rotorua District)
+198700,Rotoiti-Rotoehu,9.0,1075.0,53530,Rotorua District North
+198800,Kawaha,8.0,1037.0,53610,Kawaha
+198900,Fairy Springs,9.0,1067.0,53620,Fairy Springs
+199000,Western Heights (Rotorua District),10.0,1220.0,53570,Western Heights (Rotorua District)
+199100,Pukehangi North,10.0,1156.0,53580,Pukehangi
+199200,Pukehangi South,4.0,965.0,53580,Pukehangi
+199300,Mangakakahi Central,10.0,1167.0,53650,Mangakakahi
+199400,Koutu,10.0,1153.0,53640,Koutu
+199500,Mangakakahi West,10.0,1125.0,53650,Mangakakahi
+199600,Sunnybrook,6.0,995.0,53590,Sunnybrook
+199700,Fordlands,10.0,1261.0,53680,Fordlands
+199800,Kuirau,10.0,1179.0,53670,Rotorua Centre
+199900,Utuhina,8.0,1035.0,53690,Utuhina
+200000,Pomare,3.0,948.0,53750,Pomare
+200100,Rotorua Central,10.0,1126.0,53670,Rotorua Centre
+200200,Hillcrest (Rotorua District),8.0,1047.0,53730,Hillcrest (Rotorua District)
+200300,Victoria,10.0,1173.0,53710,Victoria
+200401,Waiohewa,3.0,937.0,53530,Rotorua District North
+200500,Glenholme North,10.0,1174.0,53740,Glenholme
+200600,Springfield South,2.0,932.0,53760,Springfield
+200700,Springfield North,4.0,959.0,53760,Springfield
+200800,Glenholme South,6.0,995.0,53740,Glenholme
+200900,Owhata West,9.0,1070.0,53660,Owhata
+201001,Holdens Bay-Rotokawa,9.0,1065.0,53600,Holdens Bay-Rotokawa
+201100,Ngapuna,10.0,1210.0,53700,Fenton Park-Ngapuna
+201200,Fenton Park,9.0,1113.0,53700,Fenton Park-Ngapuna
+201300,Tihiotonga-Whakarewarewa,8.0,1035.0,53760,Springfield
+201401,Owhata East,8.0,1035.0,53660,Owhata
+201501,Lynmore,2.0,923.0,53720,Lynmore
+201600,Ngakuru,6.0,985.0,53540,Rotorua District South
+201700,Kaingaroa-Whakarewarewa,7.0,1027.0,53540,Rotorua District South
+201800,Golden Springs,7.0,1023.0,53540,Rotorua District South
+201900,Manawahe,6.0,984.0,53770,Whakatane District Coast
+202000,Matata-Otakiri,7.0,1011.0,53770,Whakatane District Coast
+202100,Onepu Spring,7.0,1011.0,53820,Whakatane District South
+202200,Edgecumbe,8.0,1037.0,53770,Whakatane District Coast
+202300,Thornton-Awakeri,7.0,1006.0,53770,Whakatane District Coast
+202400,Te Teko Lakes,10.0,1164.0,53820,Whakatane District South
+202500,Coastlands,6.0,985.0,53780,Coastlands
+202600,Whakatane West,9.0,1105.0,53810,Whakatane West
+202700,Whakatane Central,8.0,1046.0,53800,Whakatane East
+202800,Trident,10.0,1125.0,53810,Whakatane West
+202900,Allandale,9.0,1071.0,53800,Whakatane East
+203000,Mokorua Bush,1.0,906.0,53800,Whakatane East
+203100,Wainui,9.0,1114.0,53790,Ohope
+203200,Ohope,3.0,943.0,53790,Ohope
+203300,Inlet Ohiwa Harbour West,,,53830,Inlet Whakatane District
+203400,Galatea,10.0,1177.0,53820,Whakatane District South
+203500,Waingarara-Waimana,10.0,1194.0,53820,Whakatane District South
+203600,Murupara,10.0,1292.0,53820,Whakatane District South
+203700,Monika Reserve,9.0,1070.0,53840,Kawerau
+203800,Kawerau Industrial,10.0,1713.0,53840,Kawerau
+203901,Kawerau Central,10.0,1231.0,53840,Kawerau
+203902,Tarawera Park,10.0,1144.0,53840,Kawerau
+204101,Waiotahe,8.0,1036.0,53850,Opotiki District Rural
+204200,Cape Runaway,10.0,1221.0,53850,Opotiki District Rural
+204301,Woodlands,6.0,994.0,53870,Opotiki
+204400,Opotiki,10.0,1211.0,53870,Opotiki
+204500,Otara-Tirohanga,9.0,1069.0,53850,Opotiki District Rural
+204600,Oponae,10.0,1240.0,53850,Opotiki District Rural
+204700,East Cape,10.0,1276.0,53880,Gisborne District North
+204800,Waipaoa,9.0,1093.0,53890,Gisborne District Central
+204900,Ruatoria-Raukumara,10.0,1310.0,53880,Gisborne District North
+205000,Tokomaru,10.0,1242.0,53880,Gisborne District North
+205100,Hangaroa,7.0,1022.0,53900,Gisborne District South
+205201,Wharekaka,9.0,1101.0,53890,Gisborne District Central
+205300,Te Arai,8.0,1059.0,53900,Gisborne District South
+205401,Hexton,3.0,938.0,53900,Gisborne District South
+205500,Lytton,3.0,937.0,53910,Lytton
+205601,Makaraka-Awapuni,8.0,1049.0,53940,Gisborne Centre
+205700,Riverdale,6.0,1002.0,53930,Riverdale
+205800,Te Hapara North,8.0,1036.0,53960,Te Hapara
+205900,Mangapapa North,9.0,1073.0,53920,Mangapapa
+206000,Elgin,10.0,1192.0,53970,Elgin
+206100,Te Hapara South,10.0,1130.0,53960,Te Hapara
+206200,Mangapapa East,6.0,1002.0,53920,Mangapapa
+206300,Mangapapa South,10.0,1151.0,53920,Mangapapa
+206400,Te Hapara East,9.0,1100.0,53960,Te Hapara
+206500,Centennial Crescent,10.0,1157.0,53940,Gisborne Centre
+206601,Whataupoko East,2.0,928.0,53950,Whataupoko
+206700,Whataupoko West,6.0,992.0,53950,Whataupoko
+206801,Gisborne Central,8.0,1036.0,53940,Gisborne Centre
+206900,Kaiti North,6.0,1002.0,53990,Kaiti
+207000,Kaiti South,10.0,1195.0,53990,Kaiti
+207100,Outer Kaiti,10.0,1268.0,53990,Kaiti
+207200,Tamarau,10.0,1162.0,54010,Tamarau
+207301,Wainui-Okitu,1.0,905.0,53980,Wainui-Okitu
+207400,Maungataniwha-Raupunga,10.0,1142.0,54020,Wairoa District Rural
+207500,Inland water Lake Waikaremoana,,,54030,Inland water Wairoa District
+207600,Frasertown-Ruakituri,9.0,1073.0,54020,Wairoa District Rural
+207700,Whakaki,9.0,1090.0,54020,Wairoa District Rural
+207800,Wairoa,10.0,1173.0,54040,Wairoa
+207900,Mahia,10.0,1121.0,54020,Wairoa District Rural
+208001,Puketitiri-Tutira,7.0,1027.0,54050,Hastings District North
+208100,Sherenden-Crownthorpe,1.0,909.0,54050,Hastings District North
+208200,Maraekakaho,2.0,918.0,54060,Hastings District South
+208301,Puketapu-Eskdale,2.0,924.0,54050,Hastings District North
+208401,Omahu-Pakowhai,8.0,1046.0,54050,Hastings District North
+208500,Bridge Pa,9.0,1075.0,54070,Hastings District Central
+208601,Twyford,2.0,928.0,54070,Hastings District Central
+208700,Poukawa,3.0,950.0,54060,Hastings District South
+208800,Flaxmere West,10.0,1173.0,54090,Flaxmere
+208901,Omahu Strip,9.0,1112.0,54090,Flaxmere
+209000,Lochain Park,10.0,1155.0,54090,Flaxmere
+209100,Flaxmere Park,9.0,1108.0,54090,Flaxmere
+209201,Flaxmere South,10.0,1176.0,54090,Flaxmere
+209301,Irongate,3.0,947.0,54070,Hastings District Central
+209401,Frimley,3.0,935.0,54100,Frimley
+209500,Camberley,10.0,1209.0,54120,Camberley
+209601,Clive,4.0,954.0,54080,Hastings District East
+209700,St Leonards,8.0,1056.0,54130,St Leonards
+209800,Mahora,7.0,1019.0,54110,Mahora
+209901,Raureka,8.0,1061.0,54150,Raureka
+210000,Cornwall Park,8.0,1054.0,54110,Mahora
+210100,Tomoana,8.0,1038.0,54180,Mayfair-Tomoana
+210201,Longlands-Pukahu,5.0,968.0,54070,Hastings District Central
+210300,Raceway Park,7.0,1019.0,54150,Raureka
+210400,Karamu,8.0,1032.0,54070,Hastings District Central
+210500,Hastings Central,10.0,1126.0,54140,Hastings Centre-Parkvale
+210600,Tomoana Crossing,6.0,997.0,54180,Mayfair-Tomoana
+210700,Akina Park,8.0,1029.0,54160,Akina
+210800,Queens Square,7.0,1018.0,54140,Hastings Centre-Parkvale
+210900,Mayfair,9.0,1096.0,54180,Mayfair-Tomoana
+211000,Parkhaven,7.0,1017.0,54160,Akina
+211100,Parkvale,6.0,989.0,54140,Hastings Centre-Parkvale
+211201,Mangateretere,1.0,913.0,54080,Hastings District East
+211301,Haumoana,5.0,967.0,54080,Hastings District East
+211302,Te Awanga,4.0,963.0,54080,Hastings District East
+211401,Lucknow,9.0,1074.0,54200,Havelock North West
+211500,Karanema-St Hill,5.0,968.0,54190,Havelock North East
+211600,Havelock North-Central,6.0,986.0,54200,Havelock North West
+211701,Brookvale,1.0,870.0,54190,Havelock North East
+211800,Iona,3.0,935.0,54200,Havelock North West
+211900,Hereworth,1.0,901.0,54190,Havelock North East
+212000,Te Mata Hills,1.0,865.0,54170,Havelock North Hills
+212100,Havelock Hills,1.0,883.0,54170,Havelock North Hills
+212201,Kahuranaki,4.0,952.0,54060,Hastings District South
+212301,Bay View (Napier City),3.0,947.0,54210,Bay View (Napier City)
+212400,Poraiti Hills,1.0,900.0,54220,Poraiti
+212500,Poraiti Flat,1.0,891.0,54220,Poraiti
+212600,Westshore,6.0,998.0,54230,Westshore
+212800,Onekawa West,5.0,974.0,54280,Onekawa
+212900,Ahuriri,7.0,1015.0,54250,Ahuriri
+213000,Taradale West,1.0,901.0,54320,Taradale
+213100,Greenmeadows West,1.0,913.0,54340,Greenmeadows
+213200,Taradale South,4.0,953.0,54320,Taradale
+213300,Bluff Hill,2.0,932.0,54240,Bluff Hill
+213400,Hospital Hill,4.0,953.0,54270,Hospital Hill
+213500,Tamatea West,8.0,1041.0,54310,Tamatea
+213600,Tamatea North,8.0,1057.0,54310,Tamatea
+213700,Taradale Central,4.0,953.0,54320,Taradale
+213800,Tamatea East,7.0,1022.0,54310,Tamatea
+213900,Marewa West,7.0,1006.0,54300,Marewa
+214000,Greenmeadows Central,4.0,960.0,54340,Greenmeadows
+214100,Onekawa Central,6.0,996.0,54280,Onekawa
+214200,Pirimai West,7.0,1011.0,54330,Pirimai
+214300,Napier Central,10.0,1126.0,54290,Napier Centre
+214400,Greenmeadows South,6.0,997.0,54340,Greenmeadows
+214500,Nelson Park,8.0,1045.0,54290,Napier Centre
+214600,Bledisloe Park,5.0,971.0,54320,Taradale
+214700,Pirimai East,7.0,1025.0,54330,Pirimai
+214800,Onekawa East,10.0,1168.0,54280,Onekawa
+214900,Tareha Reserve,5.0,980.0,54320,Taradale
+215000,Marewa East,10.0,1150.0,54300,Marewa
+215101,Onekawa South,10.0,1131.0,54280,Onekawa
+215200,McLean Park,6.0,1003.0,54290,Napier Centre
+215300,Maraenui,10.0,1224.0,54350,Maraenui
+215401,Meeanee-Awatoto,3.0,939.0,54360,Meeanee-Awatoto
+215500,Mangaonuku,4.0,965.0,54370,Central Hawke's Bay District West
+215600,Makaretu,6.0,996.0,54370,Central Hawke's Bay District West
+215700,Waipawa,7.0,1004.0,54370,Central Hawke's Bay District West
+215801,Waipukurau West,7.0,1026.0,54380,Central Hawke's Bay District East
+215900,Mangarara,3.0,950.0,54380,Central Hawke's Bay District East
+216000,Waipukurau East,7.0,1011.0,54380,Central Hawke's Bay District East
+216101,Taurekaitai,5.0,969.0,54380,Central Hawke's Bay District East
+216200,Port Taranaki,,,54430,Moturoa
+216300,Spotswood,8.0,1050.0,54440,Spotswood
+216401,Omata,3.0,947.0,54420,New Plymouth District Kaitake
+216500,Oakura,2.0,916.0,54420,New Plymouth District Kaitake
+216600,Moturoa,7.0,1025.0,54430,Moturoa
+216700,Kaitake,4.0,963.0,54420,New Plymouth District Kaitake
+216800,Blagdon-Lynmouth,7.0,1022.0,54450,Blagdon-Lynmouth
+216900,Kawaroa,6.0,1000.0,54520,New Plymouth Centre
+217000,New Plymouth Central,8.0,1061.0,54520,New Plymouth Centre
+217100,Marfell,10.0,1139.0,54580,Marfell
+217201,Whalers Gate,2.0,927.0,54460,Whalers Gate
+217300,Strandon,4.0,953.0,54500,Strandon
+217400,Westown,8.0,1039.0,54560,Westown
+217501,Bell Block West,6.0,986.0,54400,Bell Block
+217502,Bell Block Central,6.0,997.0,54400,Bell Block
+217601,Bell Block East-Puketapu,1.0,901.0,54400,Bell Block
+217701,Waiwhakaiho-Bell Block South,7.0,1020.0,54400,Bell Block
+217800,Lower Vogeltown,6.0,991.0,54550,Vogeltown
+217901,Hurdon,3.0,947.0,54470,Hurdon
+218001,Frankleigh Park,5.0,974.0,54570,Frankleigh Park
+218100,Merrilands,7.0,1011.0,54540,Merrilands
+218201,Ferndale,1.0,912.0,54600,Ferndale
+218301,Welbourn,6.0,1003.0,54530,Welbourn
+218401,Fitzroy (New Plymouth District),5.0,972.0,54480,Fitzroy (New Plymouth District)
+218402,Glen Avon,4.0,955.0,54510,Glen Avon
+218500,Waitara West,10.0,1138.0,54410,Waitara
+218600,Upper Vogeltown,4.0,965.0,54550,Vogeltown
+218700,Highlands Park (New Plymouth District),1.0,912.0,54590,Highlands Park (New Plymouth District)
+218801,Paraite,2.0,919.0,54490,New Plymouth District Kohanga Moa
+218901,Waitara East,9.0,1066.0,54410,Waitara
+219000,Lepperton-Brixton,3.0,949.0,54390,New Plymouth District North
+219100,Mangorei,2.0,931.0,54420,New Plymouth District Kaitake
+219200,Mount Messenger,7.0,1013.0,54390,New Plymouth District North
+219301,Mangaoraka,2.0,930.0,54490,New Plymouth District Kohanga Moa
+219401,Tikorangi,5.0,971.0,54390,New Plymouth District North
+219501,Everett Park,4.0,954.0,54490,New Plymouth District Kohanga Moa
+219601,Inglewood,5.0,981.0,54490,New Plymouth District Kohanga Moa
+219700,Tarata,5.0,977.0,54490,New Plymouth District Kohanga Moa
+219800,Pembroke,5.0,978.0,54610,Stratford District Rural
+219900,Douglas,5.0,975.0,54610,Stratford District Rural
+220001,Toko,5.0,977.0,54610,Stratford District Rural
+220101,Stratford North,6.0,991.0,54620,Stratford
+220200,Whangamomona,10.0,1119.0,54610,Stratford District Rural
+220301,Stratford Central,8.0,1040.0,54620,Stratford
+220400,Stratford South,8.0,1048.0,54620,Stratford
+220501,Parihaka,8.0,1050.0,54630,South Taranaki District West
+220600,Taungatara,7.0,1004.0,54630,South Taranaki District West
+220700,Opunake,9.0,1077.0,54630,South Taranaki District West
+220800,Kaponga-Mangatoki,8.0,1049.0,54640,South Taranaki District North
+220901,Manaia,10.0,1132.0,54630,South Taranaki District West
+220902,Kapuni,8.0,1037.0,54630,South Taranaki District West
+221001,Eltham,9.0,1075.0,54640,South Taranaki District North
+221100,Okaiawa,7.0,1010.0,54650,South Taranaki District South
+221201,Te Roti-Moeroa,7.0,1024.0,54640,South Taranaki District North
+221301,Hawera West,4.0,953.0,54660,Hawera
+221401,Normanby (South Taranaki District),9.0,1072.0,54650,South Taranaki District South
+221402,Tawhiti,5.0,966.0,54650,South Taranaki District South
+221500,Ohangai,6.0,984.0,54650,South Taranaki District South
+221600,Turuturu,7.0,1017.0,54660,Hawera
+221700,King Edward Park,9.0,1077.0,54660,Hawera
+221800,Ramanui,8.0,1059.0,54660,Hawera
+221900,Hawera Central,9.0,1086.0,54660,Hawera
+222000,Mangawhio,6.0,997.0,54650,South Taranaki District South
+222101,Manutahi-Waitotora,8.0,1054.0,54650,South Taranaki District South
+222201,Patea,10.0,1191.0,54650,South Taranaki District South
+222300,Otangiwai-Ohura,8.0,1058.0,54670,Ruapehu District North
+222400,Ngapuke,8.0,1048.0,54670,Ruapehu District North
+222500,Taumarunui North,10.0,1139.0,54670,Ruapehu District North
+222600,Taumarunui Central,10.0,1157.0,54670,Ruapehu District North
+222700,Taumarunui East,10.0,1211.0,54670,Ruapehu District North
+222800,National Park,7.0,1004.0,54680,Ruapehu District South
+222900,Tangiwai,7.0,1024.0,54680,Ruapehu District South
+223000,Raetihi,10.0,1122.0,54680,Ruapehu District South
+223100,Ohakune,8.0,1046.0,54680,Ruapehu District South
+223200,Waiouru,7.0,1008.0,54680,Ruapehu District South
+223300,Upper Whanganui,9.0,1082.0,54690,Whanganui District Rural
+223400,Mowhanau,3.0,950.0,54690,Whanganui District Rural
+223501,Brunswick-Papaiti,2.0,919.0,54690,Whanganui District Rural
+223600,Castlecliff West,9.0,1083.0,54750,Castlecliff
+223701,Otamatea (Whanganui District),1.0,908.0,54710,Otamatea (Whanganui District)
+223800,Castlecliff East,10.0,1121.0,54750,Castlecliff
+223901,Springvale North,2.0,924.0,54760,Springvale
+224000,Lower Aramoho,9.0,1113.0,54700,Aramoho
+224100,St Johns Hill East,5.0,967.0,54730,St Johns Hill
+224200,St Johns Hill West,4.0,960.0,54730,St Johns Hill
+224301,Titoki,10.0,1133.0,54750,Castlecliff
+224401,Springvale West,6.0,988.0,54760,Springvale
+224500,Springvale East,5.0,980.0,54760,Springvale
+224600,Upper Aramoho,8.0,1047.0,54700,Aramoho
+224700,Balgownie,10.0,1185.0,54750,Castlecliff
+224800,Laird Park,10.0,1146.0,54740,Whanganui Centre
+224900,Wembley Park,10.0,1138.0,54720,Whanganui East
+225000,College Estate,8.0,1032.0,54740,Whanganui Centre
+225100,Whanganui East-Williams Domain,9.0,1093.0,54720,Whanganui East
+225200,Gonville West,10.0,1214.0,54780,Gonville
+225300,Gonville North,9.0,1100.0,54780,Gonville
+225400,Cornmarket,10.0,1143.0,54740,Whanganui Centre
+225500,Whanganui East-Riverlands,8.0,1059.0,54720,Whanganui East
+225600,Kaitoke-Fordell,5.0,980.0,54690,Whanganui District Rural
+225700,Whanganui Central,9.0,1107.0,54740,Whanganui Centre
+225800,Gonville South,8.0,1058.0,54780,Gonville
+225900,Bastia-Durie Hill,5.0,978.0,54770,Bastia-Durie Hill-Putiki
+226000,Putiki,5.0,966.0,54770,Bastia-Durie Hill-Putiki
+226100,Mokai Patea,6.0,984.0,54790,Rangitikei District North
+226200,Ngamatea,,,54790,Rangitikei District North
+226300,Turakina,8.0,1051.0,54800,Rangitikei District South
+226400,Otairi,7.0,1011.0,54790,Rangitikei District North
+226500,Taihape,9.0,1073.0,54790,Rangitikei District North
+226601,Marton Rural,5.0,966.0,54810,Marton
+226701,Marton North,7.0,1020.0,54810,Marton
+226800,Parewanui,5.0,982.0,54800,Rangitikei District South
+226900,Marton South,9.0,1080.0,54810,Marton
+227000,Bulls,7.0,1011.0,54800,Rangitikei District South
+227100,Kiwitea,5.0,980.0,54820,Manawatu District North
+227200,Tokorangi,3.0,939.0,54820,Manawatu District North
+227300,Ohakea-Sanson,5.0,966.0,54830,Manawatu District South
+227400,Oroua Downs,6.0,1001.0,54830,Manawatu District South
+227500,Awahuri,4.0,960.0,54830,Manawatu District South
+227600,Pohangina-Apiti,3.0,938.0,54820,Manawatu District North
+227700,Mount Taylor,1.0,870.0,54840,Feilding West
+227800,Taikorea,4.0,961.0,54830,Manawatu District South
+227900,Makino,7.0,1008.0,54840,Feilding West
+228000,Sandon,4.0,951.0,54840,Feilding West
+228100,Kimbolton North,4.0,964.0,54850,Kimbolton
+228200,Warwick,6.0,994.0,54860,Feilding Centre
+228300,Kimbolton West,8.0,1049.0,54850,Kimbolton
+228400,Feilding Central,8.0,1047.0,54860,Feilding Centre
+228500,Kimbolton South,7.0,1025.0,54850,Kimbolton
+228600,Kauwhata,3.0,935.0,54830,Manawatu District South
+228700,Taonui,1.0,905.0,54820,Manawatu District North
+228800,Newbury,4.0,962.0,54870,Palmerston North City Other
+228901,Palmerston North Airport,3.0,935.0,54930,Milson
+229001,Milson North,4.0,964.0,54930,Milson
+229100,Cloverlea (Palmerston North City),7.0,1007.0,54890,Cloverlea (Palmerston North City)
+229201,Tremaine,10.0,1121.0,54880,Palmerston North Commercial
+229300,Milson South,6.0,999.0,54930,Milson
+229400,Whakarongo,2.0,913.0,54870,Palmerston North City Other
+229500,Westbrook,9.0,1095.0,54910,Highbury-Westbroook
+229600,Takaro North,7.0,1022.0,54900,Takaro
+229700,Pioneer West,3.0,947.0,54910,Highbury-Westbroook
+229800,Palmerston North Hospital,6.0,989.0,54960,Papaioea
+229900,Highbury East,10.0,1158.0,54910,Highbury-Westbroook
+230000,Park West,7.0,1018.0,54910,Highbury-Westbroook
+230100,Takaro South,6.0,1003.0,54900,Takaro
+230200,Roslyn (Palmerston North City),8.0,1058.0,54950,Roslyn (Palmerston North City)
+230300,Kelvin Grove West,6.0,999.0,54940,Kelvin Grove
+230400,Kelvin Grove North,1.0,909.0,54940,Kelvin Grove
+230500,Papaioea North,8.0,1057.0,54960,Papaioea
+230600,Palmerston North Central,10.0,1148.0,54880,Palmerston North Commercial
+230700,Awapuni North,9.0,1064.0,54990,Awapuni
+230800,Terrace End,9.0,1106.0,54950,Roslyn (Palmerston North City)
+230900,Maraetarata,3.0,936.0,54990,Awapuni
+231000,Papaioea South,8.0,1059.0,54960,Papaioea
+231101,Royal Oak (Palmerston North City),2.0,918.0,54940,Kelvin Grove
+231200,West End,9.0,1067.0,55010,West End
+231300,Awapuni South,4.0,964.0,54990,Awapuni
+231400,Milverton,8.0,1059.0,54980,Hokowhitu
+231500,Ruamahanga,6.0,997.0,54970,Ruamahanga
+231600,Esplanade,8.0,1037.0,55010,West End
+231700,Hokowhitu Central,3.0,941.0,54980,Hokowhitu
+231800,Hokowhitu East,4.0,962.0,54980,Hokowhitu
+231900,Turitea,7.0,1011.0,54920,Turitea-Fitzherbert-Aokautere
+232000,Ruahine,2.0,919.0,54980,Hokowhitu
+232101,Linton Camp,4.0,954.0,55000,Linton Camp
+232200,Ashhurst,3.0,949.0,54870,Palmerston North City Other
+232300,Hokowhitu South,7.0,1007.0,54980,Hokowhitu
+232400,Aokautere,1.0,878.0,54920,Turitea-Fitzherbert-Aokautere
+232501,Pihauatua,3.0,933.0,54870,Palmerston North City Other
+232601,Aokautere Rural,1.0,889.0,54870,Palmerston North City Other
+232701,Poutoa,1.0,901.0,54920,Turitea-Fitzherbert-Aokautere
+232702,Fitzherbert,1.0,877.0,54920,Turitea-Fitzherbert-Aokautere
+232800,Norsewood,6.0,1002.0,55020,Tararua District Other
+232900,Papatawa,4.0,959.0,55020,Tararua District Other
+233000,Mangatainoka,6.0,991.0,55030,Pahiatua-Woodville
+233100,Woodville,9.0,1082.0,55030,Pahiatua-Woodville
+233200,Dannevirke West,8.0,1051.0,55040,Dannevirke
+233300,Dannevirke East,9.0,1095.0,55040,Dannevirke
+233400,Waitahora,5.0,975.0,55020,Tararua District Other
+233500,Kaitawa,7.0,1017.0,55030,Pahiatua-Woodville
+233600,Pahiatua,8.0,1037.0,55030,Pahiatua-Woodville
+233700,Nireaha-Eketahuna,8.0,1029.0,55020,Tararua District Other
+233801,Owahanga,6.0,1001.0,55020,Tararua District Other
+233900,Mara,,,55020,Tararua District Other
+234001,Kere Kere,6.0,996.0,55050,Foxton
+234100,Foxton Beach,8.0,1032.0,55050,Foxton
+234201,Foxton North,9.0,1104.0,55050,Foxton
+234301,Foxton South,9.0,1097.0,55050,Foxton
+234400,Waitarere,5.0,978.0,55070,Horowhenua District South
+234500,Waikawa (Horowhenua District),7.0,1028.0,55070,Horowhenua District South
+234600,Miranui,4.0,964.0,55060,Shannon
+234700,Donnelly Park,9.0,1076.0,55090,Levin West
+234801,Ohau-Manakau,4.0,964.0,55070,Horowhenua District South
+234900,Kawiu South,9.0,1065.0,55080,Kawiu
+235000,Makomako,10.0,1147.0,55090,Levin West
+235100,Kawiu North,6.0,996.0,55080,Kawiu
+235200,Levin Central,10.0,1175.0,55090,Levin West
+235301,Tararua,7.0,1019.0,55100,Levin South
+235400,Shannon,9.0,1110.0,55060,Shannon
+235500,Queenwood (Horowhenua District),9.0,1089.0,55110,Levin East
+235600,Playford Park,9.0,1108.0,55100,Levin South
+235700,Fairfield (Horowhenua District),8.0,1049.0,55110,Levin East
+235800,Taitoko,10.0,1185.0,55100,Levin South
+235900,Waiopehu,9.0,1089.0,55100,Levin South
+236000,Makahika,5.0,975.0,55070,Horowhenua District South
+236100,Kimberley,5.0,976.0,55070,Horowhenua District South
+236200,Kapiti Island,,,55130,Kapiti Coast District Coast
+236300,Otaki Beach,8.0,1043.0,55140,Otaki
+236401,Forest Lakes (Kapiti Coast District),4.0,956.0,55120,Kapiti Coast District Other
+236500,Otaki,8.0,1061.0,55140,Otaki
+236600,Te Horo,2.0,922.0,55130,Kapiti Coast District Coast
+236701,Waitohu,6.0,996.0,55140,Otaki
+236800,Waikanae Beach,3.0,944.0,55150,Waikanae-Waikanae Beach
+236900,Peka Peka,1.0,893.0,55130,Kapiti Coast District Coast
+237001,Paraparaumu Beach North,4.0,953.0,55160,Paraparaumu Beach
+237100,Paraparaumu Beach West,6.0,993.0,55160,Paraparaumu Beach
+237200,Waikanae Park,2.0,926.0,55150,Waikanae-Waikanae Beach
+237300,Paraparaumu Beach East,3.0,942.0,55160,Paraparaumu Beach
+237401,Otaihanga,3.0,943.0,55170,Paraparaumu
+237500,Paraparaumu North,3.0,936.0,55170,Paraparaumu
+237600,Waikanae West,4.0,953.0,55150,Waikanae-Waikanae Beach
+237700,Otaki Forks,2.0,926.0,55120,Kapiti Coast District Other
+237800,Paraparaumu Central,6.0,987.0,55170,Paraparaumu
+237900,Maungakotukutuku,2.0,913.0,55120,Kapiti Coast District Other
+238000,Raumati Beach West,2.0,931.0,55180,Raumati
+238100,Waikanae East,2.0,927.0,55150,Waikanae-Waikanae Beach
+238200,Tararua Forest Park,,,55120,Kapiti Coast District Other
+238300,Raumati Beach East,5.0,973.0,55180,Raumati
+238400,Paraparaumu East,6.0,1002.0,55170,Paraparaumu
+238500,Raumati South,3.0,944.0,55180,Raumati
+238600,Paekakariki,4.0,958.0,55190,Paekakariki
+238700,Mana Island,,,55200,Porirua City Rural
+238800,Pukerua Bay,2.0,914.0,55210,Pukerua Bay
+238900,Paekakariki Hill,1.0,908.0,55200,Porirua City Rural
+239000,Plimmerton,2.0,920.0,55220,Plimmerton
+239100,Titahi Bay North,8.0,1056.0,55260,Titahi Bay
+239200,Titahi Bay South,9.0,1071.0,55260,Titahi Bay
+239300,Elsdon-Takapuwahia,9.0,1088.0,55240,Porirua Centre
+239401,Pauatahanui,1.0,896.0,55200,Porirua City Rural
+239500,Onepoto,6.0,993.0,55260,Titahi Bay
+239600,Camborne,1.0,898.0,55230,Camborne
+239801,Paremata,2.0,914.0,55270,Paremata
+239900,Porirua Central,5.0,967.0,55240,Porirua Centre
+240000,Papakowhai,2.0,913.0,55290,Papakowhai
+240100,Aotea,1.0,875.0,55320,Aotea
+240201,Postgate,2.0,932.0,55280,Whitby
+240300,Ascot Park,9.0,1075.0,55300,Ascot Park
+240401,Whitby,1.0,899.0,55280,Whitby
+240500,Porirua East,10.0,1140.0,55340,Ranui (Porirua City)
+240601,Endeavour West,1.0,871.0,55280,Whitby
+240602,Endeavour East,1.0,872.0,55280,Whitby
+240700,Cannons Creek North,10.0,1256.0,55330,Cannons Creek
+240801,Waitangirua Tairangi,10.0,1230.0,55310,Waitangirua
+240802,Waitangirua Corinna,10.0,1239.0,55310,Waitangirua
+240900,Ranui Heights,6.0,988.0,55340,Ranui (Porirua City)
+241000,Cannons Creek East,10.0,1200.0,55330,Cannons Creek
+241100,Cannons Creek South,10.0,1213.0,55330,Cannons Creek
+241200,Akatarawa,2.0,922.0,55350,Upper Hutt City Rural
+241300,Riverstone Terraces,1.0,891.0,55430,Riverstone Terraces
+241400,Heretaunga,3.0,943.0,55390,Heretaunga
+241500,Birchville-Brown Owl,4.0,951.0,55360,Birchville-Brown Owl
+241600,Poets Block,6.0,990.0,55380,Trentham
+241700,Brentwood (Upper Hutt City),7.0,1013.0,55380,Trentham
+241800,Silverstream (Upper Hutt City),1.0,903.0,55400,Silverstream (Upper Hutt City)
+241900,Elderslea,6.0,1000.0,55460,Elderslea
+242000,Trentham North,7.0,1023.0,55380,Trentham
+242100,Totara Park,3.0,950.0,55440,Totara Park
+242200,Trentham South,3.0,936.0,55380,Trentham
+242300,Mangaroa,1.0,885.0,55350,Upper Hutt City Rural
+242400,Ebdentown,7.0,1014.0,55470,Ebdentown
+242500,Wallaceville,6.0,994.0,55480,Upper Hutt Central-Wallaceville
+242600,Maoribank,6.0,996.0,55420,Maoribank
+242700,Te Marua,3.0,947.0,55370,Te Marua
+242800,Pinehaven,2.0,913.0,55410,Pinehaven
+242900,Clouston Park,6.0,1002.0,55450,Clouston Park
+243000,Upper Hutt Central,4.0,957.0,55480,Upper Hutt Central-Wallaceville
+243100,Belmont Park,1.0,899.0,55490,Lower Hutt City Rural
+243200,Maungaraki,2.0,918.0,55560,Maungaraki
+243300,Korokoro,1.0,901.0,55580,Korokoro
+243400,Kelson,1.0,904.0,55520,Kelson
+243500,Normandale,2.0,914.0,55550,Normandale
+243600,Belmont (Lower Hutt City),1.0,892.0,55530,Belmont (Lower Hutt City)
+243700,Petone Central,6.0,999.0,55590,Petone
+243800,Tirohanga,1.0,892.0,55540,Tirohanga
+243900,Manor Park,2.0,932.0,55500,Taita-Manor Park
+244000,Alicetown-Melling,5.0,974.0,55570,Hutt Centre
+244100,Taita North,10.0,1128.0,55500,Taita-Manor Park
+244200,Boulcott,4.0,958.0,55650,Boulcott
+244300,Hutt Central North,6.0,986.0,55570,Hutt Centre
+244400,Avalon West,6.0,1001.0,55630,Avalon
+244500,Stokes Valley Central,7.0,1005.0,55510,Stokes Valley
+244600,Taita South,10.0,1116.0,55500,Taita-Manor Park
+244700,Petone East,6.0,987.0,55590,Petone
+244800,Hutt Central South,2.0,915.0,55570,Hutt Centre
+244900,Stokes Valley North,4.0,961.0,55510,Stokes Valley
+245000,Petone Esplanade,6.0,994.0,55590,Petone
+245100,Epuni West,6.0,1003.0,55660,Epuni
+245200,Avalon East,9.0,1063.0,55630,Avalon
+245300,Woburn,3.0,934.0,55570,Hutt Centre
+245400,Naenae Central,10.0,1124.0,55640,Naenae
+245500,Waterloo West,5.0,971.0,55680,Waterloo
+245600,Epuni East,7.0,1012.0,55660,Epuni
+245700,Gracefield,8.0,1053.0,55610,Moera-Gracefield
+245800,Moera,9.0,1107.0,55610,Moera-Gracefield
+245900,Delaney,9.0,1083.0,55510,Stokes Valley
+246001,Waiwhetu North,8.0,1035.0,55600,Waiwhetu
+246002,Waiwhetu South,6.0,994.0,55600,Waiwhetu
+246100,Waterloo East,5.0,967.0,55680,Waterloo
+246200,Naenae North,9.0,1107.0,55640,Naenae
+246300,Manuka,3.0,941.0,55510,Stokes Valley
+246400,Naenae South,10.0,1125.0,55640,Naenae
+246600,Arakura,7.0,1022.0,55670,Wainuiomata
+246700,Eastern Bays,1.0,892.0,55620,Eastern Bays
+246800,Pencarrow,3.0,943.0,55490,Lower Hutt City Rural
+246900,Wainuiomata West,5.0,979.0,55670,Wainuiomata
+247000,Glendale,7.0,1013.0,55670,Wainuiomata
+247100,Wainuiomata Central,7.0,1012.0,55670,Wainuiomata
+247200,Eastbourne,1.0,897.0,55690,Eastbourne
+247300,Homedale East,6.0,996.0,55670,Wainuiomata
+247400,Homedale West,7.0,1020.0,55670,Wainuiomata
+247501,Makara-Ohariu,1.0,912.0,55700,Wellington City Rural
+247600,Tawa North,5.0,978.0,55720,Tawa
+247700,Linden,8.0,1039.0,55720,Tawa
+247800,Tawa South,1.0,901.0,55720,Tawa
+247900,Tawa Central,4.0,958.0,55720,Tawa
+248000,Grenada North,2.0,921.0,55730,Grenada
+248101,Churton Park North,1.0,890.0,55830,Churton Park-Glenside
+248102,Glenside-Churton Park East,3.0,934.0,55830,Churton Park-Glenside
+248200,Takapu-Horokiwi,2.0,923.0,55710,Woodridge-Horokiwi
+248301,Churton Park South,2.0,914.0,55830,Churton Park-Glenside
+248400,Johnsonville West,3.0,943.0,55740,Johnsonville
+248500,Grenada Village,1.0,897.0,55730,Grenada
+248600,Johnsonville North,3.0,942.0,55740,Johnsonville
+248701,Paparangi,2.0,932.0,55840,Paparangi
+248800,Ngaio North,1.0,901.0,55770,Ngaio
+248900,Johnsonville Central,6.0,999.0,55740,Johnsonville
+249000,Broadmeadows,1.0,910.0,55750,Broadmeadows
+249101,Crofton Downs,1.0,892.0,55780,Crofton Downs
+249200,Johnsonville South,4.0,956.0,55740,Johnsonville
+249300,Khandallah Reserve,1.0,877.0,55760,Khandallah
+249401,Karori Park,4.0,956.0,55860,Karori
+249402,Karori West,4.0,965.0,55860,Karori
+249501,Newlands North,4.0,961.0,55850,Newlands
+249600,Ngaio South,1.0,891.0,55770,Ngaio
+249701,Newlands South,3.0,944.0,55850,Newlands
+249702,Newlands East,3.0,943.0,55850,Newlands
+249800,Woodridge,1.0,904.0,55710,Woodridge-Horokiwi
+249900,Karori North,1.0,900.0,55860,Karori
+250000,Khandallah North,1.0,893.0,55760,Khandallah
+250100,Wilton,3.0,945.0,55810,Wilton
+250200,Khandallah South,1.0,906.0,55760,Khandallah
+250300,Wadestown,1.0,896.0,55800,Wadestown
+250401,Karori South,1.0,907.0,55860,Karori
+250500,Onslow,1.0,908.0,55760,Khandallah
+250600,Karori East,1.0,895.0,55860,Karori
+250700,Pipitea-Kaiwharawhara,2.0,913.0,55790,Pipitea-Kaiwharawhara
+250800,Northland (Wellington City),2.0,930.0,55870,Northland (Wellington City)
+250901,Thorndon North,4.0,953.0,55820,Thorndon
+250902,Thorndon South,3.0,944.0,55820,Thorndon
+251000,Wellington Botanic Gardens,5.0,980.0,55880,Kelburn
+251100,Kelburn,3.0,948.0,55880,Kelburn
+251200,Aro Valley,7.0,1017.0,55910,Aro Valley
+251300,Wellington University,7.0,1004.0,55880,Kelburn
+251400,Wellington Central,6.0,989.0,55890,Wellington Central
+251500,Brooklyn North,1.0,909.0,55950,Brooklyn
+251601,Dixon Street West,8.0,1061.0,55900,Te Aro
+251602,Dixon Street East,5.0,977.0,55900,Te Aro
+251700,Vivian West,6.0,999.0,55900,Te Aro
+251800,Courtenay,3.0,950.0,55900,Te Aro
+251900,Brooklyn East,3.0,939.0,55950,Brooklyn
+252001,Mount Cook North,9.0,1079.0,55960,Mount Cook
+252002,Mount Cook South,5.0,971.0,55960,Mount Cook
+252100,Vivian East,5.0,965.0,55900,Te Aro
+252200,Brooklyn South,3.0,943.0,55950,Brooklyn
+252300,Oriental Bay,3.0,935.0,55920,Oriental Bay
+252400,Mount Cook East,7.0,1017.0,55960,Mount Cook
+252501,Mount Victoria North,4.0,960.0,55930,Mount Victoria
+252502,Mount Victoria South,5.0,970.0,55930,Mount Victoria
+252600,Roseneath,2.0,928.0,56080,Roseneath
+252700,Owhiro Bay,3.0,943.0,56000,Owhiro Bay
+252800,Kingston-Mornington-Vogeltown,3.0,947.0,55980,Kingston-Mornington-Vogeltown
+252900,Newtown North,7.0,1013.0,55970,Newtown
+253000,Newtown West,7.0,1009.0,55970,Newtown
+253101,Hataitai North West,3.0,947.0,55940,Hataitai
+253102,Hataitai North East,2.0,921.0,55940,Hataitai
+253200,Evans Bay,3.0,937.0,55940,Hataitai
+253300,Berhampore,7.0,1023.0,56010,Berhampore
+253400,Hataitai South,4.0,958.0,55940,Hataitai
+253501,Maupuia,5.0,968.0,56070,Maupuia
+253600,Newtown South,8.0,1053.0,55970,Newtown
+253700,Kilbirnie Central,7.0,1006.0,55990,Kilbirnie-Rongotai
+253800,Island Bay West,2.0,929.0,56040,Island Bay
+253900,Melrose,2.0,914.0,56020,Melrose
+254000,Island Bay East,2.0,920.0,56040,Island Bay
+254100,Miramar North,6.0,1002.0,56100,Miramar
+254200,Kilbirnie East,7.0,1023.0,55990,Kilbirnie-Rongotai
+254300,Lyall Bay,5.0,969.0,56030,Lyall Bay
+254401,Miramar Central,7.0,1010.0,56100,Miramar
+254500,Southgate,2.0,917.0,56060,Southgate
+254600,Karaka Bay-Worser Bay,1.0,888.0,56090,Karaka Bay-Worser Bay
+254700,Houghton Bay,3.0,936.0,56050,Houghton Bay
+254800,Miramar East,1.0,910.0,56100,Miramar
+254900,Miramar South,5.0,975.0,56100,Miramar
+255000,Rongotai,10.0,1157.0,55990,Kilbirnie-Rongotai
+255100,Strathmore (Wellington City),8.0,1042.0,56120,Strathmore (Wellington City)
+255200,Seatoun,1.0,883.0,56110,Seatoun
+255300,Kopuaranga,3.0,944.0,56130,Masterton District Rural
+255401,Upper Plain,2.0,931.0,56130,Masterton District Rural
+255501,Opaki,1.0,897.0,56130,Masterton District Rural
+255601,Ngaumutawa,6.0,996.0,56160,Masterton West
+255700,Solway North,8.0,1037.0,56140,Solway
+255800,Lansdowne West,6.0,989.0,56150,Lansdowne
+255900,Masterton Central,9.0,1072.0,56160,Masterton West
+256000,Kuripuni,6.0,992.0,56160,Masterton West
+256100,Douglas Park,8.0,1047.0,56160,Masterton West
+256200,Solway South,7.0,1005.0,56140,Solway
+256301,Lansdowne East,6.0,993.0,56150,Lansdowne
+256400,Cameron and Soldiers Park,8.0,1050.0,56170,Masterton East
+256500,Whareama,5.0,973.0,56130,Masterton District Rural
+256600,Homebush-Te Ore Ore,2.0,929.0,56130,Masterton District Rural
+256700,McJorrow Park,10.0,1217.0,56170,Masterton East
+256800,Mount Holdsworth,3.0,937.0,56180,Carterton District Rural
+256900,Carterton North,6.0,991.0,56190,Carterton
+257000,Kokotau,3.0,941.0,56180,Carterton District Rural
+257100,Carterton South,6.0,986.0,56190,Carterton
+257200,Gladstone (Carterton District),2.0,928.0,56180,Carterton District Rural
+257300,Tauherenikau,2.0,929.0,56200,South Wairarapa District West
+257400,Kahutara,4.0,955.0,56200,South Wairarapa District West
+257500,Featherston,7.0,1022.0,56200,South Wairarapa District West
+257700,Greytown,2.0,926.0,56200,South Wairarapa District West
+257801,Aorangi Forest,3.0,946.0,56210,South Wairarapa District East
+257901,Martinborough,3.0,940.0,56210,South Wairarapa District East
+258200,Oceanic Northland Region,,,56250,Oceanic Northland Region
+258500,Oceanic Waikato Region East,,,56270,Oceanic Waikato Region
+258900,Islands Bay of Plenty Region,,,56300,Islands Bay of Plenty Region
+259100,Inlet Port Taranaki,,,56330,Inlet Taranaki Region
+259500,Inlet Port Napier,,,56350,Inlet Hawke's Bay Region
+259600,Oceanic Wellington Region,,,56390,Oceanic Wellington Region
+259700,Inlet Wellington Harbour,,,56400,Inlet Wellington Region
+300301,Golden Bay/Mohua,7.0,1005.0,60020,Golden Bay
+300401,Inlets Golden Bay,,,60030,Inlets Tasman District
+300500,Takaka,7.0,1016.0,60020,Golden Bay
+300601,Pohara-Abel Tasman,7.0,1006.0,60020,Golden Bay
+300700,Takaka Hills,5.0,976.0,60040,Motueka Rural
+300801,Kaiteriteri-Riwaka,5.0,981.0,60040,Motueka Rural
+300900,Upper Moutere,5.0,983.0,60050,Waimea-Brightwater
+301000,Lower Moutere,6.0,986.0,60040,Motueka Rural
+301101,Motueka North,7.0,1015.0,60060,Motueka
+301200,Motueka West,8.0,1039.0,60060,Motueka
+301301,Motueka East,6.0,988.0,60060,Motueka
+301500,Golden Downs,6.0,992.0,60070,Tasman District South
+301601,Moutere Hills,2.0,923.0,60050,Waimea-Brightwater
+301602,Waimea Inlet,1.0,893.0,60050,Waimea-Brightwater
+301703,Ruby Bay,1.0,904.0,60080,Moutere Coast
+301704,Mapua,2.0,926.0,60080,Moutere Coast
+301800,Murchison-Nelson Lakes,6.0,998.0,60070,Tasman District South
+302000,Islands Tasman District,7.0,1016.0,60080,Moutere Coast
+302101,Waimea West,2.0,925.0,60050,Waimea-Brightwater
+302201,Appleby (Tasman District),4.0,958.0,60100,Richmond Outer (Tasman District)
+302300,Wakefield,2.0,926.0,60090,Wakefield
+302400,Richmond West (Tasman District),5.0,971.0,60110,Richmond West (Tasman District)
+302500,Wakefield Rural,4.0,952.0,60090,Wakefield
+302600,Brightwater,2.0,927.0,60050,Waimea-Brightwater
+302701,Hope,3.0,943.0,60100,Richmond Outer (Tasman District)
+302800,Richmond Central (Tasman District),8.0,1035.0,60120,Richmond Centre (Tasman District)
+302900,Ben Cooper Park,6.0,984.0,60120,Richmond Centre (Tasman District)
+303001,Richmond South (Tasman District),2.0,924.0,60140,Richmond South (Tasman District)
+303100,Wilkes Park,2.0,933.0,60120,Richmond Centre (Tasman District)
+303200,Templemore,1.0,906.0,60130,Templemore
+303300,Easby Park,4.0,964.0,60130,Templemore
+303400,Fairose,1.0,911.0,60120,Richmond Centre (Tasman District)
+303500,Aniseed Valley,1.0,898.0,60100,Richmond Outer (Tasman District)
+303600,Nelson Rural,3.0,933.0,60150,Nelson City Rural
+303701,Inlets Nelson City,,,60160,Inlets Nelson City
+303800,Marybank,2.0,921.0,60180,Marybank
+303901,Port Nelson,6.0,1001.0,60200,Nelson Centre
+304000,Nelson Airport,9.0,1082.0,60280,Stoke
+304100,Tahunanui,8.0,1045.0,60170,Tahunanui
+304200,Britannia,5.0,978.0,60220,Britannia-Washington
+304300,Atawhai,2.0,921.0,60190,Atawhai
+304400,Broadgreen-Monaco,6.0,1002.0,60280,Stoke
+304500,Washington,7.0,1019.0,60220,Britannia-Washington
+304600,Tahuna Hills,3.0,946.0,60240,Tahuna Hills
+304700,Nelson Central-Trafalgar,9.0,1071.0,60200,Nelson Centre
+304800,The Wood,7.0,1014.0,60210,The Wood
+304900,Toi Toi,8.0,1039.0,60250,Toi Toi
+305000,Nayland,5.0,983.0,60280,Stoke
+305100,Aldinga,5.0,975.0,60280,Stoke
+305200,Victory,8.0,1058.0,60270,Victory
+305300,Rutherford,5.0,966.0,60200,Nelson Centre
+305400,Maitlands,5.0,975.0,60280,Stoke
+305500,Maitai,4.0,955.0,60230,Maitai
+305600,Grampians,8.0,1036.0,60200,Nelson Centre
+305700,Saxton,9.0,1069.0,60280,Stoke
+305800,Suffolk,5.0,971.0,60280,Stoke
+305900,Omaio,6.0,991.0,60280,Stoke
+306000,Enner Glynn,4.0,954.0,60300,Enner Glynn
+306100,Daelyn,1.0,897.0,60290,Daelyn
+306200,The Brook,4.0,961.0,60260,The Brook
+306301,Marlborough Sounds West,7.0,1009.0,60310,Marlborough Sounds
+306401,Marlborough Sounds Coastal Marine,,,60320,Inlets Marlborough District
+306501,Marlborough Sounds East,4.0,955.0,60310,Marlborough Sounds
+306600,Upper Wairau,2.0,921.0,60340,Marlborough District South
+306701,Waikawa (Marlborough District),5.0,965.0,60330,Picton
+306801,Waitohi (Marlborough District),8.0,1032.0,60330,Picton
+306900,Tuamarina,2.0,925.0,60310,Marlborough Sounds
+307000,Awatere,4.0,961.0,60340,Marlborough District South
+307100,Renwick,3.0,940.0,60350,Wairau Plains
+307200,Lower Wairau,2.0,925.0,60350,Wairau Plains
+307301,Woodbourne,2.0,932.0,60350,Wairau Plains
+307400,Spring Creek-Grovetown,4.0,964.0,60350,Wairau Plains
+307501,Springlands,3.0,948.0,60360,Springlands
+307601,Yelverton,5.0,977.0,60390,Yelverton-Burleigh
+307700,Mayfield,8.0,1033.0,60370,Mayfield
+307801,Whitney West,6.0,1001.0,60380,Blenheim Centre
+307802,Burleigh,1.0,907.0,60390,Yelverton-Burleigh
+307900,Blenheim Central,9.0,1071.0,60380,Blenheim Centre
+308000,Riversdale-Islington,8.0,1045.0,60420,Riversdale-Islington
+308100,Whitney East,6.0,1002.0,60380,Blenheim Centre
+308200,Redwoodtown West,7.0,1008.0,60400,Redwoodtown
+308300,Witherlea West,2.0,932.0,60410,Witherlea
+308400,Redwoodtown East,6.0,1001.0,60400,Redwoodtown
+308500,Riverlands,1.0,902.0,60380,Blenheim Centre
+308600,Witherlea East,3.0,942.0,60410,Witherlea
+308800,Kaikoura Ranges,5.0,975.0,60430,Kaikoura District
+308900,Kaikoura,6.0,991.0,60430,Kaikoura District
+309000,Karamea,8.0,1060.0,60440,Buller District Other
+309201,Westport North,9.0,1073.0,60460,Westport
+309300,Westport Rural,4.0,957.0,60460,Westport
+309400,Westport South,9.0,1088.0,60460,Westport
+309500,Buller Coalfields,9.0,1097.0,60440,Buller District Other
+309600,Charleston (Buller District),6.0,1000.0,60440,Buller District Other
+309700,Inangahua,9.0,1065.0,60440,Buller District Other
+309800,Reefton,9.0,1094.0,60440,Buller District Other
+309900,Barrytown,8.0,1030.0,60470,Grey District Other
+310000,Runanga,9.0,1064.0,60470,Grey District Other
+310101,Cobden,9.0,1115.0,60480,Greymouth
+310200,Blaketown,9.0,1062.0,60480,Greymouth
+310300,Greymouth Central,7.0,1025.0,60480,Greymouth
+310400,King Park,8.0,1041.0,60480,Greymouth
+310500,Marsden,6.0,984.0,60480,Greymouth
+310600,Karoro,2.0,932.0,60480,Greymouth
+310700,Rutherglen-Camerons,2.0,914.0,60480,Greymouth
+310801,Greymouth Rural,6.0,994.0,60480,Greymouth
+310901,Dobson,8.0,1042.0,60470,Grey District Other
+311000,Nelson Creek,7.0,1008.0,60470,Grey District Other
+311101,Lake Brunner,8.0,1046.0,60470,Grey District Other
+311200,Haast,6.0,997.0,60510,Westland District South
+311300,Westland Glaciers-Bruce Bay,6.0,994.0,60510,Westland District South
+311401,Arahura-Kumara,6.0,991.0,60500,Westland District North
+311501,Hokitika,7.0,1020.0,60500,Westland District North
+311701,Hokitika Rural,4.0,962.0,60500,Westland District North
+311800,Waitaha,8.0,1032.0,60510,Westland District South
+311900,Whataroa-Harihari,8.0,1048.0,60510,Westland District South
+312001,Hokitika Valley-Otira,6.0,996.0,60500,Westland District North
+312100,Hanmer Range,1.0,905.0,60530,Hurunui District West
+312200,Amuri,5.0,973.0,60530,Hurunui District West
+312300,Hanmer Springs,3.0,950.0,60530,Hurunui District West
+312400,Upper Hurunui,5.0,970.0,60530,Hurunui District West
+312500,Parnassus,6.0,1003.0,60540,Hurunui District East
+312600,Ashley Forest,3.0,940.0,60540,Hurunui District East
+312700,Omihi,5.0,965.0,60540,Hurunui District East
+312801,Balcairn,4.0,959.0,60540,Hurunui District East
+312901,Amberley,5.0,981.0,60540,Hurunui District East
+313000,Okuku,3.0,934.0,60550,Waimakariri District North
+313100,Ashley Gorge,4.0,951.0,60560,Waimakariri District South
+313200,Oxford,5.0,979.0,60560,Waimakariri District South
+313300,Starvation Hill-Cust,2.0,924.0,60560,Waimakariri District South
+313400,Loburn,2.0,928.0,60550,Waimakariri District North
+313500,Eyrewell,2.0,925.0,60560,Waimakariri District South
+313600,West Eyreton,2.0,920.0,60560,Waimakariri District South
+313700,Ashley-Sefton,3.0,936.0,60550,Waimakariri District North
+313801,Fernside,1.0,912.0,60570,Waimakariri District East
+313900,Rangiora North West,2.0,919.0,60600,Rangiora North West
+314000,Kingsbury,2.0,923.0,60590,Rangiora North East
+314100,Ashgrove,4.0,960.0,60600,Rangiora North West
+314200,Rangiora North East,7.0,1021.0,60590,Rangiora North East
+314301,Oxford Estate,2.0,928.0,60620,Rangiora South West
+314400,Rangiora Central,,,60590,Rangiora North East
+314501,Rangiora South West,4.0,957.0,60620,Rangiora South West
+314600,Lilybrook,7.0,1023.0,60610,Rangiora South East
+314701,Waikuku,3.0,945.0,60580,Waimakariri District Coast
+314702,Ravenswood,3.0,942.0,60580,Waimakariri District Coast
+314703,Waikuku Beach,4.0,964.0,60580,Waimakariri District Coast
+314801,Mandeville,1.0,879.0,60570,Waimakariri District East
+314802,Ohoka,1.0,880.0,60570,Waimakariri District East
+314900,Rangiora South East,3.0,937.0,60610,Rangiora South East
+315001,Southbrook,5.0,977.0,60610,Rangiora South East
+315100,Swannanoa-Eyreton,2.0,917.0,60570,Waimakariri District East
+315200,Tuahiwi,5.0,973.0,60580,Waimakariri District Coast
+315301,Woodend,3.0,934.0,60580,Waimakariri District Coast
+315400,Pegasus,1.0,907.0,60580,Waimakariri District Coast
+315500,Clarkville,1.0,908.0,60570,Waimakariri District East
+315601,Pegasus Bay,8.0,1041.0,60580,Waimakariri District Coast
+315700,Kaiapoi North West,7.0,1018.0,60630,Kaiapoi North
+315800,Silverstream (Waimakariri District),2.0,928.0,60640,Kaiapoi West
+315901,Sovereign Palms,2.0,930.0,60630,Kaiapoi North
+316000,Kaiapoi West,7.0,1007.0,60640,Kaiapoi West
+316100,Kaiapoi Central,7.0,1016.0,60650,Kaiapoi Centre
+316200,Kaiapoi South,5.0,966.0,60650,Kaiapoi Centre
+316300,Kaiapoi East,9.0,1112.0,60650,Kaiapoi Centre
+316401,McLeans Island,9.0,1070.0,60660,Christchurch City Rural
+316500,Paparua,9.0,1079.0,60720,Templeton
+316600,Yaldhurst,2.0,925.0,60710,Yaldhurst
+316700,Christchurch Airport,8.0,1057.0,60740,Harewood-Christchurch Airport
+316800,Clearwater,1.0,906.0,60680,Northwood
+316900,Belfast West,4.0,953.0,60670,Belfast
+317000,Harewood,2.0,915.0,60740,Harewood-Christchurch Airport
+317100,Brooklands-Spencerville,3.0,950.0,60660,Christchurch City Rural
+317201,Styx,5.0,971.0,60660,Christchurch City Rural
+317301,Belfast East,6.0,994.0,60670,Belfast
+317400,Northwood,1.0,902.0,60680,Northwood
+317501,Burnside West,3.0,946.0,60800,Burnside
+317600,Regents Park,1.0,889.0,60760,Casebrook
+317701,Russley,4.0,962.0,60880,Russley
+317800,Bishopdale North,5.0,976.0,60770,Bishopdale
+317900,Casebrook,4.0,956.0,60760,Casebrook
+318000,Bishopdale West,6.0,996.0,60770,Bishopdale
+318100,Templeton,4.0,962.0,60720,Templeton
+318200,Islington,8.0,1038.0,60730,Hornby-Islington
+318300,Burnside Park,4.0,964.0,60800,Burnside
+318401,Marshland,4.0,963.0,60700,Marshland
+318402,Burlington-Oakbridge,1.0,911.0,60700,Marshland
+318501,Avonhead North,3.0,934.0,60830,Avonhead
+318600,Redwood North,3.0,948.0,60750,Redwood
+318700,Broomfield,8.0,1044.0,60890,Broomfield
+318800,Redwood West,9.0,1073.0,60750,Redwood
+318901,Avonhead West,2.0,930.0,60830,Avonhead
+319000,Bishopdale South,5.0,982.0,60770,Bishopdale
+319101,Islington-Hornby Industrial,9.0,1087.0,60730,Hornby-Islington
+319200,Burnside,6.0,993.0,60800,Burnside
+319300,Hei Hei,8.0,1036.0,60940,Hei Hei
+319400,Papanui North,9.0,1109.0,60780,Northcote-Papanui
+319500,Avonhead East,5.0,975.0,60830,Avonhead
+319600,Redwood East,6.0,1000.0,60750,Redwood
+319700,Avonhead South,5.0,967.0,60830,Avonhead
+319800,Riccarton Racecourse,6.0,986.0,60890,Broomfield
+319900,Bryndwr North,8.0,1052.0,60810,Bryndwr
+320000,Northlands (Christchurch City),8.0,1034.0,60780,Northcote-Papanui
+320100,Papanui West,5.0,978.0,60780,Northcote-Papanui
+320200,Ilam North,5.0,983.0,60850,Ilam
+320300,Hornby West,7.0,1007.0,60730,Hornby-Islington
+320400,Hornby Central,8.0,1033.0,60730,Hornby-Islington
+320501,Northcote (Christchurch City),7.0,1006.0,60780,Northcote-Papanui
+320600,Jellie Park,4.0,953.0,60850,Ilam
+320700,Ilam South,6.0,988.0,60850,Ilam
+320800,Bryndwr South,7.0,1007.0,60810,Bryndwr
+320900,Papanui East,3.0,938.0,60780,Northcote-Papanui
+321000,Sockburn North,7.0,1006.0,60930,Sockburn
+321101,Hornby South,8.0,1057.0,60730,Hornby-Islington
+321102,Branston,6.0,996.0,60730,Hornby-Islington
+321200,Ilam University,7.0,1020.0,60850,Ilam
+321301,Prestons,1.0,896.0,60700,Marshland
+321302,Prestons Park,1.0,884.0,60700,Marshland
+321400,Strowan,2.0,930.0,60840,Strowan
+321500,Fendalton,1.0,902.0,60860,Fendalton
+321600,Waitikiri,1.0,885.0,60950,Parklands
+321701,Mairehau North,6.0,988.0,60790,Mairehau
+321800,Bush Inn,8.0,1059.0,60920,Upper Riccarton
+321901,Awatea North,6.0,987.0,61130,Wigram
+322000,Upper Riccarton,9.0,1113.0,60920,Upper Riccarton
+322100,Malvern,3.0,948.0,60820,St Albans
+322200,Rutland,2.0,916.0,60820,St Albans
+322300,Sockburn South,7.0,1016.0,60930,Sockburn
+322400,Deans Bush,2.0,929.0,60860,Fendalton
+322500,Wigram North,4.0,957.0,61130,Wigram
+322600,Holmwood,1.0,897.0,60870,Merivale
+322700,Wharenui,9.0,1076.0,60920,Upper Riccarton
+322800,Wigram West,3.0,947.0,61130,Wigram
+322900,Awatea South,2.0,923.0,61130,Wigram
+323000,Merivale,4.0,955.0,60870,Merivale
+323100,Mairehau South,5.0,970.0,60790,Mairehau
+323200,Mona Vale,4.0,962.0,60910,Riccarton
+323300,Riccarton West,9.0,1104.0,60910,Riccarton
+323400,Shirley West,9.0,1070.0,60990,Shirley
+323500,Middleton,9.0,1073.0,61110,Addington-Middleton
+323600,Wigram South,3.0,948.0,61130,Wigram
+323700,Queenspark,5.0,978.0,60950,Parklands
+323800,St Albans North,7.0,1005.0,60820,St Albans
+323900,St Albans West,5.0,981.0,60820,St Albans
+324001,Burwood North,4.0,956.0,60970,Burwood
+324100,Wigram East,2.0,921.0,61130,Wigram
+324200,Riccarton Central,6.0,991.0,60910,Riccarton
+324300,Oaklands West,1.0,906.0,61200,Halswell
+324400,Riccarton South,8.0,1049.0,60910,Riccarton
+324501,Halswell West,1.0,907.0,61200,Halswell
+324502,Halswell South West,1.0,896.0,61200,Halswell
+324600,Shirley East,5.0,982.0,60990,Shirley
+324700,Broken Run,2.0,918.0,61130,Wigram
+324800,St Albans East,7.0,1009.0,60820,St Albans
+324900,Hagley Park,7.0,1014.0,60900,Christchurch Centre
+325000,Hillmorton,5.0,983.0,61140,Hillmorton
+325100,Parklands,5.0,983.0,60950,Parklands
+325200,Riccarton East,7.0,1011.0,60910,Riccarton
+325301,Edgeware North,6.0,994.0,61050,Edgeware
+325302,Edgeware South,7.0,1019.0,61050,Edgeware
+325400,Aidanfield,1.0,910.0,61180,Aidanfield
+325500,Tower Junction,2.0,927.0,61110,Addington-Middleton
+325601,Burwood South,5.0,981.0,60970,Burwood
+325700,Christchurch Central-West,5.0,966.0,60900,Christchurch Centre
+325800,Christchurch Central-North,7.0,1005.0,60900,Christchurch Centre
+325900,Richmond North (Christchurch City),7.0,1007.0,61040,Richmond (Christchurch City)
+326000,Waimairi Beach,1.0,894.0,60960,Waimairi Beach
+326100,Addington West,8.0,1055.0,61110,Addington-Middleton
+326200,Otakaro-Avon River Corridor,9.0,1098.0,61000,Avondale (Christchurch City)
+326301,Oaklands East,4.0,960.0,61200,Halswell
+326400,Addington North,,,61110,Addington-Middleton
+326500,Dallington,8.0,1038.0,61030,Dallington
+326600,Christchurch Central,2.0,925.0,60900,Christchurch Centre
+326701,Hoon Hay West,8.0,1060.0,61170,Hoon Hay
+326800,Richmond South (Christchurch City),9.0,1095.0,61040,Richmond (Christchurch City)
+326900,Spreydon West,6.0,999.0,61150,Spreydon
+327000,Christchurch Central-East,7.0,1013.0,60900,Christchurch Centre
+327100,Christchurch Central-South,6.0,993.0,60900,Christchurch Centre
+327200,North Beach,6.0,1003.0,60980,North Beach
+327301,Halswell North,1.0,883.0,61200,Halswell
+327400,Addington East,8.0,1059.0,61110,Addington-Middleton
+327500,Avondale (Christchurch City),7.0,1010.0,61000,Avondale (Christchurch City)
+327600,Spreydon North,7.0,1018.0,61150,Spreydon
+327700,Hoon Hay East,4.0,951.0,61170,Hoon Hay
+327800,Avonside,10.0,1156.0,61070,Avonside
+327901,Stanmore,9.0,1066.0,61090,Linwood
+327902,Linwood Central,9.0,1103.0,61090,Linwood
+328001,Halswell South,2.0,930.0,61200,Halswell
+328100,Sydenham Central,5.0,980.0,61120,Sydenham
+328200,Spreydon South,7.0,1015.0,61150,Spreydon
+328300,Rawhiti,8.0,1040.0,61010,New Brighton
+328400,Wainoni,9.0,1072.0,61060,Wainoni
+328500,Linwood North,9.0,1069.0,61090,Linwood
+328600,Aranui,10.0,1195.0,61020,Aranui
+328700,Sydenham West,8.0,1037.0,61120,Sydenham
+328800,Lancaster Park,10.0,1134.0,61220,Waltham
+328900,Phillipstown,9.0,1098.0,61230,Phillipstown
+329001,Kennedys Bush,1.0,870.0,61200,Halswell
+329002,Halswell South East,1.0,878.0,61200,Halswell
+329100,Somerfield East,4.0,961.0,61160,Somerfield
+329200,Somerfield West,5.0,967.0,61160,Somerfield
+329300,Linwood East,9.0,1102.0,61090,Linwood
+329400,Sydenham North,8.0,1061.0,61120,Sydenham
+329500,Hoon Hay South,3.0,936.0,61170,Hoon Hay
+329600,Charleston (Christchurch City),8.0,1059.0,61220,Waltham
+329700,Sydenham South,7.0,1021.0,61120,Sydenham
+329800,Bexley,9.0,1115.0,61020,Aranui
+329900,Waltham,8.0,1036.0,61220,Waltham
+330000,Westmorland,1.0,874.0,61210,Westmorland
+330100,Woolston North,9.0,1064.0,61240,Woolston
+330200,New Brighton,7.0,1020.0,61010,New Brighton
+330300,Cashmere West,1.0,894.0,61190,Cashmere
+330400,Bromley South,9.0,1070.0,61080,Bromley
+330500,Ensors,8.0,1043.0,61240,Woolston
+330600,Beckenham,1.0,912.0,61310,Beckenham
+330700,Bromley North,10.0,1155.0,61080,Bromley
+330800,St Martins,4.0,963.0,61270,St Martins
+330900,Opawa,5.0,967.0,61260,Opawa
+331000,Woolston West,8.0,1054.0,61240,Woolston
+331100,Woolston East,9.0,1062.0,61240,Woolston
+331200,Huntsbury,1.0,879.0,61320,Huntsbury
+331300,Cashmere East,1.0,896.0,61190,Cashmere
+331400,Hillsborough (Christchurch City),2.0,922.0,61280,Hillsborough (Christchurch City)
+331500,Woolston South,8.0,1032.0,61240,Woolston
+331600,Port Hills,3.0,937.0,60660,Christchurch City Rural
+331700,South New Brighton,5.0,967.0,61010,New Brighton
+331801,Brookhaven-Ferrymead,4.0,965.0,61250,Brookhaven-Ferrymead
+331900,Heathcote Valley,2.0,933.0,61340,Heathcote Valley
+332000,Mount Pleasant,1.0,888.0,61290,Mount Pleasant
+332100,Redcliffs,1.0,902.0,61300,Redcliffs
+332200,Governors Bay,1.0,894.0,61100,Banks Peninsula
+332400,Clifton Hill,1.0,890.0,61330,Clifton-Sumner
+332501,Lyttelton,4.0,954.0,61350,Lyttelton
+332601,Inlet Port Lyttelton,,,60690,Inlets Christchurch City
+332700,Sumner,1.0,907.0,61330,Clifton-Sumner
+332801,Teddington,2.0,920.0,61100,Banks Peninsula
+332901,Diamond Harbour,2.0,917.0,61360,Diamond Harbour
+333100,Banks Peninsula South,3.0,946.0,61100,Banks Peninsula
+333201,Banks Peninsula Eastern Bays,4.0,958.0,61100,Banks Peninsula
+333300,Akaroa Harbour,3.0,947.0,61100,Banks Peninsula
+333400,Inlet Akaroa Harbour,,,60690,Inlets Christchurch City
+333500,Akaroa,4.0,963.0,61100,Banks Peninsula
+333600,Craigieburn,3.0,947.0,61380,Selwyn District West
+333700,Torlesse,5.0,976.0,61380,Selwyn District West
+333800,Glenroy-Hororata,4.0,952.0,61380,Selwyn District West
+333901,Glentunnel,4.0,962.0,61380,Selwyn District West
+334001,Darfield,2.0,922.0,61390,Darfield
+334100,Kirwee,1.0,894.0,61390,Darfield
+334200,Bankside,5.0,967.0,61410,Selwyn District South West
+334300,Charing Cross,2.0,921.0,61390,Darfield
+334400,Halkett,1.0,898.0,61400,Selwyn District North
+334501,Newtons Road,2.0,919.0,61400,Selwyn District North
+334601,West Melton,1.0,863.0,61400,Selwyn District North
+334700,Burnham Camp,6.0,991.0,61420,Selwyn District South East
+334801,Rolleston Izone,8.0,1041.0,61430,Rolleston North East
+334901,Rolleston North Central,1.0,907.0,61440,Rolleston North West
+335001,Springston,2.0,931.0,61420,Selwyn District South East
+335101,Rolleston Central,1.0,912.0,61440,Rolleston North West
+335201,Rolleston Tauwharekakaho,1.0,905.0,61430,Rolleston North East
+335202,Rolleston North East,1.0,898.0,61430,Rolleston North East
+335301,Rolleston South West,1.0,890.0,61450,Rolleston South West
+335302,Rolleston South Central,1.0,896.0,61450,Rolleston South West
+335400,Southbridge,5.0,972.0,61410,Selwyn District South West
+335501,Faringdon,2.0,923.0,61450,Rolleston South West
+335502,Rolleston South East,1.0,899.0,61470,Rolleston South East
+335600,Trents,2.0,920.0,61460,Selwyn District East
+335701,Prebbleton North,1.0,874.0,61460,Selwyn District East
+335702,Prebbleton South,1.0,874.0,61460,Selwyn District East
+335800,Irwell,5.0,976.0,61420,Selwyn District South East
+335901,Ladbrooks,1.0,896.0,61460,Selwyn District East
+336001,Lincoln West,3.0,945.0,61480,Lincoln
+336002,Lincoln South,1.0,870.0,61480,Lincoln
+336101,Lincoln North,1.0,879.0,61480,Lincoln
+336102,Lincoln East,1.0,892.0,61480,Lincoln
+336200,Leeston,3.0,949.0,61420,Selwyn District South East
+336301,Tai Tapu,1.0,869.0,61460,Selwyn District East
+336400,Motukarara,2.0,925.0,61420,Selwyn District South East
+336600,Ashburton Lakes,1.0,898.0,61500,Ashburton District West
+336701,Cairnbrae,3.0,945.0,61500,Ashburton District West
+336800,Ashburton Forks,4.0,961.0,61500,Ashburton District West
+336901,Methven,3.0,946.0,61500,Ashburton District West
+337000,Ealing-Lowcliffe,4.0,965.0,61510,Ashburton District East
+337100,Eiffelton,2.0,928.0,61510,Ashburton District East
+337200,Chertsey,5.0,967.0,61510,Ashburton District East
+337301,Winchmore-Wakanui,4.0,953.0,61510,Ashburton District East
+337400,Allenton North,3.0,943.0,61530,Allenton
+337500,Allenton South,6.0,998.0,61530,Allenton
+337600,Rakaia,6.0,987.0,61510,Ashburton District East
+337700,Ashburton North,1.0,907.0,61520,Ashburton North
+337800,Allenton East,5.0,976.0,61530,Allenton
+337900,Tinwald North,2.0,932.0,61560,Tinwald
+338000,Ashburton Central,6.0,999.0,61540,Ashburton Centre
+338100,Ashburton West,6.0,990.0,61540,Ashburton Centre
+338200,Tinwald South,7.0,1014.0,61560,Tinwald
+338300,Ashburton East,8.0,1045.0,61540,Ashburton Centre
+338401,Netherby,7.0,1024.0,61570,Netherby
+338501,Hampstead,8.0,1034.0,61550,Hampstead
+338600,Ben McLeod,5.0,977.0,61580,Timaru District North
+338700,Arundel,3.0,945.0,61580,Timaru District North
+338800,Levels Valley,3.0,941.0,61590,Timaru District South
+338901,Geraldine,5.0,972.0,61580,Timaru District North
+339002,Rangitata,3.0,936.0,61580,Timaru District North
+339100,Waitohi (Timaru District),6.0,996.0,61600,Temuka
+339200,Pleasant Point,4.0,956.0,61590,Timaru District South
+339300,Temuka West,7.0,1015.0,61600,Temuka
+339400,Hadlow,1.0,889.0,61590,Timaru District South
+339500,Levels,4.0,958.0,61590,Timaru District South
+339600,Temuka East,6.0,996.0,61600,Temuka
+339700,Gleniti North,1.0,905.0,61620,Gleniti
+339800,Washdyke,5.0,981.0,61610,Washdyke
+339900,Fairview,4.0,964.0,61590,Timaru District South
+340000,Gleniti South,1.0,911.0,61620,Gleniti
+340100,Glenwood,5.0,981.0,61660,Glenwood
+340200,Marchwiel West,7.0,1014.0,61630,Marchwiel
+340300,Marchwiel East,9.0,1064.0,61630,Marchwiel
+340400,Highfield North,5.0,968.0,61650,Highfield
+340500,Highfield South,4.0,961.0,61650,Highfield
+340601,Waimataitai-Maori Hill,7.0,1004.0,61640,Waimataitai-Maori Hill
+340700,Fraser Park,6.0,995.0,61680,Fraser Park
+340801,Seaview,8.0,1039.0,61690,Seaview
+341000,Watlington,7.0,1005.0,61700,Watlington
+341101,Timaru Central,9.0,1080.0,61670,Timaru Centre
+341201,Timaru East,9.0,1068.0,61670,Timaru Centre
+341300,Parkside,8.0,1041.0,61710,Parkside
+341400,Kensington (Timaru District),8.0,1043.0,61670,Timaru Centre
+341501,Mackenzie Lakes,4.0,959.0,61730,Mackenzie District
+341801,Twizel,4.0,956.0,61730,Mackenzie District
+341900,Opua (Mackenzie District),4.0,953.0,61730,Mackenzie District
+342000,Fairlie,5.0,976.0,61730,Mackenzie District
+342100,Hakataramea,5.0,972.0,61750,Waimate District Rural
+342200,Maungati,4.0,965.0,61750,Waimate District Rural
+342300,Lyalldale,5.0,980.0,61750,Waimate District Rural
+342400,Makikihi-Willowbridge,6.0,993.0,61750,Waimate District Rural
+342500,Waimate North,4.0,955.0,61760,Waimate
+342600,Morven-Glenavy-Ikawai,7.0,1017.0,61750,Waimate District Rural
+342700,Waimate West,8.0,1052.0,61760,Waimate
+342800,Waimate East,9.0,1068.0,61760,Waimate
+343000,Chatham Islands,8.0,1060.0,61780,Chatham Islands
+343100,Aviemore,4.0,963.0,61790,Waitaki District West
+343300,Danseys Pass,6.0,993.0,61790,Waitaki District West
+343400,Ngapara,5.0,982.0,61790,Waitaki District West
+343501,Lower Waitaki,3.0,944.0,61810,Waitaki District Coast
+343600,Waihemo,6.0,989.0,61810,Waitaki District Coast
+343700,Maheno,4.0,960.0,61810,Waitaki District Coast
+343801,Weston,2.0,926.0,61830,Weston
+343900,Oamaru North Milner Park,8.0,1036.0,61820,Oamaru North
+344000,Oamaru North Orana Park,8.0,1048.0,61820,Oamaru North
+344100,Oamaru Gardens,6.0,984.0,61850,Holmes Hill
+344200,Glen Warren,8.0,1050.0,61840,Oamaru Centre
+344300,Holmes Hill,5.0,974.0,61850,Holmes Hill
+344400,Oamaru Central,9.0,1087.0,61840,Oamaru Centre
+344500,South Hill,7.0,1019.0,61860,South Hill
+344600,Inlet Port Oamaru,,,61870,Inlet Waitaki District
+344700,Palmerston,7.0,1009.0,61810,Waitaki District Coast
+344800,Lindis-Nevis Valleys,1.0,899.0,61880,Central Otago District West
+344900,Cromwell West,3.0,945.0,61900,Cromwell
+345000,Cromwell East,4.0,952.0,61900,Cromwell
+345100,Manuherikia-Ida Valleys,3.0,951.0,61890,Central Otago District East
+345200,Earnscleugh,1.0,910.0,61880,Central Otago District West
+345300,Dunstan-Galloway,2.0,913.0,61890,Central Otago District East
+345400,Clyde,3.0,942.0,61890,Central Otago District East
+345500,Alexandra North,4.0,963.0,61910,Alexandra
+345600,Alexandra South,4.0,953.0,61910,Alexandra
+345700,Maniototo,4.0,961.0,61890,Central Otago District East
+345800,Teviot Valley,5.0,980.0,61880,Central Otago District West
+345900,Outer Wanaka,1.0,906.0,61920,Wanaka Outer
+346000,Glenorchy,4.0,965.0,61940,Wakatipu Outer
+346201,Outer Wakatipu,1.0,894.0,61940,Wakatipu Outer
+346400,Cardrona,2.0,915.0,61920,Wanaka Outer
+346600,Wanaka Waterfront,2.0,916.0,61950,Wanaka
+346701,Wanaka North,1.0,901.0,61950,Wanaka
+346702,Northlake,1.0,912.0,61950,Wanaka
+346800,Wanaka West,1.0,905.0,61950,Wanaka
+346901,Albert Town,1.0,901.0,61950,Wanaka
+347000,Wanaka Central,2.0,917.0,61950,Wanaka
+347101,Lake Hawea,1.0,899.0,61920,Wanaka Outer
+347201,Upper Clutha Valley,1.0,903.0,61920,Wanaka Outer
+347300,Kingston,2.0,915.0,61940,Wakatipu Outer
+347401,Arthurs Point,1.0,886.0,61960,Queenstown Centre
+347501,Wakatipu Basin,1.0,890.0,61970,Lake Hayes Basin
+347600,Queenstown Hill,,,61960,Queenstown Centre
+347700,Warren Park,5.0,983.0,61960,Queenstown Centre
+347801,Sunshine Bay-Fernhill,3.0,937.0,61960,Queenstown Centre
+347901,Arrowtown,1.0,912.0,61970,Lake Hayes Basin
+348000,Quail Rise,1.0,871.0,61980,Frankton (Queenstown-Lakes District)
+348100,Queenstown Central,6.0,991.0,61960,Queenstown Centre
+348200,Queenstown East,4.0,951.0,61960,Queenstown Centre
+348300,Frankton Arm,3.0,947.0,61980,Frankton (Queenstown-Lakes District)
+348400,Frankton,4.0,961.0,61980,Frankton (Queenstown-Lakes District)
+348500,Lake Hayes,1.0,870.0,61970,Lake Hayes Basin
+348600,Kelvin Heights,1.0,892.0,61980,Frankton (Queenstown-Lakes District)
+348700,Shotover Country,1.0,910.0,61990,Lake Hayes Estate-Shotover Country
+348801,Lake Hayes Estate,1.0,895.0,61990,Lake Hayes Estate-Shotover Country
+348901,Jacks Point,1.0,893.0,61980,Frankton (Queenstown-Lakes District)
+349000,Strath Taieri,4.0,962.0,62000,Taieri
+349100,Bucklands Crossing,5.0,968.0,62010,Dunedin City Coast
+349200,Waikouaiti,6.0,985.0,62010,Dunedin City Coast
+349300,Momona,2.0,929.0,62000,Taieri
+349401,Taieri,1.0,908.0,62000,Taieri
+349601,Mount Cargill,4.0,951.0,62010,Dunedin City Coast
+349700,Bush Road,5.0,979.0,62130,Mosgiel West
+349801,Mosgiel East,2.0,931.0,62120,Mosgiel East
+349900,Mosgiel Central,7.0,1009.0,62130,Mosgiel West
+350000,Seddon Park,8.0,1049.0,62120,Mosgiel East
+350100,Wingatui,1.0,910.0,62110,East Taieri-Wingatui
+350201,Saddle Hill-Chain Hills,1.0,902.0,62000,Taieri
+350300,East Taieri,1.0,889.0,62110,East Taieri-Wingatui
+350401,Halfway Bush,6.0,1002.0,62190,Halfway Bush
+350500,Helensburgh,3.0,937.0,62070,Helensburgh
+350600,Glenleith,4.0,952.0,62050,Glenleith
+350700,Fairfield (Dunedin City),1.0,901.0,62150,Fairfield (Dunedin City)
+350801,Inlet Otago Harbour,,,62020,Inlets Dunedin City
+350900,Brockville,9.0,1075.0,62240,Brockville
+351000,Wakari,6.0,997.0,62180,Wakari
+351100,Abbotsford,3.0,933.0,62140,Abbotsford
+351200,Brighton,4.0,951.0,62000,Taieri
+351300,Pine Hill-Dalmore,8.0,1036.0,62060,Pine Hill-Dalmore
+351400,Kaikorai-Bradford,5.0,982.0,62250,Kaikorai-Bradford
+351500,Maori Hill,2.0,914.0,62200,Maori Hill
+351600,Roslyn (Dunedin City),3.0,940.0,62230,Roslyn (Dunedin City)
+351700,North East Valley Chingford,7.0,1026.0,62040,North East Valley
+351801,Roseneath-Sawyers Bay,3.0,939.0,62030,Otago Harbour Western Bays
+351901,Normanby (Dunedin City),4.0,962.0,62040,North East Valley
+352000,North East Valley Knox,8.0,1054.0,62040,North East Valley
+352100,Belleknowes,2.0,930.0,62260,Belleknowes
+352200,Gardens (Dunedin City),10.0,1116.0,62210,North Dunedin
+352300,Kenmure,3.0,935.0,62280,Kenmure
+352400,Campus West,9.0,1102.0,62210,North Dunedin
+352500,Waldronville,1.0,891.0,62170,Waldronville
+352600,Green Island,5.0,981.0,62160,Green Island
+352701,Port Chalmers,6.0,995.0,62090,Port Chalmers
+352800,Royal Terrace,9.0,1092.0,62220,Dunedin Centre
+352900,Arthur Street,7.0,1023.0,62220,Dunedin Centre
+353000,Opoho,4.0,952.0,62080,Opoho
+353100,Campus North,9.0,1088.0,62210,North Dunedin
+353200,Campus South,9.0,1093.0,62210,North Dunedin
+353300,Mornington,6.0,989.0,62290,Mornington
+353400,Dunedin Central,9.0,1072.0,62220,Dunedin Centre
+353500,Maryhill,5.0,965.0,62310,Maryhill
+353600,Ravensbourne-St Leonards,3.0,940.0,62030,Otago Harbour Western Bays
+353701,Harbourside,7.0,1011.0,62220,Dunedin Centre
+353800,Fernhill,8.0,1048.0,62220,Dunedin Centre
+353900,Otago Peninsula,5.0,978.0,62010,Dunedin City Coast
+354000,Concord,7.0,1026.0,62400,Concord
+354100,Calton Hill,7.0,1022.0,62360,Calton Hill
+354200,Caversham,9.0,1070.0,62340,Caversham
+354300,Hillside-Portsmouth Drive,10.0,1206.0,62320,South Dunedin
+354400,Kew (Dunedin City),4.0,951.0,62410,Kew (Dunedin City)
+354500,Corstorphine,8.0,1055.0,62420,Corstorphine
+354600,Forbury,8.0,1038.0,62370,Forbury
+354701,South Dunedin,10.0,1144.0,62320,South Dunedin
+354800,St Clair,2.0,917.0,62430,St Clair
+354901,Waverley (Dunedin City),2.0,919.0,62270,Waverley (Dunedin City)
+355000,Macandrew Bay-Company Bay,1.0,906.0,62100,Otago Harbour Eastern Bays
+355100,Broad Bay-Portobello,3.0,943.0,62100,Otago Harbour Eastern Bays
+355200,St Kilda South,7.0,1026.0,62390,St Kilda
+355300,Musselburgh,4.0,959.0,62350,Musselburgh
+355400,Shiel Hill,1.0,905.0,62300,Shiel Hill
+355500,St Kilda North,8.0,1036.0,62390,St Kilda
+355600,Andersons Bay,3.0,936.0,62330,Andersons Bay
+355700,Tainui,3.0,941.0,62380,Tainui
+355800,West Otago,4.0,958.0,62440,West Otago-Tuapeka
+355900,Tuapeka,6.0,992.0,62440,West Otago-Tuapeka
+356000,Clinton,6.0,999.0,62460,Clutha
+356100,Clutha Valley,3.0,948.0,62460,Clutha
+356200,Bruce,4.0,951.0,62450,Milton
+356300,Catlins,5.0,974.0,62460,Clutha
+356400,Milton,8.0,1048.0,62450,Milton
+356500,Balclutha South,7.0,1013.0,62470,Lower Clutha
+356600,Balclutha North,6.0,1001.0,62470,Lower Clutha
+356700,Benhar-Stirling,4.0,951.0,62470,Lower Clutha
+356800,Kaitangata-Matau,7.0,1022.0,62470,Lower Clutha
+357000,Fiordland,,,62490,Fiordland
+357100,Inlets Fiordland,,,62500,Inlets Southland District
+357300,Mararoa,4.0,952.0,62490,Fiordland
+357501,Te Anau,4.0,955.0,62490,Fiordland
+357601,Whitestone,1.0,899.0,62490,Fiordland
+357700,Mossburn,5.0,974.0,62520,Southland District North
+357900,Longwood Forest,7.0,1023.0,62530,Southland District South
+358000,Ohai-Nightcaps,8.0,1053.0,62530,Southland District South
+358100,Riversdale-Piano Flat,3.0,938.0,62520,Southland District North
+358200,Lumsden-Balfour,5.0,981.0,62520,Southland District North
+358300,Oreti River,3.0,946.0,62540,Southland District Central
+358400,Otautau,6.0,997.0,62530,Southland District South
+358500,Hedgehope,3.0,950.0,62540,Southland District Central
+358600,Winton,5.0,983.0,62540,Southland District Central
+358700,Waianiwa,3.0,934.0,62540,Southland District Central
+358801,Riverton,7.0,1025.0,62530,Southland District South
+358900,Wallacetown,4.0,952.0,62540,Southland District Central
+359000,Grove Bush,2.0,923.0,62550,Southland District East
+359100,Edendale-Woodlands,5.0,979.0,62550,Southland District East
+359300,Stewart Island,6.0,998.0,62560,Stewart Island
+359400,Awarua Plains,4.0,951.0,62550,Southland District East
+359500,Wyndham-Catlins,6.0,996.0,62550,Southland District East
+359600,Waikaka,3.0,948.0,62570,Gore District Other
+359700,Waimumu-Kaiwera,3.0,940.0,62570,Gore District Other
+359800,Gore North,4.0,964.0,62580,Gore
+359900,Gore West,5.0,972.0,62580,Gore
+360000,East Gore,8.0,1035.0,62580,Gore
+360100,Gore Central,8.0,1049.0,62580,Gore
+360200,Gore Main,8.0,1032.0,62580,Gore
+360300,Gore South,8.0,1040.0,62580,Gore
+360400,Mataura,9.0,1083.0,62570,Gore District Other
+360500,West Plains-Makarewa,3.0,940.0,62590,Invercargill City Other
+360601,Prestonville-Grasmere,6.0,996.0,62620,Prestonville-Grasmere
+360701,Waikiwi,4.0,951.0,62610,Waikiwi
+360801,Myross Bush,1.0,875.0,62590,Invercargill City Other
+360900,Otatara,1.0,894.0,62710,Otatara
+361000,Invercargill Central,10.0,1121.0,62600,Invercargill Centre-Avenal
+361100,Gladstone (Invercargill City),2.0,929.0,62640,Gladstone (Invercargill City)
+361201,Rosedale-Hargest,2.0,927.0,62630,Rosedale-Hargest
+361300,Avenal,7.0,1017.0,62600,Invercargill Centre-Avenal
+361501,Windsor,5.0,975.0,62660,Windsor
+361502,Waverley (Invercargill City),4.0,952.0,62650,Waverley (Invercargill City)
+361601,Richmond (Invercargill City),6.0,1001.0,62680,Richmond (Invercargill City)
+361701,Glengarry,8.0,1048.0,62670,Glengarry
+361900,Turnbull Thompson Park,6.0,987.0,62690,Turnbull Thompson Park-Hawthorndale
+362001,Appleby North (Invercargill City),10.0,1179.0,62740,Appleby
+362100,Georgetown,8.0,1059.0,62730,Georgetown
+362201,Appleby South (Invercargill City),9.0,1106.0,62740,Appleby
+362301,Kennington-Tisbury,2.0,922.0,62590,Invercargill City Other
+362401,Newfield,7.0,1013.0,62700,Newfield-Rockdale
+362402,Rockdale,6.0,999.0,62700,Newfield-Rockdale
+362501,Strathern,9.0,1064.0,62760,Strathern
+362601,Heidelberg,9.0,1066.0,62750,Heidelberg
+362901,Kingswell,8.0,1030.0,62780,Kingswell
+363001,Clifton-Kew,8.0,1060.0,62770,Clifton-Kew
+363100,Woodend-Greenhills,7.0,1024.0,62590,Invercargill City Other
+363301,Bluff,8.0,1058.0,62590,Invercargill City Other
+363400,Oceanic West Coast Region,,,62800,Oceanic West Coast Region
+363700,Oceanic Southland Region,,,62840,Oceanic Southland Region
+363800,Oceanic Canterbury Region,,,62820,Oceanic Canterbury Region
+400001,New Zealand Economic Zone,,,70001,Oceanic outside region
+400004,Oceanic Oil Rig Taranaki,,,70002,Oceanic oil rigs

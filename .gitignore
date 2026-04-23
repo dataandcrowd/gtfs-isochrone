@@ -205,3 +205,10 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+**/.DS_Store
+.venv
+.quarto
+.claude
+**/*.pbf
+#data/new-zealand-latest.osm.pbf
+#data/NZDep2023-Users-Manual.pdf

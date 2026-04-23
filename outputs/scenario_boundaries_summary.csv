@@ -1,0 +1,7 @@
+scenario,label,n_sa2,n_trapped_payers
+1a,"1a, City centre cordon",15,0
+1c,"1c, City centre + fringe",27,0
+2c,"2c, Isthmus double cordon",158,66
+3b,"3b, Core motorways",173,118
+3c,"3c, Core motorways + CBD",188,118
+3e,"3e, Motorway hotspots",22,16
