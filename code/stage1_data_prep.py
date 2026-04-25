@@ -7,8 +7,10 @@ Stage 1: Data download and preparation
 """
 
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import geopandas as gpd
@@ -19,20 +21,37 @@ from shapely.geometry import box
 # Shared helper that writes GeoPackage via a scratch path + shutil.copy2 to
 # work around SQLite lock issues on FUSE-mounted sandboxes.
 sys.path.insert(0, str(Path(__file__).parent))
-from _io_utils import safe_to_gpkg  # noqa: E402
+from _io_utils import SCRATCH_ROOT, safe_to_gpkg  # noqa: E402
 
 # ── Directory setup ──────────────────────────────────────────────────────────
 DATA   = Path("data");   DATA.mkdir(exist_ok=True)
 OUTPUT = Path("outputs"); OUTPUT.mkdir(exist_ok=True)
 
 # ── Auckland bounding box (WGS84) ────────────────────────────────────────────
-AUCKLAND_BBOX = (174.4, -37.1, 175.3, -36.7)   # minx, miny, maxx, maxy
+# Bounds chosen to fully enclose the Auckland Council region as supplied in
+# data/auckland_sa2.gpkg (whose own bounds are roughly 174.16..175.29 E,
+# -37.29..-36.12 S). The earlier metro-only bbox (174.4..175.3, -37.1..-36.7)
+# was too tight and dropped 74 SA2s in Rodney (north), Franklin (south), and
+# the Hibiscus Coast.
+AUCKLAND_BBOX = (174.0, -37.4, 175.4, -36.0)   # minx, miny, maxx, maxy
 
 # ── 1a. Download NZ OSM PBF and clip to Auckland ─────────────────────────────
 NZ_PBF  = DATA / "new-zealand-latest.osm.pbf"
 AKL_PBF = DATA / "auckland.osm.pbf"
 
-if not AKL_PBF.exists():
+# Sidecar file recording which bbox the existing AKL_PBF was clipped with.
+# Lets us re-clip only when AUCKLAND_BBOX has actually changed (re-clipping
+# costs ~30 s on a 16 GB laptop).
+BBOX_SIDECAR = DATA / "auckland.osm.pbf.bbox"
+_current_bbox = ",".join(str(c) for c in AUCKLAND_BBOX)
+_existing_bbox = BBOX_SIDECAR.read_text().strip() if BBOX_SIDECAR.exists() else None
+_pbf_needs_clip = (
+    not AKL_PBF.exists()
+    or AKL_PBF.stat().st_size == 0
+    or _existing_bbox != _current_bbox
+)
+
+if _pbf_needs_clip:
     if not NZ_PBF.exists():
         print("Downloading NZ OSM PBF (~800 MB)...")
         url = "https://download.geofabrik.de/australia-oceania/new-zealand-latest.osm.pbf"
@@ -42,18 +61,30 @@ if not AKL_PBF.exists():
                 f.write(chunk)
         print("Download complete.")
 
-    print("Clipping to Auckland bbox with osmium...")
-    bbox_str = ",".join(str(c) for c in AUCKLAND_BBOX)
+    print(f"Clipping NZ PBF to Auckland bbox {_current_bbox} with osmium...")
+    # Write to scratch first, then shutil.copy2 over the FUSE mount target.
+    # osmium cannot overwrite a file the FUSE layer refuses to unlink.
+    with tempfile.NamedTemporaryFile(
+        suffix=".osm.pbf", dir=SCRATCH_ROOT, delete=False,
+    ) as tmp:
+        scratch_pbf = Path(tmp.name)
+    scratch_pbf.unlink()
     subprocess.run([
         "osmium", "extract",
-        "--bbox", bbox_str,
+        "--bbox", _current_bbox,
         str(NZ_PBF),
-        "-o", str(AKL_PBF),
-        "--overwrite"
+        "-o", str(scratch_pbf),
+        "--overwrite",
     ], check=True)
+    shutil.copy2(scratch_pbf, AKL_PBF)
+    try:
+        scratch_pbf.unlink()
+    except OSError:
+        pass
+    BBOX_SIDECAR.write_text(_current_bbox)
     print(f"Clipped PBF saved: {AKL_PBF} ({AKL_PBF.stat().st_size / 1e6:.1f} MB)")
 else:
-    print(f"OSM PBF already exists: {AKL_PBF}")
+    print(f"OSM PBF already covers bbox {_current_bbox}: {AKL_PBF}")
 
 # ── 1b. Download AT GTFS ─────────────────────────────────────────────────────
 GTFS_ZIP = DATA / "at_gtfs.zip"
@@ -97,12 +128,15 @@ if "SA22023_V1_00" not in sa2.columns:
     else:
         raise KeyError(f"Could not find SA2 code column. Available: {list(sa2.columns)}")
 
-# Reproject and clip to the Auckland bbox. If the file is already an Auckland
-# clip (like auckland_sa2.gpkg) the intersect test is a no-op.
+# Reproject to WGS84 for r5py compatibility downstream. We do NOT apply the
+# AUCKLAND_BBOX as a hard clip on the SA2 layer here because the supplied
+# auckland_sa2.gpkg is already a regional clip drawn from the Auckland Council
+# boundary; intersecting with the looser numeric bbox would silently drop
+# legitimate SA2s along the curved edge of the region (notably the offshore
+# islands and the long Rodney coastline). Stage 2 is responsible for ensuring
+# the OSM extent covers all SA2s used as origins.
 sa2 = sa2.to_crs(epsg=4326)
-akl_bbox_geom = box(*AUCKLAND_BBOX)
-sa2 = sa2[sa2.geometry.intersects(akl_bbox_geom)].copy()
-print(f"SA2 after Auckland clip: {len(sa2)} units")
+print(f"SA2 retained from {SA2_SOURCE.name}: {len(sa2)} units")
 
 # ── 1d. Load NZDep 2023 ──────────────────────────────────────────────────────
 # NZDep 2023 — download from:

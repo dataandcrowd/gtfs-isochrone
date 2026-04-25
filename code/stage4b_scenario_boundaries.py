@@ -20,7 +20,7 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _io_utils import safe_to_gpkg  # noqa: E402
+from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
 FIGS   = OUTPUT / "figures"; FIGS.mkdir(exist_ok=True)
@@ -30,7 +30,7 @@ if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No sa2_equity.gpkg at {SA2_PATH}. Run stage 4 first.")
 print(f"Reading equity layer: {SA2_PATH.name}")
 
-sa2 = gpd.read_file(SA2_PATH)
+sa2 = safe_read_gpkg(SA2_PATH)
 
 SCENARIOS = ["1a", "1c", "2c", "3b", "3c", "3e"]
 SCENARIO_TITLES = {

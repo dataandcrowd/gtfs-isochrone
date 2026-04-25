@@ -38,7 +38,7 @@ import pandas as pd
 from matplotlib.colors import BoundaryNorm, ListedColormap
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _io_utils import safe_to_gpkg  # noqa: E402
+from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
 FIGS   = OUTPUT / "figures"; FIGS.mkdir(exist_ok=True)
@@ -50,7 +50,7 @@ print(f"Reading equity layer: {SA2_PATH.name}")
 CI_CSV        = OUTPUT / "equity_summary.csv"
 CROSSTAB_CSV  = OUTPUT / "burden_crosstab.csv"
 
-sa2        = gpd.read_file(SA2_PATH)
+sa2        = safe_read_gpkg(SA2_PATH)
 ci_summary = pd.read_csv(CI_CSV)
 crosstab   = pd.read_csv(CROSSTAB_CSV)
 

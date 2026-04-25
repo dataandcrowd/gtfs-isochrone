@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _io_utils import safe_to_gpkg  # noqa: E402
+from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
 
@@ -24,7 +24,7 @@ if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
 TT_PARQUET = OUTPUT / "travel_time_matrix.parquet"
 
 # ── 3a. Load data ─────────────────────────────────────────────────────────────
-sa2 = gpd.read_file(SA2_PATH)
+sa2 = safe_read_gpkg(SA2_PATH)
 tt  = pd.read_parquet(TT_PARQUET)
 
 # Ensure the travel-time column name matches downstream expectations.
@@ -94,11 +94,16 @@ for col in ["access_30min", "access_45min"]:
     sa2[f"{col}_norm"] = (sa2[col] / max_val).round(4) if max_val > 0 else 0.0
 
 # ── 3e. Accessibility decile (within-Auckland quintile ranking) ───────────────
+# qcut with duplicates='drop' may collapse identical bin edges (lots of zero-
+# accessibility SA2s in outer Rodney / Franklin), so label count must match
+# the number of bins actually returned. Compute bins first and label after.
+_decile = pd.qcut(sa2["access_45min"], q=10, duplicates="drop")
+_n_bins = _decile.cat.categories.size
 sa2["access_45min_decile"] = pd.qcut(
     sa2["access_45min"],
     q=10,
-    labels=range(1, 11),
-    duplicates="drop"
+    labels=range(1, _n_bins + 1),
+    duplicates="drop",
 ).astype("Int64")
 
 # ── 3f. Summary statistics by NZDep decile ───────────────────────────────────

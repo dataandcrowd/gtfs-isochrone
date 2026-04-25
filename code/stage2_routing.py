@@ -21,6 +21,9 @@ import geopandas as gpd
 import pandas as pd
 import r5py
 
+sys.path.insert(0, str(Path(__file__).parent))
+from _io_utils import safe_read_gpkg  # noqa: E402
+
 DATA   = Path("data")
 OUTPUT = Path("outputs")
 
@@ -36,7 +39,7 @@ if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     )
 
 # ── 2a. Load prepared SA2 centroids ─────────────────────────────────────────
-sa2 = gpd.read_file(SA2_PATH)
+sa2 = safe_read_gpkg(SA2_PATH)
 sa2 = sa2.to_crs(epsg=4326)
 
 # r5py expects a GeoDataFrame with an 'id' column and Point geometry

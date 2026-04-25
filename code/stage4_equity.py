@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _io_utils import safe_to_gpkg  # noqa: E402
+from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
 SA2_PATH = OUTPUT / "sa2_accessibility.gpkg"
@@ -23,7 +23,7 @@ if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No accessibility file at {SA2_PATH}. Run stage3 first.")
 
 # ── 4a. Load accessibility layer ─────────────────────────────────────────────
-sa2 = gpd.read_file(SA2_PATH)
+sa2 = safe_read_gpkg(SA2_PATH)
 print(f"Loaded {len(sa2)} SA2 units")
 
 # ── 4b. Concentration Index ───────────────────────────────────────────────────
