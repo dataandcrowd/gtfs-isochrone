@@ -116,9 +116,9 @@ summary = (
 print(summary.to_string())
 
 # Flag high-accessibility SA2s (top quartile) as "viable alternative" candidates
-Q75 = sa2["access_30min"].quantile(0.75)
-sa2["has_viable_alt"] = sa2["access_30min"] >= Q75
-print(f"\nViable alternative threshold (Q75, 30 min): {Q75:,.0f} jobs")
+Q75 = sa2["access_45min"].quantile(0.75)
+sa2["has_viable_alt"] = sa2["access_45min"] >= Q75
+print(f"\nViable alternative threshold (Q75, 45 min): {Q75:,.0f} jobs")
 print(f"SA2s above threshold: {sa2['has_viable_alt'].sum()} / {len(sa2)}")
 
 # ── 3g. Save ──────────────────────────────────────────────────────────────────

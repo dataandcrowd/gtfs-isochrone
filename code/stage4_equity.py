@@ -352,49 +352,60 @@ for k, v in SCENARIO_SA2_SETS.items():
     print(f"  {k}: {len(v)} SA2s")
 
 # ── 4d. Burden classification function ───────────────────────────────────────
-# Viable alternative threshold: top quartile of 30-min job accessibility
-VIABLE_ALT_THRESHOLD = sa2["access_30min"].quantile(0.75)
+# Viable alternative threshold: top quartile of 45-min job accessibility
+VIABLE_ALT_THRESHOLD = sa2["access_45min"].quantile(0.75)
 
-def classify_burden(sa2_id, access_30min, charged_sa2_set, threshold):
+def classify_burden(sa2_id, access_45min, charged_sa2_set, threshold):
     """
     Returns one of three burden categories:
         'pays_with_alternative'    — in cordon, good PT access
-        'pays_without_alternative' — in cordon, poor PT access (trapped payer)
+        'pays_without_alternative' — in cordon, poor PT access
         'no_charge'                — outside cordon
     """
     if sa2_id in charged_sa2_set:
-        if access_30min >= threshold:
+        if access_45min >= threshold:
             return "pays_with_alternative"
         else:
             return "pays_without_alternative"
     return "no_charge"
 
 # ── 4e. Apply burden classification for all scenarios ────────────────────────
-ci_results = {}
+ci_results_charged = {}
+ci_results_no_alt = {}
 
 for scenario, charged_set in SCENARIO_SA2_SETS.items():
     col = f"burden_{scenario}"
     sa2[col] = sa2.apply(
         lambda row: classify_burden(
             row["SA22023_V1_00"],
-            row["access_30min"],
+            row["access_45min"],
             charged_set,
             VIABLE_ALT_THRESHOLD
         ),
         axis=1
     )
 
-    # CI for charged SA2s only
+    # (i) CI of 45-min access among charged SA2s only.
+    #     CI < 0 means deprived charged SA2s have lower access (regressive).
     charged_mask = sa2[col] != "no_charge"
     ci_charged = concentration_index(
-        sa2.loc[charged_mask, "access_30min"],
+        sa2.loc[charged_mask, "access_45min"],
         sa2.loc[charged_mask, "NZDep2023"]
     )
-    ci_results[scenario] = ci_charged
+    ci_results_charged[scenario] = ci_charged
+
+    # (ii) CI of the "pays without alternative" binary indicator across all SA2s.
+    #      CI > 0 means no-alternative SA2s are concentrated in deprived deciles
+    #      (regressive). This is on the OPPOSITE sign convention from CI on
+    #      accessibility, by construction.
+    no_alt_indicator = (sa2[col] == "pays_without_alternative").astype(int)
+    ci_no_alt = concentration_index(no_alt_indicator, sa2["NZDep2023"])
+    ci_results_no_alt[scenario] = ci_no_alt
 
     n_with    = (sa2[col] == "pays_with_alternative").sum()
     n_without = (sa2[col] == "pays_without_alternative").sum()
-    print(f"  Scenario {scenario}: {n_with} pays+alt, {n_without} trapped, CI={ci_charged}")
+    print(f"  {scenario}: {n_with:3d} pays+alt, {n_without:3d} no_alt, "
+          f"CI(access|charged)={ci_charged}, CI(no_alt|all)={ci_no_alt}")
 
 # ── 4f. Cross-tabulation: burden x NZDep decile for each scenario ────────────
 crosstabs = {}
@@ -414,11 +425,12 @@ crosstab_all = pd.concat(crosstabs.values(), ignore_index=True)
 
 # ── 4g. CI summary table ─────────────────────────────────────────────────────
 ci_summary = pd.DataFrame({
-    "scenario": list(ci_results.keys()),
-    "CI_charged_sa2s": list(ci_results.values()),
+    "scenario": list(ci_results_charged.keys()),
+    "CI_charged_sa2s_45min": list(ci_results_charged.values()),
+    "CI_no_alt_indicator": list(ci_results_no_alt.values()),
     "CI_all_30min": ci_30,
     "CI_all_45min": ci_45,
-    "viable_alt_threshold_jobs": VIABLE_ALT_THRESHOLD
+    "viable_alt_threshold_jobs": round(VIABLE_ALT_THRESHOLD, 0),
 })
 
 print("\nCI summary by scenario:")
