@@ -331,4 +331,5 @@ _drop_cols = [c for c in ["centroid_wgs84"] if c in sa2.columns]
 _layer = sa2.drop(columns=_drop_cols)
 safe_to_gpkg(_layer, OUT_GPKG)
 print(f"\nStage 1 complete. Output saved: {OUT_GPKG}")
-print(sa2[["SA22023_V1_00", "NZDep2023", "NZDep_Decile", "jobs_count", "lon", "lat"]].describe())
+print(sa2[["SA22023_V1_00", "NZDep2023", "NZDep_Decile", "jobs_count",
+           "lon", "lat", "pop_total"]].describe())
