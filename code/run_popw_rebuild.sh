@@ -1,90 +1,166 @@
 #!/usr/bin/env bash
-# Rebuild the accessibility + equity outputs using POPULATION-WEIGHTED SA2
-# centroids as r5py origins. Intended to be run on Hyesop's laptop where r5py,
-# Java, and ~8 GB JVM heap are available.
+# Population-weighted centroid rebuild pipeline
+# Backs up existing outputs, then re-runs stage1→stage2→stage3→stage4→stage4b
+# with SA1 population-weighted centroids.
 #
-# Usage (from the gtfs-isochrone repo root):
+# Usage:
+#   cd /path/to/gtfs-isochrone
 #   bash code/run_popw_rebuild.sh
 #
-# Inputs (all already in data/):
-#   - data/statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip
-#   - data/NZDep2023_SA1.xlsx
-#   - data/auckland.osm.pbf
-#   - data/at_gtfs_clean.zip
-#   - data/auckland_sa2.gpkg, data/employment_sa2.csv, data/nzdep2023.csv
-#
-# Outputs after the run:
-#   - outputs/sa2_prepared.gpkg               (with pw lon/lat)
-#   - outputs/travel_time_matrix.parquet      (new, from pw centroids)
-#   - outputs/sa2_accessibility.gpkg          (new access_30min / access_45min)
-#   - outputs/sa2_equity.gpkg                 (new burden + CI)
-#   - outputs/sa2_final.gpkg                  (joined for visualisation)
-#
-# The previous geometric-centroid run is backed up to outputs/_geomcentroid/
-# before anything is overwritten.
+# JVM memory (for r5py stage2): default 8G, override with R5PY_XMX env var
+#   R5PY_XMX=12G bash code/run_popw_rebuild.sh
 
 set -euo pipefail
 
-cd "$(dirname "$0")/.."   # run from repo root
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$PROJECT_ROOT"
 
-BACKUP_DIR="outputs/_geomcentroid"
-mkdir -p "$BACKUP_DIR"
+export R5PY_XMX="${R5PY_XMX:-8G}"
+export GTFS_SCRATCH="${GTFS_SCRATCH:-/tmp}"
 
-echo "==> Backing up geometric-centroid run to $BACKUP_DIR/ ..."
-for f in sa2_prepared.gpkg travel_time_matrix.parquet \
-         sa2_accessibility.gpkg sa2_accessibility_newjobs.gpkg \
-         sa2_equity.gpkg sa2_equity_v2.gpkg sa2_final.gpkg \
-         scenario_boundaries.gpkg scenario_boundaries_summary.csv \
-         burden_crosstab.csv equity_summary.csv; do
-  if [ -f "outputs/$f" ]; then
-    cp -p "outputs/$f" "$BACKUP_DIR/$f"
-    echo "    backed up outputs/$f"
-  fi
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="outputs/_geomcentroid_${TIMESTAMP}"
+
+echo "=============================================="
+echo "  Population-weighted centroid rebuild"
+echo "=============================================="
+echo "Project root: $PROJECT_ROOT"
+echo "R5PY_XMX:     $R5PY_XMX"
+echo ""
+
+# ── Pre-flight checks ──────────────────────────────────────────────────────
+CENSUS_ZIP="data/statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
+SA1_FILES=(
+    "$CENSUS_ZIP"
+    "data/sa1-2023-clipped-generalised.gpkg"
+    "data/statistical-area-1-2023-clipped-generalised.gpkg"
+    "data/sa1_2023.gpkg"
+)
+SA1_FOUND=false
+for f in "${SA1_FILES[@]}"; do
+    if [ -f "$f" ]; then
+        echo "SA1 geometry source: $f"
+        SA1_FOUND=true
+        break
+    fi
 done
 
-export R5PY_XMX="${R5PY_XMX:-8G}"   # bump if your laptop has the RAM
-echo "==> JVM heap set to R5PY_XMX=$R5PY_XMX"
+if [ "$SA1_FOUND" = false ]; then
+    echo "ERROR: SA1 geometry not found. Need one of:"
+    echo "  - $CENSUS_ZIP"
+    echo "  - data/sa1-2023-clipped-generalised.gpkg"
+    echo "Download from: https://datafinder.stats.govt.nz/"
+    exit 1
+fi
 
-echo "==> Stage 1 (population-weighted centroids)"
+if [ ! -f "data/NZDep2023_SA1_withHigherGeo.xlsx" ]; then
+    echo "ERROR: data/NZDep2023_SA1_withHigherGeo.xlsx not found."
+    exit 1
+fi
+
+# ── Backup existing outputs ────────────────────────────────────────────────
+if [ -d "outputs" ] && [ "$(ls outputs/*.gpkg 2>/dev/null | wc -l)" -gt 0 ]; then
+    echo ""
+    echo "Backing up existing outputs → $BACKUP_DIR"
+    mkdir -p "$BACKUP_DIR"
+    cp outputs/*.gpkg "$BACKUP_DIR/" 2>/dev/null || true
+    cp outputs/*.parquet "$BACKUP_DIR/" 2>/dev/null || true
+    cp outputs/*.csv "$BACKUP_DIR/" 2>/dev/null || true
+    echo "Backup complete."
+fi
+
+# ── Stage 1: Data prep (pop-weighted centroids) ───────────────────────────
+echo ""
+echo "── Stage 1: Data prep (pop-weighted centroids) ──"
 python3 code/stage1_data_prep.py
+echo "Stage 1 done."
 
-echo "==> Stage 2 (r5py travel-time matrix from pop-weighted origins)"
+# ── Stage 2: Routing (r5py travel time matrix) ───────────────────────────
+echo ""
+echo "── Stage 2: Routing (R5PY_XMX=${R5PY_XMX}) ──"
 python3 code/stage2_routing.py
+echo "Stage 2 done."
 
-echo "==> Stage 3 (accessibility recomputation)"
+# ── Stage 3: Accessibility surface ────────────────────────────────────────
+echo ""
+echo "── Stage 3: Accessibility ──"
 python3 code/stage3_accessibility.py
+echo "Stage 3 done."
 
-echo "==> Stage 4 (equity recomputation)"
+# ── Stage 4: Equity metrics ──────────────────────────────────────────────
+echo ""
+echo "── Stage 4: Equity ──"
 python3 code/stage4_equity.py
+echo "Stage 4 done."
 
-echo "==> Stage 4b (scenario boundaries with new burden classifications)"
+# ── Stage 4b: Scenario boundaries ────────────────────────────────────────
+echo ""
+echo "── Stage 4b: Scenario boundaries ──"
 python3 code/stage4b_scenario_boundaries.py
+echo "Stage 4b done."
 
-echo
-echo "==> Quick comparison: how many SA2s flipped the burden classification?"
-python3 - <<'PY'
+# ── Comparison: old vs new ───────────────────────────────────────────────
+echo ""
+echo "=============================================="
+echo "  Comparing old (geometric) vs new (pop-weighted)"
+echo "=============================================="
+
+python3 - "$BACKUP_DIR" <<'PYEOF'
+import sys
+from pathlib import Path
+
 import geopandas as gpd
-old = gpd.read_file("outputs/_geomcentroid/sa2_final.gpkg")
-new = gpd.read_file("outputs/sa2_final.gpkg")
-old = old[["SA22023_V1_00","access_45min","burden_1a","burden_1c","burden_2c",
-           "burden_3b","burden_3c","burden_3e"]].rename(
-    columns={c: c+"_old" for c in ["access_45min","burden_1a","burden_1c",
-                                    "burden_2c","burden_3b","burden_3c","burden_3e"]})
-old["SA22023_V1_00"] = old["SA22023_V1_00"].astype(str)
-new["SA22023_V1_00"] = new["SA22023_V1_00"].astype(str)
-j = new.merge(old, on="SA22023_V1_00", how="left")
-print()
-print("Access_45min change (new - old):")
-print((j["access_45min"] - j["access_45min_old"]).describe().round(0))
-print()
-for sc in ["1a","1c","2c","3b","3c","3e"]:
-    flipped = (j[f"burden_{sc}"] != j[f"burden_{sc}_old"]).sum()
-    old_no_alt = (j[f"burden_{sc}_old"] == "pays_without_alternative").sum()
-    new_no_alt = (j[f"burden_{sc}"] == "pays_without_alternative").sum()
-    print(f"  {sc}: flipped {flipped:>3} SA2s | no-alt {old_no_alt} -> {new_no_alt}")
-PY
+import pandas as pd
 
-echo
-echo "Done. Geometric-centroid backups in outputs/_geomcentroid/."
-echo "If the new numbers look right, send me back the contents of outputs/_geomcentroid/sa2_final.gpkg"
-echo "and outputs/sa2_final.gpkg and I'll regenerate the slides and tables."
+backup = Path(sys.argv[1])
+old_path = backup / "sa2_final.gpkg"
+new_path = Path("outputs/sa2_final.gpkg")
+
+if not old_path.exists():
+    old_path = backup / "sa2_equity.gpkg"
+if not new_path.exists():
+    new_path = Path("outputs/sa2_equity.gpkg")
+
+if not old_path.exists() or not new_path.exists():
+    print("Cannot compare: missing sa2_final.gpkg or sa2_equity.gpkg")
+    sys.exit(0)
+
+old = gpd.read_file(old_path)
+new = gpd.read_file(new_path)
+
+# Find common SA2 code column
+code_col = next(c for c in old.columns if "SA2" in c.upper() and "V1" in c)
+
+merged = old[[code_col]].merge(
+    old.set_index(code_col)[["access_45min"]].rename(columns={"access_45min": "old_a45"}),
+    left_on=code_col, right_index=True, how="left"
+).merge(
+    new.set_index(code_col)[["access_45min"]].rename(columns={"access_45min": "new_a45"}),
+    left_on=code_col, right_index=True, how="left"
+)
+
+merged["delta"] = merged["new_a45"] - merged["old_a45"]
+
+print("\n── access_45min change (new - old) ──")
+print(merged["delta"].describe().to_string())
+print(f"\n  SA2s with |change| > 1000 jobs: {(merged['delta'].abs() > 1000).sum()}")
+print(f"  SA2s with |change| > 5000 jobs: {(merged['delta'].abs() > 5000).sum()}")
+
+# Burden flip comparison per scenario
+scenario_cols = [c for c in old.columns if c.startswith("burden_")]
+if scenario_cols:
+    print("\n── Burden classification flips per scenario ──")
+    for col in scenario_cols:
+        if col in new.columns:
+            flips = (old[col].values != new[col].values).sum()
+            print(f"  {col}: {flips} SA2s flipped")
+else:
+    print("\nNo burden columns found for flip comparison.")
+
+PYEOF
+
+echo ""
+echo "=============================================="
+echo "  Rebuild complete!"
+echo "  Old outputs backed up to: $BACKUP_DIR"
+echo "=============================================="

@@ -177,140 +177,158 @@ else:
     print("WARNING: employment_sa2.csv not found. Using uniform job weights (1 per SA2).")
     sa2["jobs_count"] = 1
 
-# ── 1f. Compute SA2 centroids ────────────────────────────────────────────────
-# Two centroid definitions are computed and stored:
-#   - centroid_geom : polygon geometric centroid (legacy, retained for diagnostics)
-#   - lon / lat     : population-weighted SA2 centroid, used as the r5py origin
-#                     point downstream. Weighted by SA1 usually resident count
-#                     (Stats NZ 2023 Census). This is the more defensible origin
-#                     for an equity analysis, since 'Aucklanders complain about
-#                     poor PT' is a per-resident claim, not a per-polygon claim.
-# Provenance:
-#   - SA1 polygon geometry + SA1 population: Stats NZ '2023 Census totals by
-#     topic for individuals by SA1' GPKG (VAR_2_37 = total usually resident
-#     population count, 2023). See data/2023_census_totals_by_topic_for_individuals_by_sa1_part_2_lookup_table.csv
-#     for the column dictionary.
-#   - SA1 -> SA2 mapping: data/NZDep2023_SA1.xlsx, columns SA12023_code and
-#     SA22023_code.
-# Where total SA1 population in an SA2 is zero (empty census units, e.g. some
-# offshore islands), we fall back to the polygon geometric centroid so r5py
-# still gets a valid origin point.
+# ── 1f. Compute population-weighted SA2 centroids ────────────────────────────
+# Use SA1-level 2023 Census usually resident population (VAR_2_37) to weight
+# centroids within each SA2. SA1 geometry + population from the Stats NZ
+# "2023 Census totals by topic" GPKG; SA1→SA2 mapping from NZDep xlsx.
 
-sa2 = sa2.to_crs(epsg=4326)
-sa2["centroid_geom"] = sa2.geometry.centroid
+SA1_CENSUS_ZIP = DATA / "statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
+SA1_POP_XLSX = DATA / "NZDep2023_SA1_withHigherGeo.xlsx"
 
-SA1_GPKG = DATA / "statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
-SA1_LOOKUP = DATA / "NZDep2023_SA1.xlsx"
+# Also accept pre-extracted or standalone SA1 boundary files
+SA1_BOUNDARY_CANDIDATES = [
+    DATA / "sa1-2023-clipped-generalised.gpkg",
+    DATA / "statistical-area-1-2023-clipped-generalised.gpkg",
+    DATA / "sa1_2023.gpkg",
+]
+SA1_BOUNDARY = next((p for p in SA1_BOUNDARY_CANDIDATES if p.exists()), None)
 
-import zipfile, tempfile, shutil
+_has_sa1_geo = SA1_CENSUS_ZIP.exists() or SA1_BOUNDARY is not None
 
-def _load_sa1_layer() -> gpd.GeoDataFrame:
-    """Load SA1 polygons + 2023 usually resident population (VAR_2_37) from
-    the Stats NZ GPKG bundle. The bundle is a zip in data/; we extract to a
-    temporary directory rather than unpacking into the repo."""
-    if not SA1_GPKG.exists():
-        raise FileNotFoundError(
-            f"SA1 GPKG bundle not found at {SA1_GPKG}. Download from Stats NZ "
-            "DataFinder: '2023 Census totals by topic for individuals by SA1' "
-            "(GPKG format), and place the .zip in data/."
+if _has_sa1_geo and SA1_POP_XLSX.exists():
+    print("Computing population-weighted centroids from SA1 boundaries + census population...")
+
+    if SA1_CENSUS_ZIP.exists():
+        import zipfile as _zf
+        _zfile = _zf.ZipFile(SA1_CENSUS_ZIP)
+        _gpkg_name = next(f for f in _zfile.namelist() if f.endswith(".gpkg"))
+        _tmp_dir = tempfile.mkdtemp()
+        _zfile.extract(_gpkg_name, _tmp_dir)
+        _sa1_path = Path(_tmp_dir) / _gpkg_name
+        # Read only SA1 code, geometry, and VAR_2_37 (population) to save memory
+        sa1_geo = gpd.read_file(_sa1_path, columns=["SA12023_V1_00", "VAR_2_37"])
+        _zfile.close()
+        shutil.rmtree(_tmp_dir, ignore_errors=True)
+        sa1_geo = sa1_geo.rename(columns={"SA12023_V1_00": "SA12023_code", "VAR_2_37": "pop"})
+    else:
+        sa1_geo = gpd.read_file(SA1_BOUNDARY)
+        sa1_code_col = next(
+            (c for c in sa1_geo.columns if "SA1" in c.upper() and "2023" in c), None
         )
-    with tempfile.TemporaryDirectory() as td:
-        with zipfile.ZipFile(SA1_GPKG) as zf:
-            # find the *.gpkg member
-            gpkg_member = next(n for n in zf.namelist() if n.endswith(".gpkg"))
-            zf.extract(gpkg_member, td)
-            gpkg_path = Path(td) / gpkg_member
-            sa1 = gpd.read_file(
-                str(gpkg_path),
-                columns=["SA12023_V1_00", "VAR_2_37", "geometry"],
-            )
-    sa1 = sa1.rename(columns={"SA12023_V1_00": "SA1_code",
-                              "VAR_2_37":      "pop_2023"})
-    sa1["SA1_code"] = sa1["SA1_code"].astype(str)
-    sa1["pop_2023"] = pd.to_numeric(sa1["pop_2023"], errors="coerce").fillna(0)
-    return sa1
+        if sa1_code_col is None:
+            raise KeyError(f"Cannot find SA1 code column in {SA1_BOUNDARY}. Cols: {list(sa1_geo.columns)}")
+        sa1_geo = sa1_geo.rename(columns={sa1_code_col: "SA12023_code"})
+        sa1_geo["pop"] = None  # will be filled from xlsx below
 
-sa1 = _load_sa1_layer()
+    sa1_geo["SA12023_code"] = sa1_geo["SA12023_code"].astype(str)
 
-# SA1 -> SA2 mapping
-m = pd.read_excel(SA1_LOOKUP)
-m = m.rename(columns={"SA12023_code": "SA1_code",
-                      "SA22023_code": "SA22023_V1_00"})
-m["SA1_code"]      = m["SA1_code"].astype(str)
-m["SA22023_V1_00"] = m["SA22023_V1_00"].astype(str)
-sa1 = sa1.merge(m[["SA1_code", "SA22023_V1_00"]], on="SA1_code", how="left")
+    # Ensure NZTM for accurate centroid computation
+    if sa1_geo.crs is None or sa1_geo.crs.to_epsg() != 2193:
+        sa1_geo = sa1_geo.to_crs(epsg=2193)
+    sa1_geo["sa1_cx"] = sa1_geo.geometry.centroid.x
+    sa1_geo["sa1_cy"] = sa1_geo.geometry.centroid.y
 
-# Restrict to Auckland SA1s by membership in the Auckland SA2 set
-sa1_akl = sa1[sa1["SA22023_V1_00"].isin(sa2["SA22023_V1_00"])].copy()
-print(f"SA1 features in Auckland: {len(sa1_akl):,} "
-      f"(total SA1 pop {int(sa1_akl['pop_2023'].sum()):,})")
+    # Load SA1→SA2 mapping from NZDep xlsx
+    sa1_pop = pd.read_excel(SA1_POP_XLSX)
+    sa1_pop["SA12023_code"] = sa1_pop["SA12023_code"].astype(str)
+    sa1_pop["SA22023_code"] = sa1_pop["SA22023_code"].astype(str)
 
-# Compute SA1 centroids in projected metres so x/y averaging is correct,
-# then back-project the weighted mean to WGS84.
-sa1_akl_m = sa1_akl.to_crs(epsg=2193).copy()
-sa1_akl_m["cx_m"] = sa1_akl_m.geometry.centroid.x
-sa1_akl_m["cy_m"] = sa1_akl_m.geometry.centroid.y
+    # Merge geometry centroids with SA2 mapping
+    sa1_merged = sa1_geo[["SA12023_code", "sa1_cx", "sa1_cy", "pop"]].merge(
+        sa1_pop[["SA12023_code", "SA22023_code"]],
+        on="SA12023_code",
+        how="inner",
+    )
+    # If pop came from census GPKG (VAR_2_37), use it; otherwise fall back to xlsx
+    if sa1_merged["pop"].isna().all():
+        sa1_merged = sa1_merged.drop(columns=["pop"]).merge(
+            sa1_pop[["SA12023_code", "URPopnSA1_2023"]].rename(columns={"URPopnSA1_2023": "pop"}),
+            on="SA12023_code", how="left",
+        )
+    sa1_merged["pop"] = pd.to_numeric(sa1_merged["pop"], errors="coerce").fillna(0).clip(lower=0)
 
-# Population-weighted SA2 centroid (in NZTM2000 metres). Where total
-# population in an SA2 is zero, the groupby yields NaN; we resolve below.
-def _weighted_mean(g):
-    w = g["pop_2023"]
-    if w.sum() <= 0:
-        return pd.Series({"pwx_m": float("nan"), "pwy_m": float("nan"),
-                          "pop_total": 0.0})
-    return pd.Series({
-        "pwx_m": (w * g["cx_m"]).sum() / w.sum(),
-        "pwy_m": (w * g["cy_m"]).sum() / w.sum(),
-        "pop_total": float(w.sum()),
-    })
-pw = (sa1_akl_m.groupby("SA22023_V1_00", group_keys=False)
-              .apply(_weighted_mean)
-              .reset_index())
+    # Compute population-weighted centroid per SA2 (in NZTM)
+    def _popw_centroid(grp):
+        w = grp["pop"].values
+        total = w.sum()
+        if total == 0:
+            return pd.Series({"pw_cx": grp["sa1_cx"].mean(), "pw_cy": grp["sa1_cy"].mean()})
+        return pd.Series({
+            "pw_cx": (grp["sa1_cx"] * w).sum() / total,
+            "pw_cy": (grp["sa1_cy"] * w).sum() / total,
+        })
 
-# Back-project the metric pop-weighted point to WGS84 lon/lat.
-pw_gpd = gpd.GeoDataFrame(
-    pw,
-    geometry=gpd.points_from_xy(pw["pwx_m"], pw["pwy_m"]),
-    crs="EPSG:2193",
-).to_crs(4326)
-pw["pw_lon"] = pw_gpd.geometry.x
-pw["pw_lat"] = pw_gpd.geometry.y
+    pw_centroids = sa1_merged.groupby("SA22023_code", group_keys=False)[["sa1_cx", "sa1_cy", "pop"]].apply(_popw_centroid).reset_index()
 
-sa2 = sa2.merge(pw[["SA22023_V1_00", "pw_lon", "pw_lat", "pop_total"]],
-                on="SA22023_V1_00", how="left")
+    # Convert NZTM coords to WGS84
+    pw_points = gpd.GeoDataFrame(
+        pw_centroids,
+        geometry=gpd.points_from_xy(pw_centroids["pw_cx"], pw_centroids["pw_cy"]),
+        crs="EPSG:2193",
+    ).to_crs(epsg=4326)
+    pw_points["lon"] = pw_points.geometry.x
+    pw_points["lat"] = pw_points.geometry.y
 
-# Geometric centroid as fallback (for SA2s where pop = 0)
-fallback_mask = sa2["pw_lon"].isna() | sa2["pw_lat"].isna() | (sa2["pop_total"].fillna(0) <= 0)
-sa2.loc[fallback_mask, "pw_lon"] = sa2.loc[fallback_mask, "centroid_geom"].x
-sa2.loc[fallback_mask, "pw_lat"] = sa2.loc[fallback_mask, "centroid_geom"].y
-n_fb = int(fallback_mask.sum())
-if n_fb:
-    print(f"  {n_fb} SA2s had zero SA1 population; fell back to geometric centroid.")
+    # Join back to SA2 — match on SA2 code
+    sa2["SA22023_V1_00_str"] = sa2["SA22023_V1_00"].astype(str)
+    pw_lookup = pw_points.set_index("SA22023_code")[["lon", "lat"]]
 
-# Final origin coordinates for r5py
-sa2["lon"] = sa2["pw_lon"]
-sa2["lat"] = sa2["pw_lat"]
+    sa2 = sa2.to_crs(epsg=4326)
+    # Geometric centroid for fallback + diagnostic (compute in projected CRS)
+    _sa2_nztm = sa2.to_crs(epsg=2193)
+    _geom_pts = _sa2_nztm.geometry.centroid
+    _geom_pts_wgs = gpd.GeoSeries(_geom_pts, crs="EPSG:2193").to_crs(epsg=4326)
+    sa2["geom_lon"] = _geom_pts_wgs.x.values
+    sa2["geom_lat"] = _geom_pts_wgs.y.values
 
-# Diagnostic: distance between geometric and pop-weighted centroid
-_diag = gpd.GeoDataFrame(
-    sa2[["SA22023_V1_00"]].copy(),
-    geometry=sa2["centroid_geom"],
-    crs="EPSG:4326",
-).to_crs(2193)
-_diag["pw_x"], _diag["pw_y"] = (
-    gpd.GeoDataFrame(geometry=gpd.points_from_xy(sa2["lon"], sa2["lat"]),
-                     crs="EPSG:4326").to_crs(2193).geometry.x.values,
-    gpd.GeoDataFrame(geometry=gpd.points_from_xy(sa2["lon"], sa2["lat"]),
-                     crs="EPSG:4326").to_crs(2193).geometry.y.values,
-)
-_diag["dist_m"] = ((_diag.geometry.x - _diag["pw_x"])**2 +
-                   (_diag.geometry.y - _diag["pw_y"])**2) ** 0.5
-print("Centroid shift (m) between geometric and pop-weighted origins:")
-print(_diag["dist_m"].describe().round(1).to_string())
+    sa2 = sa2.merge(
+        pw_lookup, left_on="SA22023_V1_00_str", right_index=True, how="left"
+    )
+    # Fill missing pop-weighted centroids with geometric fallback
+    n_missing = sa2["lon"].isna().sum()
+    if n_missing > 0:
+        print(f"  {n_missing} SA2s have no SA1 pop data — using geometric centroid as fallback")
+        sa2["lon"] = sa2["lon"].fillna(sa2["geom_lon"])
+        sa2["lat"] = sa2["lat"].fillna(sa2["geom_lat"])
+
+    # Diagnostic: distance between geometric and pop-weighted centroids
+    pw_nztm = gpd.GeoDataFrame(
+        sa2[["SA22023_V1_00"]],
+        geometry=gpd.points_from_xy(sa2["lon"], sa2["lat"]),
+        crs="EPSG:4326",
+    ).to_crs(epsg=2193)
+    geom_nztm = gpd.GeoDataFrame(
+        sa2[["SA22023_V1_00"]],
+        geometry=gpd.points_from_xy(sa2["geom_lon"], sa2["geom_lat"]),
+        crs="EPSG:4326",
+    ).to_crs(epsg=2193)
+    dists = pw_nztm.geometry.distance(geom_nztm.geometry)
+    print(f"  Pop-weighted vs geometric centroid distance (m):")
+    print(f"    mean={dists.mean():.0f}, median={dists.median():.0f}, "
+          f"max={dists.max():.0f}, p95={dists.quantile(0.95):.0f}")
+
+    sa2 = sa2.drop(columns=["SA22023_V1_00_str", "geom_lon", "geom_lat"])
+    print(f"  Population-weighted centroids assigned to {(~sa2['lon'].isna()).sum()} SA2s")
+
+else:
+    # Fallback: geometric centroid
+    if not _has_sa1_geo:
+        print("WARNING: SA1 geometry not found. Using geometric centroids.")
+        print("  For population-weighted centroids, place one of:")
+        print(f"    - {SA1_CENSUS_ZIP.name}  (Stats NZ 2023 Census by SA1, with geometry)")
+        print(f"    - {SA1_BOUNDARY_CANDIDATES[0].name}  (SA1 boundaries only)")
+        print("  Download from: https://datafinder.stats.govt.nz/")
+    elif not SA1_POP_XLSX.exists():
+        print(f"WARNING: {SA1_POP_XLSX.name} not found. Using geometric centroids.")
+
+    sa2 = sa2.to_crs(epsg=4326)
+    sa2["lon"] = sa2.geometry.centroid.x
+    sa2["lat"] = sa2.geometry.centroid.y
 
 # ── 1g. Save prepared SA2 layer ──────────────────────────────────────────────
 OUT_GPKG = OUTPUT / "sa2_prepared.gpkg"
-_layer = sa2.drop(columns=["centroid_geom"])
+_drop_cols = [c for c in ["centroid_wgs84"] if c in sa2.columns]
+_layer = sa2.drop(columns=_drop_cols)
 safe_to_gpkg(_layer, OUT_GPKG)
 print(f"\nStage 1 complete. Output saved: {OUT_GPKG}")
 print(sa2[["SA22023_V1_00", "NZDep2023", "NZDep_Decile", "jobs_count",
