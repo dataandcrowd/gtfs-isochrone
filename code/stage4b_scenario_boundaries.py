@@ -124,7 +124,7 @@ for ax, sc in zip(axes.flatten(), SCENARIOS):
             linewidth=0.2,
             alpha=0.55,
         )
-        # Trapped payers highlighted with warmer hatch
+        # SA2s without a viable alternative highlighted with a warmer fill
         if not trapped.empty:
             trapped.plot(
                 ax=ax,
@@ -152,7 +152,7 @@ for ax, sc in zip(axes.flatten(), SCENARIOS):
 
     ax.set_title(
         f"{SCENARIO_TITLES[sc]}\n"
-        f"{n_sa2} SA2s charged, {n_trap} trapped payers",
+        f"{n_sa2} SA2s charged, {n_trap} no alternative",
         fontsize=10,
         loc="center",
     )
@@ -169,7 +169,7 @@ legend_handles = [
     Patch(facecolor=MWAY_FILL, edgecolor=MWAY_EDGE, alpha=0.55,
           label="Charged SA2 (motorway corridor scenario)"),
     Patch(facecolor=TRAPPED_FILL, edgecolor=BASE_EDGE, alpha=0.78,
-          label="Trapped payer (no 30-min PT alternative)"),
+          label="Pays without alternative (no 30-min PT alternative)"),
     Line2D([0], [0], color=CORDON_EDGE, linewidth=1.6,
            label="Scenario footprint (dissolved boundary)"),
 ]
@@ -182,7 +182,7 @@ fig.legend(
     bbox_to_anchor=(0.5, -0.02),
 )
 fig.suptitle(
-    "Auckland TOUC scenario footprints and trapped-payer exposure",
+    "Auckland TOUC scenario footprints and no-alternative exposure",
     fontsize=13,
     fontweight="bold",
 )

@@ -6,7 +6,7 @@ once stage4 has real SCENARIO_SA2_SETS):
 
   fig1_accessibility_choropleth.png
       2x2 panel: (a) 45-min job accessibility, (b) NZDep 2023 decile,
-      (c) bivariate accessibility-deprivation, (d) trapped-payer risk map
+      (c) bivariate accessibility-deprivation, (d) no-alternative risk map
       (low access AND high deprivation).
 
   fig2_accessibility_by_deprivation.png
@@ -51,6 +51,12 @@ CI_CSV        = OUTPUT / "equity_summary.csv"
 CROSSTAB_CSV  = OUTPUT / "burden_crosstab.csv"
 
 sa2        = safe_read_gpkg(SA2_PATH)
+# The SA2 layer is stored in EPSG:2193 (NZTM2000, metres). MAP_XLIM and
+# MAP_YLIM below, plus the LANDMARKS dictionary, are in WGS84 lon/lat,
+# so we project to EPSG:4326 once at load time. Without this projection
+# the polygons are drawn at NZTM coordinates (~10^6) but the axis viewport
+# is set to lon/lat (~174), which renders the panels effectively blank.
+sa2 = sa2.to_crs(epsg=4326)
 ci_summary = pd.read_csv(CI_CSV)
 crosstab   = pd.read_csv(CROSSTAB_CSV)
 
@@ -134,7 +140,7 @@ def set_metro_extent(ax):
 
 
 # ╭──────────────────────────────────────────────────────────────────────────╮
-# │ Figure 1: 2x2 choropleth (access, NZDep, bivariate, trapped-payer risk)  │
+# │ Figure 1: 2x2 choropleth (access, NZDep, bivariate, no-alternative risk) │
 # ╰──────────────────────────────────────────────────────────────────────────╯
 fig = plt.figure(figsize=(14, 13))
 gs = fig.add_gridspec(2, 2, wspace=0.05, hspace=0.12)
@@ -223,7 +229,7 @@ legend_ax.annotate("More\naccessible →", xy=(-0.45, 0.1), xycoords="axes fract
 for s in legend_ax.spines.values():
     s.set_visible(False)
 
-# (d) Trapped-payer risk: below-median access AND NZDep decile 8-10
+# (d) No-alternative risk: below-median access AND NZDep decile 8-10
 median_acc = sa2["access_45min"].median()
 sa2["trapped_risk"] = np.where(
     (sa2["access_45min"] < median_acc) & (sa2["NZDep_Decile"] >= 8),
@@ -260,7 +266,7 @@ ax4.legend(
 )
 n_high = (sa2["trapped_risk"] == "High risk (low access + NZDep 8-10)").sum()
 ax4.set_title(
-    f"(d) Trapped-payer risk map\n{n_high} SA2s flagged (low access AND NZDep 8-10)",
+    f"(d) No-alternative risk\n{n_high} SA2s with low access AND NZDep 8-10",
     fontsize=11, fontweight="bold", loc="left", pad=6
 )
 add_landmarks(ax4)
