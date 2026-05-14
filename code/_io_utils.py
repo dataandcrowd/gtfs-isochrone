@@ -25,7 +25,10 @@ from pathlib import Path
 import geopandas as gpd
 
 
-SCRATCH_ROOT = Path(os.environ.get("GTFS_SCRATCH", "/sessions/ecstatic-wizardly-fermi"))
+_default_scratch = "/sessions/ecstatic-wizardly-fermi"
+SCRATCH_ROOT = Path(os.environ.get("GTFS_SCRATCH", _default_scratch))
+if not SCRATCH_ROOT.exists():
+    SCRATCH_ROOT = Path(tempfile.gettempdir())
 
 # Default projected CRS for all final outputs of the Auckland pipeline.
 # EPSG:2193 is NZTM2000 (New Zealand Transverse Mercator), the official
