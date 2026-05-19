@@ -1,5 +1,5 @@
 """
-Stage 4c: Origin-destination commute classification
+Stage 4c: Origin-destination commute classification and OD-based equity
 - Loads the 2023 Census journey-to-work table (SA2 of usual residence x
   SA2 of workplace, with the main-means-of-travel-to-work breakdown).
 - Reconstructs each TOUC scenario's charged SA2 set from the burden_* columns
@@ -14,15 +14,19 @@ Stage 4c: Origin-destination commute classification
         the dissolved motorway-corridor footprint. This approximates "the
         peak-hour route crosses a priced motorway segment"; the exact test
         needs car route geometries, which the pipeline does not produce.
-- Burden is then assigned per OD pair and aggregated as a count of car
-  commuters (people), so no arbitrary per-SA2 share threshold is needed:
+- A "viable public-transit alternative" is decided per OD pair, not by a
+  residence-level proxy: the residence->workplace transit travel time is read
+  from the stage-2 travel-time matrix. A charged commuter is a "trapped payer"
+  when that trip has no transit option within VIABLE_PT_MINUTES.
+- Burden is assigned per OD pair and aggregated as a count of car commuters:
     no_charge                -- the OD pair does not cross the priced corridor
-    pays_with_alternative    -- charged, residence SA2 has 45-min job access
-                                at or above the Q75 viable-alternative bar
-    pays_without_alternative -- charged, residence SA2 below that bar
+    pays_with_alternative    -- charged, the trip is transit-feasible
+    pays_without_alternative -- charged, the trip has no viable transit option
 - Outputs:
-    outputs/od_pairs_classified.parquet  -- one row per OD pair, charged flags
+    outputs/od_pairs_classified.parquet  -- one row per OD pair
     outputs/od_charged_by_scenario.csv   -- one row per residence SA2 x scenario
+    outputs/od_equity_summary.csv        -- per-scenario charge / trapped / CI
+    outputs/od_burden_crosstab.csv       -- car commuters by NZDep decile
     outputs/od_classification.gpkg       -- SA2 polygons + per-scenario columns
 """
 
@@ -42,16 +46,17 @@ OUTPUT = Path("outputs")
 
 COMMUTE_CSV = DATA / "2023-census-main-means-of-travel-to-work-by-statistical-area.csv"
 SA2_EQUITY  = OUTPUT / "sa2_equity.gpkg"
+TT_PARQUET  = OUTPUT / "travel_time_matrix.parquet"
 
-if not COMMUTE_CSV.exists():
-    raise FileNotFoundError(
-        f"No commute OD table at {COMMUTE_CSV}.\n"
-        "Download '2023 Census main means of travel to work by Statistical "
-        "Area 2' (table 121988) from https://datafinder.stats.govt.nz/ and "
-        "save the CSV there."
-    )
-if not (SA2_EQUITY.exists() and SA2_EQUITY.stat().st_size > 0):
-    raise FileNotFoundError(f"No equity layer at {SA2_EQUITY}. Run stage4 first.")
+for _p, _hint in [
+    (COMMUTE_CSV, "Download '2023 Census main means of travel to work by "
+                  "Statistical Area 2' (table 121988) from "
+                  "https://datafinder.stats.govt.nz/."),
+    (SA2_EQUITY,  "Run stage4_equity.py first."),
+    (TT_PARQUET,  "Run stage2_routing.py first."),
+]:
+    if not (_p.exists() and _p.stat().st_size > 0):
+        raise FileNotFoundError(f"Missing input {_p}. {_hint}")
 
 SCENARIOS          = ["1a", "1c", "2c", "3b", "3c", "3e"]
 CBD_SCENARIOS      = {"1a", "1c", "2c"}
@@ -75,6 +80,11 @@ TOTAL_COL = "2023_Total_stated"
 # Stats NZ confidentiality code: -999 means the count is suppressed, not zero.
 SUPPRESSED = -999
 
+# A commute has a "viable PT alternative" when it can be made by transit in at
+# most this many minutes (peak 07:00-09:00 median, from the stage-2 matrix).
+# Trips unreachable within the matrix's 60-minute ceiling never qualify.
+VIABLE_PT_MINUTES = 45
+
 
 def concentration_index(values, deprivation):
     """CI = (2 / mu) * Cov(values, fractional NZDep rank). Matches stage 4."""
@@ -90,7 +100,7 @@ def concentration_index(values, deprivation):
     return round(2 * cov / mu, 4)
 
 
-# ── 4c.a  Load the equity layer and rebuild scenario footprints ──────────────
+# -- 4c.a  Load the equity layer and rebuild scenario footprints --------------
 sa2 = safe_read_gpkg(SA2_EQUITY)
 sa2["SA22023_V1_00"] = sa2["SA22023_V1_00"].astype(str)
 sa2 = sa2.to_crs(epsg=2193)
@@ -104,7 +114,6 @@ for s in SCENARIOS:
     if col not in sa2.columns:
         raise KeyError(f"{SA2_EQUITY.name} has no '{col}' column. Re-run stage4.")
     scenario_sets[s] = set(sa2.loc[sa2[col] != "no_charge", "SA22023_V1_00"])
-    print(f"  scenario {s}: {len(scenario_sets[s])} SA2s in footprint")
 
 # Dissolved corridor footprint for the motorway scenarios (NZTM, metres).
 corridor_poly = {}
@@ -119,15 +128,17 @@ _cent = gpd.GeoSeries(
 cx = dict(zip(sa2["SA22023_V1_00"], _cent.x))
 cy = dict(zip(sa2["SA22023_V1_00"], _cent.y))
 
-# Viable-alternative threshold: Q75 of 45-min job accessibility (as in stage 4).
-VIABLE_ALT_THRESHOLD = sa2["access_45min"].quantile(0.75)
-residence_has_alt = dict(
-    zip(sa2["SA22023_V1_00"], sa2["access_45min"] >= VIABLE_ALT_THRESHOLD)
-)
-print(f"Viable-alternative threshold (Q75 of 45-min access): "
-      f"{VIABLE_ALT_THRESHOLD:,.0f} jobs")
+# -- 4c.b  Load the stage-2 transit travel-time matrix ------------------------
+tt = pd.read_parquet(TT_PARQUET)
+if "travel_time_p50" not in tt.columns and "travel_time" in tt.columns:
+    tt = tt.rename(columns={"travel_time": "travel_time_p50"})
+tt["from_id"] = tt["from_id"].astype(str)
+tt["to_id"]   = tt["to_id"].astype(str)
+tt_lookup = tt.set_index(["from_id", "to_id"])["travel_time_p50"]
+print(f"Travel-time matrix: {len(tt):,} OD pairs, "
+      f"{tt['travel_time_p50'].notna().sum():,} transit-reachable within 60 min")
 
-# ── 4c.b  Load the commute OD table ──────────────────────────────────────────
+# -- 4c.c  Load the commute OD table ------------------------------------------
 od = pd.read_csv(
     COMMUTE_CSV,
     encoding="utf-8-sig",
@@ -150,7 +161,21 @@ od = od[od[ORIGIN_COL].isin(valid_codes) & od[DEST_COL].isin(valid_codes)].copy(
 print(f"Intra-Auckland OD pairs: {len(od):,} (dropped {n_before - len(od):,})")
 print(f"Auckland car commuters (intra-region): {od['car_commuters'].sum():,.0f}")
 
-# ── 4c.c  Classify each OD pair as charged / not, per scenario ───────────────
+# -- 4c.d  Per-OD-pair transit feasibility ------------------------------------
+od["transit_time"] = pd.MultiIndex.from_arrays(
+    [od[ORIGIN_COL], od[DEST_COL]]
+).map(tt_lookup)
+od["has_pt_alt"] = od["transit_time"].notna() & (
+    od["transit_time"] <= VIABLE_PT_MINUTES
+)
+print(f"\nViable-PT-alternative threshold: {VIABLE_PT_MINUTES} min transit.")
+for thr in (30, 45, 60):
+    feasible = od.loc[od["transit_time"].notna() & (od["transit_time"] <= thr),
+                      "car_commuters"].sum()
+    print(f"  car commuters with a transit option <= {thr} min: "
+          f"{100 * feasible / max(od['car_commuters'].sum(), 1):.1f}%")
+
+# -- 4c.e  Classify each OD pair, then assign burden --------------------------
 # CBD: workplace inside the cordon, residence outside it.
 for s in CBD_SCENARIOS:
     cset = scenario_sets[s]
@@ -167,25 +192,22 @@ desire_lines = gpd.GeoSeries(
 for s in MOTORWAY_SCENARIOS:
     od[f"charged_{s}"] = desire_lines.intersects(corridor_poly[s]).to_numpy()
 
-# ── 4c.d  Per-OD-pair burden class ───────────────────────────────────────────
-# Charged pairs split by whether the residence SA2 clears the viable-PT bar.
-_res_alt = od[ORIGIN_COL].map(residence_has_alt).fillna(False).to_numpy()
+# Burden: charged trips split by whether the trip itself is transit-feasible.
+_has_alt = od["has_pt_alt"].to_numpy()
 for s in SCENARIOS:
     charged = od[f"charged_{s}"].to_numpy()
     od[f"burden_{s}"] = np.select(
-        [~charged, charged & _res_alt, charged & ~_res_alt],
+        [~charged, charged & _has_alt, charged & ~_has_alt],
         BURDEN_CLASSES,
         default="no_charge",
     )
 
-# ── 4c.e  Aggregate car commuters to the residence SA2 ───────────────────────
+# -- 4c.f  Aggregate car commuters to the residence SA2 -----------------------
 car_out = od.groupby(ORIGIN_COL)["car_commuters"].sum()
 sa2["car_commuters_out"] = sa2["SA22023_V1_00"].map(car_out).fillna(0)
 
-region_summary = []
-ci_charged = {}
+equity_rows, crosstab_rows = [], []
 for s in SCENARIOS:
-    # Car commuters per residence SA2 x burden class.
     piv = (
         od.pivot_table(index=ORIGIN_COL, columns=f"burden_{s}",
                        values="car_commuters", aggfunc="sum", fill_value=0)
@@ -196,59 +218,86 @@ for s in SCENARIOS:
 
     sa2[f"od_charged_commuters_{s}"] = (payer + trapped).round().astype(int)
     sa2[f"od_trapped_commuters_{s}"] = trapped.round().astype(int)
-    share = (payer + trapped) / sa2["car_commuters_out"]
-    sa2[f"od_charged_share_{s}"]     = share.fillna(0).round(4)
+    sa2[f"od_charged_share_{s}"] = (
+        ((payer + trapped) / sa2["car_commuters_out"]).fillna(0).round(4)
+    )
 
     # Per-SA2 label: the burden class carrying the most of the SA2's car
-    # commuters. Ties favour the heavier class; SA2s with no car outflow are
-    # 'no_charge'. This is threshold-free -- it reads off the OD flows directly.
+    # commuters. Threshold-free; SA2s with no car outflow are 'no_charge'.
     uncharged = sa2["car_commuters_out"] - payer - trapped
-    stacked = np.column_stack([trapped.to_numpy(),
-                               payer.to_numpy(),
+    stacked = np.column_stack([trapped.to_numpy(), payer.to_numpy(),
                                uncharged.to_numpy()])
     label_order = ["pays_without_alternative", "pays_with_alternative", "no_charge"]
     sa2[f"od_burden_{s}"] = [label_order[i] for i in stacked.argmax(axis=1)]
     sa2.loc[sa2["car_commuters_out"] == 0, f"od_burden_{s}"] = "no_charge"
 
-    charged_mask = sa2[f"od_burden_{s}"] != "no_charge"
-    ci_charged[s] = concentration_index(
-        sa2.loc[charged_mask, "access_45min"],
-        sa2.loc[charged_mask, "NZDep2023"],
+    # Burden x NZDep decile crosstab (car commuters).
+    by_dec = sa2.groupby("NZDep_Decile").agg(
+        charged_commuters=(f"od_charged_commuters_{s}", "sum"),
+        trapped_commuters=(f"od_trapped_commuters_{s}", "sum"),
     )
-    region_summary.append({
+    for dec, row in by_dec.iterrows():
+        crosstab_rows.append({
+            "scenario": s, "NZDep_Decile": int(dec),
+            "charged_commuters": int(row["charged_commuters"]),
+            "trapped_commuters": int(row["trapped_commuters"]),
+        })
+
+    charged_tot = int(payer.sum() + trapped.sum())
+    trapped_tot = int(trapped.sum())
+    deprived_trapped = int(
+        sa2.loc[sa2["NZDep_Decile"].isin([8, 9, 10]),
+                f"od_trapped_commuters_{s}"].sum()
+    )
+    equity_rows.append({
         "scenario": s,
         "car_commuters_total": int(car_out.sum()),
-        "charged_commuters": int(piv["pays_with_alternative"].sum()
-                                 + piv["pays_without_alternative"].sum()),
-        "trapped_commuters": int(piv["pays_without_alternative"].sum()),
-        "charged_pct": round(100 * (piv["pays_with_alternative"].sum()
-                              + piv["pays_without_alternative"].sum())
-                             / max(car_out.sum(), 1), 1),
-        "n_sa2_charged_od": int(charged_mask.sum()),
-        "n_sa2_charged_stage4": int((sa2[f"burden_{s}"] != "no_charge").sum()),
-        "ci_charged_45min": ci_charged[s],
+        "charged_commuters": charged_tot,
+        "charged_pct": round(100 * charged_tot / max(car_out.sum(), 1), 1),
+        "with_alternative_commuters": charged_tot - trapped_tot,
+        "trapped_commuters": trapped_tot,
+        "trapped_pct_of_charged": round(100 * trapped_tot / max(charged_tot, 1), 1),
+        "trapped_deprived_share": round(
+            100 * deprived_trapped / max(trapped_tot, 1), 1),
+        "CI_charged": concentration_index(
+            sa2[f"od_charged_commuters_{s}"], sa2["NZDep2023"]),
+        "CI_trapped": concentration_index(
+            sa2[f"od_trapped_commuters_{s}"], sa2["NZDep2023"]),
     })
 
-# ── 4c.f  Report ─────────────────────────────────────────────────────────────
-summary_df = pd.DataFrame(region_summary)
-print("\nOD-based charge exposure by scenario:")
-print(summary_df.to_string(index=False))
-print("\n  charged_commuters    = car commuters whose OD pair crosses the "
-      "priced corridor")
-print("  trapped_commuters    = charged car commuters whose residence SA2 is "
-      "below the viable-PT bar")
-print("  n_sa2_charged_od     = SA2s whose dominant burden class is a charged "
-      "class (vs n_sa2_charged_stage4, the stage-4 residence-membership count)")
+equity_df = pd.DataFrame(equity_rows)
+crosstab_df = pd.DataFrame(crosstab_rows)
 
-# ── 4c.g  Write outputs ──────────────────────────────────────────────────────
+# -- 4c.g  Report — answers to the two scenario research questions ------------
+print("\n" + "=" * 78)
+print("Q2  Who is charged, and do they have a viable PT alternative?")
+print("=" * 78)
+print(equity_df[["scenario", "charged_commuters", "charged_pct",
+                 "with_alternative_commuters", "trapped_commuters",
+                 "trapped_pct_of_charged"]].to_string(index=False))
+
+print("\n" + "=" * 78)
+print("Q3  Which scenario concentrates the trapped-payer burden on "
+      "deprived areas?")
+print("=" * 78)
+print(equity_df[["scenario", "trapped_commuters", "trapped_deprived_share",
+                 "CI_trapped"]].to_string(index=False))
+print("\n  trapped_deprived_share = % of trapped payers living in NZDep "
+      "deciles 8-10")
+print("  CI_trapped > 0 => trapped-payer burden concentrated in MORE deprived "
+      "SA2s (regressive)")
+_worst = equity_df.loc[equity_df["CI_trapped"].idxmax()]
+print(f"  most regressive: scenario {_worst['scenario']} "
+      f"(CI_trapped = {_worst['CI_trapped']})")
+
+# -- 4c.h  Write outputs ------------------------------------------------------
 od_out = od.rename(columns={ORIGIN_COL: "residence_sa2", DEST_COL: "workplace_sa2"})
 od_cols = (
-    ["residence_sa2", "workplace_sa2", "car_commuters", TOTAL_COL]
+    ["residence_sa2", "workplace_sa2", "car_commuters", TOTAL_COL,
+     "transit_time", "has_pt_alt"]
     + [f"charged_{s}" for s in SCENARIOS]
 )
-od_pairs_path = OUTPUT / "od_pairs_classified.parquet"
-od_out[od_cols].to_parquet(od_pairs_path, index=False)
-print(f"\n  {od_pairs_path.name}  ({len(od_out):,} OD pairs)")
+od_out[od_cols].to_parquet(OUTPUT / "od_pairs_classified.parquet", index=False)
 
 long_rows = []
 for s in SCENARIOS:
@@ -262,13 +311,15 @@ for s in SCENARIOS:
         "od_charged_share": sa2[f"od_charged_share_{s}"],
         "od_burden": sa2[f"od_burden_{s}"],
     }))
-od_csv_path = OUTPUT / "od_charged_by_scenario.csv"
-pd.concat(long_rows, ignore_index=True).to_csv(od_csv_path, index=False)
-summary_df.to_csv(OUTPUT / "od_classification_summary.csv", index=False)
-print(f"  {od_csv_path.name}")
-print(f"  od_classification_summary.csv")
-
+pd.concat(long_rows, ignore_index=True).to_csv(
+    OUTPUT / "od_charged_by_scenario.csv", index=False)
+equity_df.to_csv(OUTPUT / "od_equity_summary.csv", index=False)
+crosstab_df.to_csv(OUTPUT / "od_burden_crosstab.csv", index=False)
 od_gpkg_path = safe_to_gpkg(sa2, OUTPUT / "od_classification.gpkg")
-print(f"  {od_gpkg_path.name}")
 
+print("\nOutputs written:")
+for name in ("od_pairs_classified.parquet", "od_charged_by_scenario.csv",
+             "od_equity_summary.csv", "od_burden_crosstab.csv"):
+    print(f"  {name}")
+print(f"  {od_gpkg_path.name}")
 print("\nStage 4c complete.")
