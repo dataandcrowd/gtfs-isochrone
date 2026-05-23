@@ -22,21 +22,31 @@ Stage 4c: Origin-destination commute classification and OD-based equity
     no_charge                -- the OD pair does not cross the priced corridor
     pays_with_alternative    -- charged, the trip is transit-feasible
     pays_without_alternative -- charged, the trip has no viable transit option
+- Spatial autocorrelation diagnostics:
+    Global Moran's I (queen contiguity) on access_45min and trapped commuters
+    per scenario.
+    Local Moran's I (LISA) identifies HH/HL/LH/LL clusters at p < 0.05.
 - Outputs:
     outputs/od_pairs_classified.parquet  -- one row per OD pair
     outputs/od_charged_by_scenario.csv   -- one row per residence SA2 x scenario
     outputs/od_equity_summary.csv        -- per-scenario charge / trapped / CI
     outputs/od_burden_crosstab.csv       -- car commuters by NZDep decile
+    outputs/od_morans_i.csv             -- global Moran's I results
+    outputs/od_lisa_summary.csv         -- LISA cluster counts
     outputs/od_classification.gpkg       -- SA2 polygons + per-scenario columns
 """
 
 import sys
 from pathlib import Path
 
+from functools import reduce
+
 import geopandas as gpd
 import numpy as np
 import pandas as pd
 import shapely
+from esda.moran import Moran, Moran_Local
+from libpysal.weights import Queen
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
@@ -119,7 +129,7 @@ for s in SCENARIOS:
 corridor_poly = {}
 for s in MOTORWAY_SCENARIOS:
     charged = sa2[sa2["SA22023_V1_00"].isin(scenario_sets[s])]
-    corridor_poly[s] = charged.dissolve().geometry.iloc[0]
+    corridor_poly[s] = reduce(lambda a, b: a.union(b), charged.geometry)
 
 # SA2 centroid lookup (population-weighted lon/lat from stage 1), in NZTM.
 _cent = gpd.GeoSeries(
@@ -290,7 +300,76 @@ _worst = equity_df.loc[equity_df["CI_trapped"].idxmax()]
 print(f"  most regressive: scenario {_worst['scenario']} "
       f"(CI_trapped = {_worst['CI_trapped']})")
 
-# -- 4c.h  Write outputs ------------------------------------------------------
+# -- 4c.h  Global Moran's I ---------------------------------------------------
+w = Queen.from_dataframe(sa2, use_index=False)
+w.transform = "R"
+print(f"\nQueen contiguity weights: {w.n} SA2s, {w.n_components} component(s), "
+      f"{w.islands} island(s)")
+
+morans_rows = []
+
+mi_access = Moran(sa2["access_45min"].fillna(0).to_numpy(), w)
+morans_rows.append({
+    "variable": "access_45min", "scenario": "-",
+    "morans_I": round(mi_access.I, 4), "p_value": round(mi_access.p_sim, 4),
+})
+print(f"\nGlobal Moran's I  access_45min: {mi_access.I:.4f}  (p={mi_access.p_sim:.4f})")
+
+print(f"\n{'scenario':>10}  {'Moran I':>8}  {'p':>6}")
+for s in SCENARIOS:
+    col = f"od_trapped_commuters_{s}"
+    mi = Moran(sa2[col].fillna(0).to_numpy(), w)
+    morans_rows.append({
+        "variable": "od_trapped_commuters", "scenario": s,
+        "morans_I": round(mi.I, 4), "p_value": round(mi.p_sim, 4),
+    })
+    print(f"{s:>10}  {mi.I:>8.4f}  {mi.p_sim:>6.4f}")
+
+morans_df = pd.DataFrame(morans_rows)
+
+# -- 4c.i  Local Moran's I (LISA) --------------------------------------------
+lisa_counts = {}
+
+lm_access = Moran_Local(sa2["access_45min"].fillna(0).to_numpy(), w, seed=42)
+sig = lm_access.p_sim < 0.05
+labels = np.full(len(sa2), "ns", dtype=object)
+labels[(lm_access.q == 1) & sig] = "HH"
+labels[(lm_access.q == 2) & sig] = "LH"
+labels[(lm_access.q == 3) & sig] = "LL"
+labels[(lm_access.q == 4) & sig] = "HL"
+sa2["lisa_access45"] = labels
+lisa_counts["access_45min"] = pd.Series(labels).value_counts().to_dict()
+
+for s in SCENARIOS:
+    col = f"od_trapped_commuters_{s}"
+    lm = Moran_Local(sa2[col].fillna(0).to_numpy(), w, seed=42)
+    sig = lm.p_sim < 0.05
+    labels = np.full(len(sa2), "ns", dtype=object)
+    labels[(lm.q == 1) & sig] = "HH"
+    labels[(lm.q == 2) & sig] = "LH"
+    labels[(lm.q == 3) & sig] = "LL"
+    labels[(lm.q == 4) & sig] = "HL"
+    sa2[f"lisa_trapped_{s}"] = labels
+    lisa_counts[s] = pd.Series(labels).value_counts().to_dict()
+
+lisa_df = pd.DataFrame(lisa_counts).T.reindex(columns=["HH", "HL", "LH", "LL", "ns"]).fillna(0).astype(int)
+lisa_df.index.name = "variable_or_scenario"
+
+print("\n" + "=" * 78)
+print("LISA cluster counts (p < 0.05)")
+print("=" * 78)
+print(lisa_df.to_string())
+
+for s in SCENARIOS:
+    hh_sa2 = sa2[sa2[f"lisa_trapped_{s}"] == "HH"].nlargest(
+        8, f"od_trapped_commuters_{s}"
+    )
+    if len(hh_sa2) > 0:
+        print(f"\nTrapped-payer hotspots (scenario {s}, HH, top {len(hh_sa2)}):")
+        for _, row in hh_sa2.iterrows():
+            print(f"  {row['SA22026_V1_00_NAME']:40s}  {int(row[f'od_trapped_commuters_{s}']):>6,}")
+
+# -- 4c.j  Write outputs ------------------------------------------------------
 od_out = od.rename(columns={ORIGIN_COL: "residence_sa2", DEST_COL: "workplace_sa2"})
 od_cols = (
     ["residence_sa2", "workplace_sa2", "car_commuters", TOTAL_COL,
@@ -315,11 +394,14 @@ pd.concat(long_rows, ignore_index=True).to_csv(
     OUTPUT / "od_charged_by_scenario.csv", index=False)
 equity_df.to_csv(OUTPUT / "od_equity_summary.csv", index=False)
 crosstab_df.to_csv(OUTPUT / "od_burden_crosstab.csv", index=False)
+morans_df.to_csv(OUTPUT / "od_morans_i.csv", index=False)
+lisa_df.to_csv(OUTPUT / "od_lisa_summary.csv")
 od_gpkg_path = safe_to_gpkg(sa2, OUTPUT / "od_classification.gpkg")
 
 print("\nOutputs written:")
 for name in ("od_pairs_classified.parquet", "od_charged_by_scenario.csv",
-             "od_equity_summary.csv", "od_burden_crosstab.csv"):
+             "od_equity_summary.csv", "od_burden_crosstab.csv",
+             "od_morans_i.csv", "od_lisa_summary.csv"):
     print(f"  {name}")
 print(f"  {od_gpkg_path.name}")
 print("\nStage 4c complete.")

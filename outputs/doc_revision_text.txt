@@ -1,0 +1,291 @@
+================================================================================
+Google Docs Revision — OD-based update
+File: Cities and Health - City Shorts
+================================================================================
+
+Below are the English text replacements, section by section.
+"CURRENT" = what is in the document now.
+"REPLACE WITH" = the new text to paste in.
+
+Lines marked [KEEP] should remain unchanged.
+
+
+================================================================================
+1. Section 2.2 Data — ADD Census OD data source
+================================================================================
+
+INSERT after the employment data paragraph (after "...2,450,066 nationally."):
+
+Origin-destination commuting flows were taken from the 2023 Census "main
+means of travel to work by Statistical Area 2" table (Stats NZ table
+121988). This dataset records the number of commuters by travel mode for
+every residence-SA2 to workplace-SA2 pair. We restrict to the 619
+Auckland SA2s, yielding 28,081 intra-regional OD pairs. Car-based
+commuters are defined as the sum of private-car drivers, company-car
+drivers, and car passengers, totalling 297,762 commuters. Suppressed
+cells (coded -999 by Stats NZ for confidentiality) are treated as zero.
+
+
+================================================================================
+2. Section 2.4 Equity Analysis — opening paragraph
+================================================================================
+
+CURRENT (lines 10-13):
+"The equity analysis was carried out in two stages. First, the
+concentration index is applied to the Auckland accessibility surface at
+the SA2 level. Second, building on the same accessibility surface, we
+ask which SA2s are charged under each option and whether they have a
+viable public-transport alternative."
+
+REPLACE WITH:
+The equity analysis proceeds in three stages. First, the Concentration
+Index is applied to the baseline Auckland accessibility surface at the
+SA2 level. Second, for each pricing scenario, every origin-destination
+commute pair is classified by whether it crosses the priced zone and
+whether the commuter has a viable public-transit alternative; burden is
+then aggregated as a count of car commuters rather than a count of SA2
+units. Third, spatial autocorrelation diagnostics (Global Moran's I and
+Local Moran's I) are computed to test whether the trapped-payer burden
+clusters geographically.
+
+
+================================================================================
+3. Section 2.4, "Stage 1: Concentration Index"
+================================================================================
+
+[KEEP as is — the CI formula and interpretation are unchanged.]
+
+
+================================================================================
+4. Section 2.4, "Stage 2: Applying the index to scenarios" — FULL REWRITE
+================================================================================
+
+CURRENT title: "Stage 2: Applying the index to scenarios"
+
+REPLACE entire section (from "To apply the CI to each scenario..."
+through "...Step 1 baseline.") WITH:
+
+----
+
+Stage 2: OD-based burden classification
+
+To classify every commute under each scenario, we first identify which
+OD pairs are charged. For the three CBD cordon scenarios (1a, 1c, 2c),
+an OD pair is charged when the workplace SA2 lies inside the cordon
+boundary and the residence SA2 lies outside it — that is, the commuter
+drives inward across the cordon to reach work. For the three motorway
+corridor scenarios (3b, 3c, 3e), an OD pair is charged when the
+straight-line desire path between the residence and workplace SA2
+population-weighted centroids intersects the dissolved motorway-corridor
+footprint. This is an approximation of a route-based test; an exact
+shortest-path test would require modelled car routes, which are outside
+the current pipeline.
+
+A commute is judged to have a viable public-transit alternative when the
+residence-to-workplace trip can be completed by transit within 45 minutes
+during the 07:00–09:00 peak, as recorded in the r5py travel-time matrix
+(Section 2.3). A charged commuter whose trip has no transit option within
+this bound is classified as a "trapped payer". Of all Auckland car
+commuters, only 25.1% have a transit alternative within 45 minutes for
+their specific commute, and just 9.9% within 30 minutes.
+
+Based on these two conditions, each OD pair is assigned one of three
+burden classes, and burden is aggregated as a weighted count of car
+commuters:
+
+  - Pays with alternative: the commute crosses the priced zone AND is
+    feasible by transit within 45 minutes. These commuters bear the
+    charge but have a realistic option to switch mode.
+
+  - Pays without alternative (trapped payer): the commute crosses the
+    priced zone BUT no transit option exists within 45 minutes. These
+    commuters face the charge with limited ability to avoid it. This is
+    the group of greatest equity concern.
+
+  - Does not pay: the commute does not cross the priced zone.
+    Regardless of transit access, the commuter is not directly exposed.
+
+For each scenario, the trapped-payer count per SA2 of residence was
+cross-tabulated against the NZDep2023 decile, and a Concentration Index
+was computed using the trapped-payer commuter count as the outcome
+variable. This enables direct comparison across all six scenarios and the
+Step 1 baseline.
+
+
+Stage 3: Spatial autocorrelation
+
+To test whether the trapped-payer burden clusters geographically — a
+question the Concentration Index cannot answer, since it measures
+association with deprivation rank rather than spatial contiguity — we
+computed Global Moran's I and Local Moran's I (LISA) statistics. Queen
+contiguity weights were constructed from the 619 Auckland SA2 polygons
+(1 connected component, no islands). Global Moran's I was computed for
+the baseline accessibility surface (access_45min) and for the
+trapped-commuter count under each scenario. Local Moran's I identifies
+individual SA2s that form statistically significant (p < 0.05) spatial
+clusters: High-High (HH, hotspots), Low-Low (LL, coldspots), and
+spatial outliers (HL, LH). Pseudo-significance was assessed with 999
+conditional random permutations (seed = 42 for reproducibility).
+
+----
+
+
+================================================================================
+5. Section 3.1 Baseline 45-minute accessibility
+================================================================================
+
+[KEEP as is — baseline accessibility results are unchanged.
+ CI(access_45min) = +0.042 remains valid.]
+
+
+================================================================================
+6. Section 3.2 Scenario burden classification — FULL REWRITE
+================================================================================
+
+CURRENT: "Under the six shortlisted scenarios, the burden distribution
+diverges sharply (Table 1). CBD inner-cordon scenarios 1a (15 SA2s
+charged) and 1c (27 SA2s charged) classify every charged SA2 as..."
+
+REPLACE entire section 3.2 (through hypothesis evaluation) WITH:
+
+----
+
+3.2. Scenario burden classification
+
+Under the six shortlisted scenarios, the burden distribution — now
+measured as the number of car commuters affected rather than the number
+of SA2 units — reveals a stark picture of transit inadequacy (Table 1).
+The CBD inner-cordon scenarios 1a and 1c charge 19,830 and 38,934
+commuters respectively (6.7% and 13.1% of all Auckland car commuters).
+The expanded Isthmus double cordon 2c charges 50,745 (17.0%). The
+motorway scenarios affect far more commuters: 3b charges 223,644
+(75.1%), 3c charges 228,063 (76.6%), and 3e charges 58,053 (19.5%).
+
+The most striking finding is the proportion of charged commuters who
+are trapped — lacking any transit alternative within 45 minutes for
+their specific commute. Across all six scenarios, between 73% and 93%
+of charged commuters are trapped payers. The Isthmus double cordon 2c
+is the worst: 93.3% of its charged commuters have no viable transit
+option. Even the smaller CBD cordons 1a and 1c, which charge
+comparatively few commuters, trap 73–75% of those they do charge.
+
+Table 1. OD-based burden classification by scenario. Car commuters
+with a transit alternative defined as residence-to-workplace transit
+time ≤ 45 min (07:00–09:00 peak).
+
+Scenario | Charged    | Charged % | With alt  | Trapped   | Trapped %
+---------|------------|-----------|-----------|-----------|----------
+1a       |    19,830  |     6.7%  |    5,286  |   14,544  |    73.3%
+1c       |    38,934  |    13.1%  |    9,819  |   29,115  |    74.8%
+2c       |    50,745  |    17.0%  |    3,384  |   47,361  |    93.3%
+3b       |   223,644  |    75.1%  |   43,950  |  179,694  |    80.3%
+3c       |   228,063  |    76.6%  |   46,578  |  181,485  |    79.6%
+3e       |    58,053  |    19.5%  |    6,882  |   51,171  |    88.1%
+
+Scenario-level Concentration Indices
+
+The CI of the trapped-payer commuter count against NZDep2023 deprivation
+rank is reported in Table 2. The CBD cordon scenarios (1a, 1c) show
+negative CI values of -0.129 and -0.123, indicating that the trapped
+burden falls disproportionately on wealthier areas — a progressive
+pattern. The expanded cordon 2c is the most regressive scenario, with
+CI = +0.050, though the magnitude is modest. The motorway scenarios 3b
+and 3c show weakly positive CI values of +0.029 and +0.025
+respectively. Scenario 3e is near-neutral at -0.031.
+
+A notable departure from the SA2-count-based analysis is that the CI
+values are uniformly close to zero. This does not mean the burden is
+equitably distributed in absolute terms — it means that the trapped
+condition is so widespread (73–93% of charged commuters) that it
+affects wealthy and deprived areas alike, leaving little room for
+distributional skew.
+
+Table 2. Concentration Index of trapped-payer burden. Baseline
+reference (all 619 SA2s): CI(access_45min) = +0.042.
+
+Scenario | CI_trapped | Equity reading
+---------|------------|-------------------
+1a       |    -0.129  | Progressive
+1c       |    -0.123  | Progressive
+2c       |    +0.050  | Most regressive
+3b       |    +0.029  | Weakly regressive
+3c       |    +0.025  | Weakly regressive
+3e       |    -0.031  | Near-neutral
+
+Spatial autocorrelation
+
+Global Moran's I for the baseline accessibility surface is 0.852
+(p = 0.001), confirming strong spatial clustering: high-access SA2s
+concentrate around the CBD, while low-access SA2s dominate the
+periphery. For the trapped-commuter counts, Global Moran's I ranges
+from 0.38 (scenario 3b) to 0.61 (scenarios 2c, 3e), all significant
+at p = 0.001. This means that despite the near-zero CI values — which
+indicate no systematic association with deprivation — the trapped
+burden is strongly spatially clustered.
+
+Local Moran's I (LISA) identifies the specific clusters. For the
+motorway scenario 3c, 59 SA2s form trapped-payer hotspots (HH) and 86
+form coldspots (LL). The hotspot SA2s fall into two geographically
+distinct groups: (1) the north-western new suburbs (Hobsonville Point,
+Royal Heights), which are low-to-moderate deprivation, car-dependent
+developments with no rail access; and (2) southern Auckland (Mangere,
+Papatoetoe, Favona, Rosehill), which are high-deprivation areas with
+limited transit coverage. The fact that hotspots span both affluent
+and deprived areas explains why CI is near zero despite strong spatial
+clustering — the deprivation effect cancels out.
+
+Hypothesis evaluation
+
+H1, that CBD cordon scenarios (1a, 1c, 2c) are broadly progressive,
+is supported for the inner cordons: under 1a and 1c the trapped burden
+falls on wealthier areas (CI = -0.13 and -0.12). The expanded cordon
+2c is a partial exception: it is the only scenario with a clearly
+positive CI (+0.050), though the magnitude is small. At the same time,
+2c has the highest trapped rate (93.3%), making it the most problematic
+scenario overall — nearly all charged commuters have no transit
+alternative, and the modest regressive tilt compounds this.
+
+H2, that motorway corridor scenarios (3b, 3c, 3e) are broadly
+regressive, receives only weak support. The CI values (+0.025 to
++0.029 for 3b and 3c) are positive but far smaller than would be
+expected if the burden were strongly concentrated in deprived areas.
+The more salient finding is the sheer scale of the trapped population:
+approximately 180,000 commuters under 3b and 3c, comprising roughly
+80% of all charged commuters, lack a viable transit alternative. The
+spatial analysis reveals that this burden clusters geographically
+(Moran's I = 0.38–0.61) but not systematically by deprivation (CI
+near zero), because the car-dependent suburbs that generate trapped
+payers span the full socioeconomic spectrum.
+
+The overarching conclusion is that the equity challenge posed by
+congestion pricing in Auckland is less a matter of regressive
+distribution across income groups and more a matter of near-universal
+transit inadequacy. With only 25% of car commuters having a feasible
+transit alternative within 45 minutes, any pricing scenario will trap
+the majority of those it charges — regardless of deprivation level.
+This shifts the policy implication from targeted fare concessions
+toward investment in public-transport infrastructure, particularly in
+the car-dependent new suburbs and outer corridors where trapped-payer
+hotspots concentrate.
+
+----
+
+
+================================================================================
+Summary of all changes
+================================================================================
+
+Section         | Change type
+----------------|----------------------------------
+2.2 Data        | ADD Census OD paragraph
+2.4 intro       | REWRITE (two stages → three stages)
+Stage 1: CI     | KEEP
+Stage 2         | FULL REWRITE → OD-based + add Stage 3 (Moran/LISA)
+3.1 Baseline    | KEEP
+3.2 Results     | FULL REWRITE (text + Table 1 + Table 2 + hypothesis)
+Figure 4        | MAY NEED UPDATE (Q75 threshold chart may be obsolete
+                |   since burden is no longer defined by Q75)
+
+================================================================================
+End
+================================================================================
