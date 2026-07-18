@@ -9,9 +9,9 @@ import numpy as np
 
 sns.set_theme(style="whitegrid", context="talk", font_scale=1.2)
 
-g = gpd.read_file("outputs/sa2_equity.gpkg")
+g = gpd.read_file("data/sa2/sa2_equity.gpkg")
 g["SA22023_V1_00"] = g["SA22023_V1_00"].astype(str)
-sa1 = pd.read_excel("data/NZDep2023_SA1_withHigherGeo.xlsx")
+sa1 = pd.read_excel("data/deprivation/NZDep2023_SA1_withHigherGeo.xlsx")
 sa1["SA22023_code"] = sa1["SA22023_code"].astype(str)
 g["pop"] = g["SA22023_V1_00"].map(
     sa1.groupby("SA22023_code")["URPopnSA1_2023"].sum()).fillna(0)

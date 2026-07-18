@@ -18,7 +18,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
-SA2_PATH = OUTPUT / "sa2_accessibility.gpkg"
+DATA_SA2 = Path("data") / "sa2"
+SA2_PATH = DATA_SA2 / "sa2_accessibility.gpkg"
 if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No accessibility file at {SA2_PATH}. Run stage3 first.")
 
@@ -437,7 +438,7 @@ print("\nCI summary by scenario:")
 print(ci_summary.to_string(index=False))
 
 # ── 4h. Save ──────────────────────────────────────────────────────────────────
-OUT_GPKG = OUTPUT / "sa2_equity.gpkg"
+OUT_GPKG = DATA_SA2 / "sa2_equity.gpkg"
 safe_to_gpkg(sa2, OUT_GPKG)
 print(f"  equity layer written to {OUT_GPKG.name}")
 crosstab_all.to_csv(OUTPUT / "burden_crosstab.csv", index=False)

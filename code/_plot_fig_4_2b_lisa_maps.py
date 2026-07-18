@@ -9,16 +9,14 @@ from matplotlib.patches import Patch
 
 sns.set_theme(style="white", context="talk", font_scale=1.0)
 
-g = gpd.read_file("outputs/od_classification.gpkg").to_crs(2193)
+g = gpd.read_file("outputs/burden_by_sa2_final.gpkg").to_crs(2193)
 
 # global Moran's I of trapped commuters, per scenario
-_m = pd.read_csv("outputs/od_morans_i.csv")
-MORAN = _m[_m.variable == "od_trapped_commuters"].set_index("scenario")["morans_I"].to_dict()
+_m = pd.read_csv("outputs/equity_summary_final.csv")
+MORAN = _m.set_index("scenario")["moran_I"].to_dict()
 
-# central-Auckland zoom extent (from the accessibility high-high cluster)
-_b = g[g["lisa_access45"] == "HH"].total_bounds
-_pad = 5000
-ZOOM = (_b[0]-_pad, _b[1]-_pad, _b[2]+_pad, _b[3]+_pad)
+# central-Auckland zoom extent (504-SA2 urban study area, NZTM)
+ZOOM = (1738500, 5888500, 1778500, 5941000)
 
 
 def add_inset(host, color_series):
@@ -38,7 +36,7 @@ COL = {"HH": "#D4421E", "LL": "#2C7BB6", "HL": "#FDAE61", "LH": "#ABD9E9", "ns":
 
 fig, axes = plt.subplots(2, 3, figsize=(13.5, 13))
 for ax, s in zip(axes.flatten(), SCEN):
-    col = f"lisa_trapped_{s}"
+    col = f"lisa_{s}"
     c = g[col].map(COL).fillna("#EEEEEE")
     g.plot(color=c, linewidth=0.08, edgecolor="#aaa", ax=ax)
     n_hh = int((g[col] == "HH").sum())
@@ -48,11 +46,13 @@ for ax, s in zip(axes.flatten(), SCEN):
     add_inset(ax, c)
 
 legend = [Patch(facecolor=COL[k], label=l) for k, l in
-          [("HH", "Trapped hotspot (high-high)"), ("LL", "Low-low"),
-           ("HL", "High-low outlier"), ("LH", "Low-high outlier"),
+          [("HH", "Trapped-payer hotspot (high count, neighbours also high)"),
+           ("LL", "Few trapped payers (low count, neighbours also low)"),
+           ("HL", "High outlier (high count amid low neighbours)"),
+           ("LH", "Low outlier (low count amid high neighbours)"),
            ("ns", "Not significant")]]
-fig.legend(handles=legend, loc="lower center", ncol=5, fontsize=13,
-           frameon=False, bbox_to_anchor=(0.5, 0.02))
+fig.legend(handles=legend, loc="lower center", ncol=2, fontsize=12,
+           frameon=False, bbox_to_anchor=(0.5, 0.01))
 fig.suptitle("Trapped-payer clusters by scenario (local Moran's I; "
              "global Moran's I per panel, all p < 0.001)",
              fontsize=17, fontweight="bold")

@@ -24,7 +24,20 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import SCRATCH_ROOT, safe_to_gpkg  # noqa: E402
 
 # ── Directory setup ──────────────────────────────────────────────────────────
-DATA   = Path("data");   DATA.mkdir(exist_ok=True)
+DATA         = Path("data");                DATA.mkdir(exist_ok=True)
+DATA_SA2     = DATA / "sa2"
+DATA_ROADS   = DATA / "roads"
+DATA_DEP     = DATA / "deprivation"
+DATA_CENSUS  = DATA / "census"
+DATA_JOBS    = DATA / "jobs"
+DATA_URBAN   = DATA / "urban_rural"
+DATA_GTFS    = DATA / "gtfs"
+DATA_OSM     = DATA / "osm"
+DATA_AKL     = DATA / "auckland"
+DATA_SCEN    = DATA / "scenarios"
+for _d in (DATA_SA2, DATA_ROADS, DATA_DEP, DATA_CENSUS, DATA_JOBS,
+            DATA_URBAN, DATA_GTFS, DATA_OSM, DATA_AKL, DATA_SCEN):
+    _d.mkdir(parents=True, exist_ok=True)
 OUTPUT = Path("outputs"); OUTPUT.mkdir(exist_ok=True)
 
 # ── Auckland bounding box (WGS84) ────────────────────────────────────────────
@@ -36,13 +49,13 @@ OUTPUT = Path("outputs"); OUTPUT.mkdir(exist_ok=True)
 AUCKLAND_BBOX = (174.0, -37.4, 175.4, -36.0)   # minx, miny, maxx, maxy
 
 # ── 1a. Download NZ OSM PBF and clip to Auckland ─────────────────────────────
-NZ_PBF  = DATA / "new-zealand-latest.osm.pbf"
-AKL_PBF = DATA / "auckland.osm.pbf"
+NZ_PBF  = DATA_OSM / "new-zealand-latest.osm.pbf"
+AKL_PBF = DATA_OSM / "auckland.osm.pbf"
 
 # Sidecar file recording which bbox the existing AKL_PBF was clipped with.
 # Lets us re-clip only when AUCKLAND_BBOX has actually changed (re-clipping
 # costs ~30 s on a 16 GB laptop).
-BBOX_SIDECAR = DATA / "auckland.osm.pbf.bbox"
+BBOX_SIDECAR = DATA_OSM / "auckland.osm.pbf.bbox"
 _current_bbox = ",".join(str(c) for c in AUCKLAND_BBOX)
 _existing_bbox = BBOX_SIDECAR.read_text().strip() if BBOX_SIDECAR.exists() else None
 _pbf_needs_clip = (
@@ -87,7 +100,7 @@ else:
     print(f"OSM PBF already covers bbox {_current_bbox}: {AKL_PBF}")
 
 # ── 1b. Download AT GTFS ─────────────────────────────────────────────────────
-GTFS_ZIP = DATA / "at_gtfs.zip"
+GTFS_ZIP = DATA_GTFS / "at_gtfs.zip"
 
 if not GTFS_ZIP.exists():
     print("Downloading AT GTFS feed...")
@@ -102,16 +115,16 @@ else:
 # Prefer the Auckland-region SA2 GeoPackage provided by the user.
 # Fallback: the full NZ Stats NZ SA2 layer (SA22023 or SA22026 codes).
 SA2_CANDIDATES = [
-    DATA / "auckland_sa2.gpkg",
-    DATA / "statistical-area-2-2023-clipped-generalised.gpkg",
+    DATA_SA2 / "auckland_sa2.gpkg",
+    DATA_SA2 / "statistical-area-2-2023-clipped-generalised.gpkg",
 ]
 SA2_SOURCE = next((p for p in SA2_CANDIDATES if p.exists()), None)
 
 if SA2_SOURCE is None:
     raise FileNotFoundError(
         "No SA2 GeoPackage found. Place one of:\n"
-        "  - data/auckland_sa2.gpkg  (regional clip, preferred)\n"
-        "  - data/statistical-area-2-2023-clipped-generalised.gpkg  (full NZ)\n"
+        "  - data/sa2/auckland_sa2.gpkg  (regional clip, preferred)\n"
+        "  - data/sa2/statistical-area-2-2023-clipped-generalised.gpkg  (full NZ)\n"
         "Download either from https://datafinder.stats.govt.nz/"
     )
 
@@ -141,7 +154,7 @@ print(f"SA2 retained from {SA2_SOURCE.name}: {len(sa2)} units")
 # ── 1d. Load NZDep 2023 ──────────────────────────────────────────────────────
 # NZDep 2023 — download from:
 # https://www.otago.ac.nz/wellington/departments/publichealth/research/hirp/otago020194.html
-NZDEP_CSV = DATA / "nzdep2023.csv"
+NZDEP_CSV = DATA_DEP / "nzdep2023.csv"
 
 if not NZDEP_CSV.exists():
     raise FileNotFoundError(
@@ -166,7 +179,7 @@ print(f"NZDep merged: {sa2['NZDep2023'].notna().sum()} / {len(sa2)} SA2s have de
 # ── 1e. Load employment data ─────────────────────────────────────────────────
 # Stats NZ Business Demography or Census employment by SA2
 # Download from: https://www.stats.govt.nz/tools/2018-census-place-of-work-auckland
-EMP_CSV = DATA / "employment_sa2.csv"
+EMP_CSV = DATA_JOBS / "employment_sa2.csv"
 
 if EMP_CSV.exists():
     emp = pd.read_csv(EMP_CSV, dtype={"SA22023_V1_00": str})
@@ -182,14 +195,14 @@ else:
 # centroids within each SA2. SA1 geometry + population from the Stats NZ
 # "2023 Census totals by topic" GPKG; SA1→SA2 mapping from NZDep xlsx.
 
-SA1_CENSUS_ZIP = DATA / "statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
-SA1_POP_XLSX = DATA / "NZDep2023_SA1_withHigherGeo.xlsx"
+SA1_CENSUS_ZIP = DATA_CENSUS / "statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
+SA1_POP_XLSX = DATA_DEP / "NZDep2023_SA1_withHigherGeo.xlsx"
 
 # Also accept pre-extracted or standalone SA1 boundary files
 SA1_BOUNDARY_CANDIDATES = [
-    DATA / "sa1-2023-clipped-generalised.gpkg",
-    DATA / "statistical-area-1-2023-clipped-generalised.gpkg",
-    DATA / "sa1_2023.gpkg",
+    DATA_SA2 / "sa1-2023-clipped-generalised.gpkg",
+    DATA_SA2 / "statistical-area-1-2023-clipped-generalised.gpkg",
+    DATA_SA2 / "sa1_2023.gpkg",
 ]
 SA1_BOUNDARY = next((p for p in SA1_BOUNDARY_CANDIDATES if p.exists()), None)
 
@@ -326,7 +339,7 @@ else:
     sa2["lat"] = sa2.geometry.centroid.y
 
 # ── 1g. Save prepared SA2 layer ──────────────────────────────────────────────
-OUT_GPKG = OUTPUT / "sa2_prepared.gpkg"
+OUT_GPKG = DATA_SA2 / "sa2_prepared.gpkg"
 _drop_cols = [c for c in ["centroid_wgs84"] if c in sa2.columns]
 _layer = sa2.drop(columns=_drop_cols)
 safe_to_gpkg(_layer, OUT_GPKG)

@@ -41,9 +41,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
+DATA_SA2 = Path("data") / "sa2"
 FIGS   = OUTPUT / "figures"; FIGS.mkdir(exist_ok=True)
 
-SA2_PATH = OUTPUT / "sa2_equity.gpkg"
+SA2_PATH = DATA_SA2 / "sa2_equity.gpkg"
 if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No equity file at {SA2_PATH}. Run stage4 first.")
 print(f"Reading equity layer: {SA2_PATH.name}")
@@ -569,6 +570,6 @@ else:
 import sys as _sys
 _sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_to_gpkg  # noqa: E402
-safe_to_gpkg(sa2, OUTPUT / "sa2_final.gpkg")
+safe_to_gpkg(sa2, Path("data") / "sa2" / "sa2_final.gpkg")
 
 print("\nStage 5 complete.")

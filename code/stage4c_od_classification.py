@@ -51,11 +51,13 @@ from libpysal.weights import Queen
 sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
-DATA   = Path("data")
-OUTPUT = Path("outputs")
+DATA        = Path("data")
+DATA_CENSUS = DATA / "census"
+OUTPUT      = Path("outputs")
+DATA_SA2    = Path("data") / "sa2"
 
-COMMUTE_CSV = DATA / "2023-census-main-means-of-travel-to-work-by-statistical-area.csv"
-SA2_EQUITY  = OUTPUT / "sa2_equity.gpkg"
+COMMUTE_CSV = DATA_CENSUS / "2023-census-main-means-of-travel-to-work-by-statistical-area.csv"
+SA2_EQUITY  = DATA_SA2 / "sa2_equity.gpkg"
 TT_PARQUET  = OUTPUT / "travel_time_matrix.parquet"
 
 for _p, _hint in [

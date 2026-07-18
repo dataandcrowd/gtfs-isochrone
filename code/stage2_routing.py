@@ -24,15 +24,20 @@ import r5py
 sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg  # noqa: E402
 
-DATA   = Path("data")
-OUTPUT = Path("outputs")
+DATA      = Path("data")
+DATA_OSM  = DATA / "osm"
+DATA_GTFS = DATA / "gtfs"
+DATA_SA2  = DATA / "sa2"
+OUTPUT    = Path("outputs")
 
-AKL_PBF  = DATA   / "auckland.osm.pbf"
+AKL_PBF  = DATA_OSM / "auckland.osm.pbf"
 # Prefer the cleaned feed (empty optional tables removed); R5's GTFS validator
 # rejects tables that contain only a header row.
-GTFS_ZIP = DATA / ("at_gtfs_clean.zip" if (DATA / "at_gtfs_clean.zip").exists() else "at_gtfs.zip")
+GTFS_ZIP = DATA_GTFS / ("at_gtfs_clean.zip"
+                        if (DATA_GTFS / "at_gtfs_clean.zip").exists()
+                        else "at_gtfs.zip")
 
-SA2_PATH = OUTPUT / "sa2_prepared.gpkg"
+SA2_PATH = DATA_SA2 / "sa2_prepared.gpkg"
 if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(
         f"No prepared SA2 file at {SA2_PATH}. Run stage1_data_prep.py first."

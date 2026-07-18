@@ -17,8 +17,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
 
 OUTPUT = Path("outputs")
+DATA_SA2 = Path("data") / "sa2"
 
-SA2_PATH = OUTPUT / "sa2_prepared.gpkg"
+SA2_PATH = DATA_SA2 / "sa2_prepared.gpkg"
 if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No prepared SA2 file at {SA2_PATH}. Run stage1 first.")
 TT_PARQUET = OUTPUT / "travel_time_matrix.parquet"
@@ -122,7 +123,7 @@ print(f"\nViable alternative threshold (Q75, 45 min): {Q75:,.0f} jobs")
 print(f"SA2s above threshold: {sa2['has_viable_alt'].sum()} / {len(sa2)}")
 
 # ── 3g. Save ──────────────────────────────────────────────────────────────────
-OUT = OUTPUT / "sa2_accessibility.gpkg"
+OUT = DATA_SA2 / "sa2_accessibility.gpkg"
 safe_to_gpkg(sa2, OUT)
 print(f"\nStage 3 complete. Output saved: {OUT}")
 print(sa2[["SA22023_V1_00", "NZDep2023", "access_30min", "access_45min", "has_viable_alt"]].describe())

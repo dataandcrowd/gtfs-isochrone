@@ -7,11 +7,10 @@ import geopandas as gpd
 
 sns.set_theme(style="white", context="talk", font_scale=1.05)
 
-g = gpd.read_file("outputs/sa2_equity.gpkg").to_crs(2193)
-lisa = gpd.read_file("outputs/od_classification.gpkg").to_crs(2193)
-_b = lisa[lisa["lisa_access45"] == "HH"].total_bounds
-_pad = 5000
-ZOOM = (_b[0]-_pad, _b[1]-_pad, _b[2]+_pad, _b[3]+_pad)
+g = gpd.read_file("data/sa2/sa2_equity.gpkg").to_crs(2193)
+
+# central-Auckland zoom extent (504-SA2 urban study area, NZTM)
+ZOOM = (1738500, 5888500, 1778500, 5941000)
 
 
 def add_inset(host, plot_fn, loc=(0.60, 0.60, 0.4, 0.4)):

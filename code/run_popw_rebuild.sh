@@ -29,12 +29,12 @@ echo "R5PY_XMX:     $R5PY_XMX"
 echo ""
 
 # ── Pre-flight checks ──────────────────────────────────────────────────────
-CENSUS_ZIP="data/statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
+CENSUS_ZIP="data/census/statsnz-2023-census-totals-by-topic-for-individuals-by-statistical-a-GPKG.zip"
 SA1_FILES=(
     "$CENSUS_ZIP"
-    "data/sa1-2023-clipped-generalised.gpkg"
-    "data/statistical-area-1-2023-clipped-generalised.gpkg"
-    "data/sa1_2023.gpkg"
+    "data/sa2/sa1-2023-clipped-generalised.gpkg"
+    "data/sa2/statistical-area-1-2023-clipped-generalised.gpkg"
+    "data/sa2/sa1_2023.gpkg"
 )
 SA1_FOUND=false
 for f in "${SA1_FILES[@]}"; do
@@ -48,13 +48,13 @@ done
 if [ "$SA1_FOUND" = false ]; then
     echo "ERROR: SA1 geometry not found. Need one of:"
     echo "  - $CENSUS_ZIP"
-    echo "  - data/sa1-2023-clipped-generalised.gpkg"
+    echo "  - data/sa2/sa1-2023-clipped-generalised.gpkg"
     echo "Download from: https://datafinder.stats.govt.nz/"
     exit 1
 fi
 
-if [ ! -f "data/NZDep2023_SA1_withHigherGeo.xlsx" ]; then
-    echo "ERROR: data/NZDep2023_SA1_withHigherGeo.xlsx not found."
+if [ ! -f "data/deprivation/NZDep2023_SA1_withHigherGeo.xlsx" ]; then
+    echo "ERROR: data/deprivation/NZDep2023_SA1_withHigherGeo.xlsx not found."
     exit 1
 fi
 
@@ -114,12 +114,12 @@ import pandas as pd
 
 backup = Path(sys.argv[1])
 old_path = backup / "sa2_final.gpkg"
-new_path = Path("outputs/sa2_final.gpkg")
+new_path = Path("data/sa2/sa2_final.gpkg")
 
 if not old_path.exists():
     old_path = backup / "sa2_equity.gpkg"
 if not new_path.exists():
-    new_path = Path("outputs/sa2_equity.gpkg")
+    new_path = Path("data/sa2/sa2_equity.gpkg")
 
 if not old_path.exists() or not new_path.exists():
     print("Cannot compare: missing sa2_final.gpkg or sa2_equity.gpkg")

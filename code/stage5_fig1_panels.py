@@ -26,10 +26,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg
 
 OUTPUT = Path("outputs")
+DATA_SA2 = Path("data") / "sa2"
 FIGS   = OUTPUT / "figures"
 FIGS.mkdir(exist_ok=True)
 
-SA2_PATH = OUTPUT / "sa2_equity.gpkg"
+SA2_PATH = DATA_SA2 / "sa2_equity.gpkg"
 sa2 = safe_read_gpkg(SA2_PATH).to_crs(epsg=4326)
 
 # ── Auckland metro framing (same as stage5_visualisation) ──────────────────
