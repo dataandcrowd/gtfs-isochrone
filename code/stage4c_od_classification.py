@@ -271,6 +271,14 @@ for s in SCENARIOS:
         "trapped_pct_of_charged": round(100 * trapped_tot / max(charged_tot, 1), 1),
         "trapped_deprived_share": round(
             100 * deprived_trapped / max(trapped_tot, 1), 1),
+        # NOTE (A1): CI_charged / CI_trapped below are CIs on COMMUTER COUNTS
+        # (charged and trapped) and therefore use the OPPOSITE sign convention
+        # from the CI reported in the paper's Table 2. The reported CI
+        # (CI_charged_pw in equity_summary_final.csv) is on 45-min job
+        # ACCESSIBILITY over the charged commuters' residence SA2s,
+        # population-weighted, where NEGATIVE = regressive. The two counts CIs
+        # here are POSITIVE = regressive (burden concentrated in deprived SA2s)
+        # and are retained only as a diagnostic; they are not the reported CI.
         "CI_charged": concentration_index(
             sa2[f"od_charged_commuters_{s}"], sa2["NZDep2023"]),
         "CI_trapped": concentration_index(
@@ -297,7 +305,11 @@ print(equity_df[["scenario", "trapped_commuters", "trapped_deprived_share",
 print("\n  trapped_deprived_share = % of trapped payers living in NZDep "
       "deciles 8-10")
 print("  CI_trapped > 0 => trapped-payer burden concentrated in MORE deprived "
-      "SA2s (regressive)")
+      "SA2s (regressive).")
+print("  NB: CI_trapped is on the trapped COUNT (positive = regressive) and is a "
+      "diagnostic only;")
+print("      the paper's reported CI is on 45-min ACCESSIBILITY (negative = "
+      "regressive) — opposite sign.")
 _worst = equity_df.loc[equity_df["CI_trapped"].idxmax()]
 print(f"  most regressive: scenario {_worst['scenario']} "
       f"(CI_trapped = {_worst['CI_trapped']})")
