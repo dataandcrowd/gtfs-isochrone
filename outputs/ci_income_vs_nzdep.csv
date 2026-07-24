@@ -1,0 +1,7 @@
+scenario,n_charged_SA2,CI_nzdep,reading_nzdep,CI_income,reading_income,CI_income_eq,reading_income_eq,CI_income_percap,reading_income_percap,diff_income_minus_nzdep,diff_income_eq_minus_nzdep
+1a,395,-0.0596,Mildly regressive,-0.0815,Mildly regressive,-0.1789,Moderately regressive,-0.2393,Strongly regressive,-0.0219,-0.1193
+1c,427,-0.0806,Mildly regressive,-0.1012,Moderately regressive,-0.1773,Moderately regressive,-0.2281,Strongly regressive,-0.0206,-0.0967
+2c,430,-0.0826,Mildly regressive,-0.1018,Moderately regressive,-0.1774,Moderately regressive,-0.2277,Strongly regressive,-0.0192,-0.0948
+3b,463,-0.0532,Mildly regressive,-0.0168,Neutral,-0.13,Moderately regressive,-0.2261,Strongly regressive,0.0364,-0.0768
+3c,463,-0.0532,Mildly regressive,-0.0168,Neutral,-0.13,Moderately regressive,-0.2261,Strongly regressive,0.0364,-0.0768
+3e,481,-0.0569,Mildly regressive,-0.0258,Neutral,-0.1293,Moderately regressive,-0.2158,Strongly regressive,0.0311,-0.0724

@@ -20,10 +20,28 @@ Sign convention: NEGATIVE = regressive on the access-to-jobs axis (accessibility
 lower in more-deprived charged SA2s). This is the OPPOSITE convention from the
 count-based CI_trapped diagnostic in stage4c (positive = regressive).
 
+Ranking variable (--rank)
+-------------------------
+    nzdep  (default) — NZDep2023 score / NZDep_Decile. Produces the paper's
+                       Table 2 at outputs/equity_summary_final.csv.
+    income           — 2023 Census median household income, negated so the rank
+                       axis still runs least- to most-disadvantaged. NOT
+                       size-adjusted, so it misreads large households as
+                       better off; kept only for comparison.
+    income_eq        — the same income divided by sqrt(mean household size)
+                       (OECD square-root equivalisation). This is the
+                       defensible income-based ranking.
+    income_percap    — divided by household size outright (no economies of
+                       scale). Brackets income_eq from the other side.
+Every other column (commuter counts, trapped %, Moran's I) is independent of
+the ranking variable and is identical in both tables by construction.
+
 Input : outputs/burden_by_sa2_final.gpkg  (from stage 4c)
-Output: outputs/equity_summary_final.csv
+        data/income/statsnz-2023-census-...-GPKG.zip   (--rank income only)
+Output: outputs/equity_summary_final[_income].csv
 """
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -33,47 +51,43 @@ import pandas as pd
 from esda.moran import Moran
 from libpysal.weights import Queen
 
+sys.path.insert(0, str(Path(__file__).parent))
+from _equity_utils import (  # noqa: E402
+    attach_income,
+    ci_population_weighted,
+    equity_reading,
+)
+
 OUTPUT   = Path("outputs")
 BURDEN   = OUTPUT / "burden_by_sa2_final.gpkg"
 SCENARIOS = ["1a", "1c", "2c", "3b", "3c", "3e"]
 
-# CI banding (matches paper Section 3.3): signed magnitude bands.
-def equity_reading(ci):
-    a = abs(ci)
-    band = ("neutral" if a < 0.05 else
-            "mild"    if a < 0.10 else
-            "moderate" if a < 0.20 else "strong")
-    if band == "neutral":
-        return "Neutral"
-    adverb = {"mild": "Mildly", "moderate": "Moderately", "strong": "Strongly"}[band]
-    direction = "regressive" if ci < 0 else "pro-poor"
-    return f"{adverb} {direction}"
+# Ranking variable -> (continuous disadvantage column, decile column, output file)
+RANK_SPECS = {
+    "nzdep":         ("NZDep2023", "NZDep_Decile",
+                      "equity_summary_final.csv"),
+    "income":        ("income_disadv", "income_decile",
+                      "equity_summary_final_income.csv"),
+    "income_eq":     ("income_equiv_sqrt_disadv", "income_equiv_sqrt_decile",
+                      "equity_summary_final_income_eq.csv"),
+    "income_percap": ("income_equiv_percap_disadv", "income_equiv_percap_decile",
+                      "equity_summary_final_income_percap.csv"),
+}
 
 
-def ci_population_weighted(values, deprivation, weights):
-    """Population-weighted Concentration Index.
-
-    CI = (2 / mu) * weighted Cov(values, fractional weighted NZDep rank).
-    NEGATIVE = accessibility concentrated in less-deprived SA2s (regressive).
-    """
-    df = pd.DataFrame({"y": values, "r": deprivation, "w": weights}).dropna()
-    df = df[df["w"] > 0].sort_values("r")
-    if len(df) < 2:
-        return np.nan
-    wn = df["w"] / df["w"].sum()
-    rf = wn.cumsum() - 0.5 * wn                       # weighted fractional rank (midpoint)
-    mu = np.average(df["y"], weights=df["w"])
-    if mu == 0:
-        return np.nan
-    rbar = np.average(rf, weights=df["w"])
-    cov = np.average((df["y"] - mu) * (rf - rbar), weights=df["w"])
-    return round(2 * cov / mu, 4)
-
-
-def main():
+def main(rank="nzdep"):
     if not (BURDEN.exists() and BURDEN.stat().st_size > 0):
         raise FileNotFoundError(f"No burden layer at {BURDEN}. Run stage 4c first.")
+    rank_col, decile_col, out_name = RANK_SPECS[rank]
+
     sa2 = gpd.read_file(BURDEN)
+    if rank.startswith("income"):
+        sa2 = attach_income(sa2)
+        n_missing = int(sa2["median_hh_income"].isna().sum())
+        print(f"Ranking by median household income; suppressed for {n_missing} "
+              f"SA2s holding {int(sa2.loc[sa2['median_hh_income'].isna(), 'pop'].sum())} "
+              f"residents ({100 * sa2.loc[sa2['median_hh_income'].isna(), 'pop'].sum() / sa2['pop'].sum():.2f}% "
+              f"of population), excluded from the CI.")
 
     # Global Moran's I on the trapped-payer count (queen contiguity), per scenario.
     w = Queen.from_dataframe(sa2, use_index=False)
@@ -86,11 +100,11 @@ def main():
         charged_sa2 = sa2[sa2[chg] > 0]
 
         ci = ci_population_weighted(
-            charged_sa2["access_45min"], charged_sa2["NZDep2023"], charged_sa2["pop"]
+            charged_sa2["access_45min"], charged_sa2[rank_col], charged_sa2["pop"]
         )
         charged = int(sa2[chg].sum())
         trapped = int(sa2[trp].sum())
-        dec = sa2["NZDep_Decile"]
+        dec = sa2[decile_col]
         d13  = round(100 * sa2.loc[dec.between(1, 3), trp].sum() / max(trapped, 1), 1)
         d810 = round(100 * sa2.loc[dec.between(8, 10), trp].sum() / max(trapped, 1), 1)
 
@@ -111,11 +125,14 @@ def main():
         })
 
     out = pd.DataFrame(rows)
-    dest = OUTPUT / "equity_summary_final.csv"
+    dest = OUTPUT / out_name
     out.to_csv(dest, index=False)
     print(out.to_string(index=False))
     print(f"\nWritten: {dest}")
 
 
 if __name__ == "__main__":
-    main()
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--rank", choices=list(RANK_SPECS), default="nzdep",
+                    help="deprivation ranking variable (default: nzdep)")
+    main(**vars(ap.parse_args()))

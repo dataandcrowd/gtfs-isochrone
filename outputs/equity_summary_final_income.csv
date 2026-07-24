@@ -1,0 +1,7 @@
+scenario,charged_commuters,trapped_commuters,trapped_pct,d1_3_pct,d8_10_pct,CI_charged_pw,equity_reading,moran_I,moran_p,n_charged_SA2
+1a,18996,13698,72.1,42.9,14.7,-0.0815,Mildly regressive,0.483,0.001,395
+1c,37005,26949,72.8,41.2,15.1,-0.1012,Moderately regressive,0.512,0.001,427
+2c,44613,32172,72.1,41.4,15.0,-0.1018,Moderately regressive,0.508,0.001,430
+3b,87762,65259,74.4,40.9,15.3,-0.0168,Neutral,0.563,0.001,463
+3c,89274,66165,74.1,41.1,15.1,-0.0168,Neutral,0.558,0.001,463
+3e,92637,73929,79.8,35.2,16.6,-0.0258,Neutral,0.567,0.001,481
