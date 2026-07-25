@@ -32,7 +32,7 @@ OUT_FIG = Path("outputs/figures/concept_access45_origins.png")
 OUT_FIG.parent.mkdir(parents=True, exist_ok=True)
 
 sa2 = safe_read_gpkg("data/sa2/sa2_final.gpkg").to_crs(epsg=4326)
-ttm = pd.read_parquet("outputs/travel_time_matrix.parquet")
+ttm = pd.read_parquet("outputs/intermediate/travel_time_matrix.parquet")
 
 # Three origins spanning the access_45min distribution
 ORIGINS = [

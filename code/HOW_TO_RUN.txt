@@ -1,0 +1,220 @@
+==========================================================================
+ HOW TO RUN — Auckland congestion-charging equity analysis
+ "Who pays the fees? Accessibility-based equity of congestion charging
+  scenarios in Auckland, Aotearoa New Zealand"
+==========================================================================
+
+QUICK START
+-----------
+    bash code/run_all.sh
+
+That runs everything, from raw data to the manuscript tables and figures.
+Allow 40-80 minutes: two stages do heavy routing.
+
+    bash code/run_all.sh --skip-routing      reuse the existing travel-time
+                                             matrix (skips ~20 min)
+    bash code/run_all.sh --skip-validation   skip the driving-route validation
+                                             (skips ~25 min)
+    bash code/run_all.sh --tables-only       skip both; regenerates every
+                                             table and figure in ~5 min
+    bash code/run_all.sh --help
+
+Use --tables-only when you have changed an equity or figure script and the
+travel-time matrix is still valid. Re-run the full pipeline whenever stage 1
+changes, because moving the SA2 centroids invalidates the routing.
+
+
+1. ENVIRONMENT
+--------------
+The project venv pins a combination of packages that actually work together.
+Do NOT run the pipeline with the system Python: it carries shapely 2.0.4
+against numpy 2.x, where union_all() and dissolve() raise
+
+    TypeError: ufunc 'create_collection' not supported for the input types
+
+which kills stage 4b. run_all.sh refuses to start without the venv.
+
+To create it from scratch:
+
+    uv venv .venv --python 3.12
+    VIRTUAL_ENV=.venv uv pip install \
+        "numpy>=2,<3" "pandas>=2.2,<3" "shapely>=2.1" "geopandas>=1.0,<2" \
+        pyogrio pyproj pyarrow openpyxl \
+        "r5py==1.1.4" esda libpysal scipy matplotlib seaborn requests
+
+r5py is pinned: it bundles the R5 routing engine (v7.5.1), so changing the
+version changes travel times for reasons unrelated to the analysis.
+
+Java is also required (r5py runs R5 on the JVM). JDK 17 or newer; this was
+run on Temurin 24. Check with:  java -version
+
+Memory: R5 needs a large heap. The default is 12 GB:
+    R5PY_XMX=8G bash code/run_all.sh     # on a 16 GB machine
+
+
+2. INPUT DATA
+-------------
+run_all.sh checks for all of these before it starts and names anything
+missing. None of it is in the repository; download it to these paths.
+
+  data/sa2/auckland_sa2.gpkg
+      SA2 2023 boundaries clipped to the Auckland region (619 units).
+      https://datafinder.stats.govt.nz/
+
+  data/urban_rural/urban-rural.gpkg
+      Urban Rural 2025 classification. Defines the 504-SA2 study area:
+      SA2s overlapping the IUR2025 class 11 "Major urban area" polygon.
+      https://datafinder.stats.govt.nz/
+
+  data/deprivation/NZDep2023_SA1_withHigherGeo.xlsx
+      NZDep2023 at SA1, with the SA1-to-SA2 lookup. Used both for the
+      deprivation scores and for the SA1-to-SA2 mapping behind the
+      population-weighted centroids.
+      University of Otago, Wellington (HIRP).
+
+  data/deprivation/nzdep2023.csv
+      NZDep2023 at SA2.
+
+  data/census/statsnz-2023-census-totals-by-topic-for-individuals-by-
+      statistical-a-GPKG.zip
+      2023 Census by SA1, with geometry. Supplies SA1 population
+      (VAR_2_37) for the population-weighted centroids and the SA2
+      population used as the CI weight.
+
+  data/income/statsnz-2023-census-totals-by-topic-for-households-by-
+      statistical-ar-GPKG.zip
+      2023 Census by household, by SA2. Supplies median household income
+      (VAR_4_225) and mean household size (VAR_4_117) for the income-based
+      robustness checks.
+
+  data/census/2023-census-main-means-of-travel-to-work-by-statistical-area.csv
+      Journey-to-work OD table 121988 (residence SA2 x workplace SA2 x mode).
+
+  data/jobs/...
+      Business Demography Statistics employee counts by workplace SA2.
+
+  data/osm/auckland.osm.pbf
+      OpenStreetMap extract for Auckland (Geofabrik New Zealand, clipped).
+
+  data/gtfs/at_gtfs.zip           (at_gtfs_clean.zip is used if present)
+      Auckland Transport GTFS feed, retrieved 22 April 2026. The "clean"
+      variant has empty optional tables removed, which R5's validator
+      rejects.
+
+  data/scenarios/scenario_{1a,1c,2c,3b,3c,3e}.gpkg
+      The six Auckland Transport ToU charging scenarios. THESE ARE THE
+      AUTHORITATIVE SCENARIO DEFINITIONS.
+        1a, 1c, 2c  collections of SA2 polygons forming the cordons.
+                    scenario_2c holds BOTH rings of the double cordon: its
+                    inner 21 SA2s are exactly the 1c cordon, plus 38
+                    outer-ring SA2s.
+        3b, 3c, 3e  a single polygon each, a 2 km buffer of the priced
+                    motorway alignment (see the layer names, *_2km).
+
+
+3. WHAT EACH STAGE DOES
+-----------------------
+stage1_data_prep.py
+    Loads SA2 boundaries, restricts to the 504-SA2 major urban area, merges
+    NZDep2023 and employment counts, and computes population-weighted SA2
+    centroids from SA1 population. Also attaches SA2 population, which is
+    the weight used by every population-weighted Concentration Index later.
+    -> data/sa2/sa2_prepared.gpkg
+
+stage2_routing.py                                    SLOW (10-30 min)
+    r5py travel-time matrix, 504 x 504, transit + walk, Tuesday 5 May 2026,
+    07:00-09:00 departure window, median across departure minutes, 60-minute
+    ceiling, 15-minute maximum walk access/egress, 1.2 m/s walk speed.
+    -> outputs/intermediate/travel_time_matrix.parquet
+
+stage3_accessibility.py
+    Jobs reachable within 30 and 45 minutes from each SA2.
+    -> data/sa2/sa2_accessibility.gpkg
+
+stage4_equity.py
+    Baseline Concentration Index and the per-scenario burden columns.
+    -> data/sa2/sa2_equity.gpkg
+
+stage4b_scenario_boundaries.py
+    Scenario boundary maps.
+    -> outputs/intermediate/scenario_boundaries.gpkg, figures/fig0_*
+
+stage4c_od_classification.py
+    Classifies every intra-Auckland car commute: whether the specific
+    residence-to-workplace trip has a 45-minute transit alternative, and
+    whether it is charged under each scenario. Trapped payer = charged with
+    no alternative. Also Moran's I and LISA.
+    -> outputs/burden_by_sa2_final.gpkg  (the layer stages 4d-4f read)
+    -> outputs/intermediate/od_*.csv, od_pairs_classified.parquet
+
+stage4d_equity_summary_final.py --rank {nzdep|income|income_eq|income_percap}
+    Table 2, once per ranking variable.
+      nzdep         NZDep2023                       (headline)
+      income        raw median household income     (comparison only; not
+                    size-adjusted, so it misreads large households)
+      income_eq     income / sqrt(household size)   (OECD square-root scale)
+      income_percap income / household size         (no economies of scale)
+    -> outputs/equity_summary_final*.csv
+
+stage4e_ci_income_check.py
+    Compares all four ranking variables side by side on a common sample.
+    -> outputs/ci_income_vs_nzdep.csv, trapped_decile_income_vs_nzdep.csv
+
+stage4f_scenario_geometry.py
+    Recomputes scenario burden from data/scenarios/, and runs the corridor
+    half-width sensitivity (250 m to 3 km). THIS PRODUCES THE HEADLINE
+    SCENARIO NUMBERS; stage 4c uses hardcoded SA2 name lists that disagree
+    with the authoritative geometry.
+    -> outputs/scenario_geometry_headline.csv, *_sensitivity.csv
+
+stage4g_route_motorway_share.py -n 0                 SLOW (20-40 min)
+    Validation: routes every commute on the OSM driving network and measures
+    how much of each route runs on the priced motorway, for charged and
+    not-charged commutes. Confirms the straight-line desire-path test
+    separates users of the priced corridor from non-users.
+    -> outputs/route_motorway_share.csv
+    Use -n 1200 for a fast sample, but note a sample taken by commuter volume
+    is biased towards short trips and understates motorway use.
+
+
+4. OUTPUT LAYOUT
+----------------
+outputs/                        files used in the manuscript
+    scenario_geometry_headline.csv     scenario burden, authoritative geometry
+    scenario_geometry_sensitivity.csv  corridor half-width sensitivity
+    equity_summary_final.csv           Table 2 (NZDep2023)
+    equity_summary_final_income*.csv   Table 2, income-ranked variants
+    ci_income_vs_nzdep.csv             four ranking variables side by side
+    trapped_decile_income_vs_nzdep.csv trapped share by decile band
+    route_motorway_share.csv           driving-route validation, per commute
+    burden_by_sa2_final.gpkg           SA2 layer behind the maps
+    figures/                           manuscript figures
+
+outputs/intermediate/           pipeline artefacts, regenerated on every run
+outputs/archive/                superseded material, not read by any script
+outputs/figures/archive/        figures from earlier versions of the analysis
+
+
+5. THINGS THAT WILL BITE YOU
+----------------------------
+GTFS_SCRATCH
+    _io_utils stages every GeoPackage write through a scratch directory to
+    avoid SQLite locking on network filesystems. It defaults to the platform
+    temp directory; override with GTFS_SCRATCH if /tmp is unsuitable.
+
+Running a stage on its own
+    Always run from the project root, and with the venv on PATH:
+        export PATH="$PWD/.venv/bin:$PATH"
+        python3 code/stage4f_scenario_geometry.py
+    All paths in the scripts are relative to the project root.
+
+Moran's I
+    Uses 999 permutations, so the reported I moves by roughly +/-0.003
+    between runs. The p-values do not change.
+
+Scenario definitions
+    stage4_equity.py still defines the scenarios from hardcoded SA2 name
+    lists, which disagree with data/scenarios/ (2c has 158 SA2s there versus
+    59 in the authoritative file, and the 3b corridor is 263 km2 versus
+    108 km2). stage4f is the corrected path. Quote stage4f for scenario
+    counts; stage 4c output remains the source for the trapped-rate maps.

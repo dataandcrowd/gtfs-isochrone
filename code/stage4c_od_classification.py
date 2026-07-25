@@ -27,13 +27,13 @@ Stage 4c: Origin-destination commute classification and OD-based equity
     per scenario.
     Local Moran's I (LISA) identifies HH/HL/LH/LL clusters at p < 0.05.
 - Outputs:
-    outputs/od_pairs_classified.parquet  -- one row per OD pair
-    outputs/od_charged_by_scenario.csv   -- one row per residence SA2 x scenario
-    outputs/od_equity_summary.csv        -- per-scenario charge / trapped / CI
-    outputs/od_burden_crosstab.csv       -- car commuters by NZDep decile
-    outputs/od_morans_i.csv             -- global Moran's I results
-    outputs/od_lisa_summary.csv         -- LISA cluster counts
-    outputs/od_classification.gpkg       -- SA2 polygons + per-scenario columns
+    outputs/intermediate/od_pairs_classified.parquet  -- one row per OD pair
+    outputs/intermediate/od_charged_by_scenario.csv   -- one row per residence SA2 x scenario
+    outputs/intermediate/od_equity_summary.csv        -- per-scenario charge / trapped / CI
+    outputs/intermediate/od_burden_crosstab.csv       -- car commuters by NZDep decile
+    outputs/intermediate/od_morans_i.csv             -- global Moran's I results
+    outputs/intermediate/od_lisa_summary.csv         -- LISA cluster counts
+    outputs/intermediate/od_classification.gpkg       -- SA2 polygons + per-scenario columns
 """
 
 import sys
@@ -58,7 +58,7 @@ DATA_SA2    = Path("data") / "sa2"
 
 COMMUTE_CSV = DATA_CENSUS / "2023-census-main-means-of-travel-to-work-by-statistical-area.csv"
 SA2_EQUITY  = DATA_SA2 / "sa2_equity.gpkg"
-TT_PARQUET  = OUTPUT / "travel_time_matrix.parquet"
+TT_PARQUET  = OUTPUT / "intermediate" / "travel_time_matrix.parquet"
 
 for _p, _hint in [
     (COMMUTE_CSV, "Download '2023 Census main means of travel to work by "
@@ -390,7 +390,7 @@ od_cols = (
      "transit_time", "has_pt_alt"]
     + [f"charged_{s}" for s in SCENARIOS]
 )
-od_out[od_cols].to_parquet(OUTPUT / "od_pairs_classified.parquet", index=False)
+od_out[od_cols].to_parquet(OUTPUT / "intermediate" / "od_pairs_classified.parquet", index=False)
 
 long_rows = []
 for s in SCENARIOS:
@@ -405,12 +405,39 @@ for s in SCENARIOS:
         "od_burden": sa2[f"od_burden_{s}"],
     }))
 pd.concat(long_rows, ignore_index=True).to_csv(
-    OUTPUT / "od_charged_by_scenario.csv", index=False)
-equity_df.to_csv(OUTPUT / "od_equity_summary.csv", index=False)
-crosstab_df.to_csv(OUTPUT / "od_burden_crosstab.csv", index=False)
-morans_df.to_csv(OUTPUT / "od_morans_i.csv", index=False)
-lisa_df.to_csv(OUTPUT / "od_lisa_summary.csv")
-od_gpkg_path = safe_to_gpkg(sa2, OUTPUT / "od_classification.gpkg")
+    OUTPUT / "intermediate" / "od_charged_by_scenario.csv", index=False)
+equity_df.to_csv(OUTPUT / "intermediate" / "od_equity_summary.csv", index=False)
+crosstab_df.to_csv(OUTPUT / "intermediate" / "od_burden_crosstab.csv", index=False)
+morans_df.to_csv(OUTPUT / "intermediate" / "od_morans_i.csv", index=False)
+lisa_df.to_csv(OUTPUT / "intermediate" / "od_lisa_summary.csv")
+od_gpkg_path = safe_to_gpkg(sa2, OUTPUT / "intermediate" / "od_classification.gpkg")
+
+# burden_by_sa2_final.gpkg — the curated layer stages 4d/4e and the figure
+# scripts read. Same rows as od_classification.gpkg, restricted to the columns
+# those consumers need and with the scenario columns given their short names.
+# Previously this file had no producing script in the repo, so the equity
+# tables could not be regenerated from source; it is written here so the
+# pipeline runs end to end.
+_burden_renames = {f"od_burden_{s}": f"burden_{s}" for s in SCENARIOS}
+_burden_renames.update({f"lisa_trapped_{s}": f"lisa_{s}" for s in SCENARIOS})
+
+_burden_cols = (
+    ["SA22023_V1_00", "SA22026_V1_00_NAME", "NZDep2023", "NZDep_Decile",
+     "pop", "access_30min", "access_45min"]
+    + [f"od_burden_{s}" for s in SCENARIOS]
+    + [f"od_charged_commuters_{s}" for s in SCENARIOS]
+    + [f"od_trapped_commuters_{s}" for s in SCENARIOS]
+    + [f"lisa_trapped_{s}" for s in SCENARIOS]
+    + ["geometry"]
+)
+_missing = [c for c in _burden_cols if c not in sa2.columns]
+if _missing:
+    raise KeyError(f"Cannot build burden layer, missing columns: {_missing}")
+
+burden_path = safe_to_gpkg(
+    sa2[_burden_cols].rename(columns=_burden_renames),
+    OUTPUT / "burden_by_sa2_final.gpkg",
+)
 
 print("\nOutputs written:")
 for name in ("od_pairs_classified.parquet", "od_charged_by_scenario.csv",

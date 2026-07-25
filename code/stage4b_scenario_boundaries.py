@@ -6,7 +6,7 @@ script is retained as a standalone option for re-rendering fig0 after the
 SCENARIO_SA2_SETS have been revised, without rerunning the full equity stage.
 
 - Dissolves charged SA2s per scenario into a single polygon (or multipolygon)
-- Saves outputs/scenario_boundaries.gpkg with one row per scenario
+- Saves outputs/intermediate/scenario_boundaries.gpkg with one row per scenario
 - Renders outputs/figures/fig0_scenario_boundaries.png (2x3 grid map)
 """
 
@@ -71,7 +71,7 @@ for sc in SCENARIOS:
 boundaries = gpd.GeoDataFrame(rows, geometry="geometry", crs=sa2.crs)
 
 # ── 4b.2  Save as GeoPackage ─────────────────────────────────────────────────
-written = safe_to_gpkg(boundaries, OUTPUT / "scenario_boundaries.gpkg")
+written = safe_to_gpkg(boundaries, OUTPUT / "intermediate" / "scenario_boundaries.gpkg")
 print(f"  scenario boundary layer written to {written.name}")
 
 # ── 4b.3  Render 2x3 grid map ────────────────────────────────────────────────

@@ -1,0 +1,7 @@
+scenario,definition,half_width_m,charged_commuters,charged_pct_of_all,trapped_commuters,trapped_pct,n_charged_SA2,CI_nzdep,reading_nzdep,CI_income_eq,reading_income_eq
+1a,cordon (data/scenarios),,18996,7.6,12966,68.3,395,-0.0547,Mildly regressive,-0.1701,Moderately regressive
+1c,cordon (data/scenarios),,37005,14.8,25866,69.9,427,-0.0685,Mildly regressive,-0.162,Moderately regressive
+2c,double cordon (data/scenarios),,44613,17.9,31011,69.5,430,-0.0673,Mildly regressive,-0.1589,Moderately regressive
+3b,motorway buffer (data/scenarios),2000.0,101598,40.7,74634,73.5,484,-0.039,Neutral,-0.1106,Moderately regressive
+3c,motorway buffer (data/scenarios),2000.0,103242,41.3,75582,73.2,484,-0.039,Neutral,-0.1106,Moderately regressive
+3e,motorway buffer (data/scenarios),2000.0,89355,35.8,67866,76.0,482,-0.0417,Neutral,-0.1142,Moderately regressive

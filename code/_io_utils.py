@@ -25,7 +25,12 @@ from pathlib import Path
 import geopandas as gpd
 
 
-SCRATCH_ROOT = Path(os.environ.get("GTFS_SCRATCH", "/sessions/ecstatic-wizardly-fermi"))
+# Scratch directory for the staged GeoPackage read/write below. Override with
+# GTFS_SCRATCH; the default follows the platform temp dir rather than a fixed
+# path, so a stage run outside run_popw_rebuild.sh (which exports GTFS_SCRATCH
+# itself) does not fail on a directory that only existed on one machine.
+SCRATCH_ROOT = Path(os.environ.get("GTFS_SCRATCH") or tempfile.gettempdir())
+SCRATCH_ROOT.mkdir(parents=True, exist_ok=True)
 
 # Default projected CRS for all final outputs of the Auckland pipeline.
 # EPSG:2193 is NZTM2000 (New Zealand Transverse Mercator), the official

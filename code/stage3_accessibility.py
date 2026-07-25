@@ -22,7 +22,7 @@ DATA_SA2 = Path("data") / "sa2"
 SA2_PATH = DATA_SA2 / "sa2_prepared.gpkg"
 if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No prepared SA2 file at {SA2_PATH}. Run stage1 first.")
-TT_PARQUET = OUTPUT / "travel_time_matrix.parquet"
+TT_PARQUET = OUTPUT / "intermediate" / "travel_time_matrix.parquet"
 
 # ── 3a. Load data ─────────────────────────────────────────────────────────────
 sa2 = safe_read_gpkg(SA2_PATH)

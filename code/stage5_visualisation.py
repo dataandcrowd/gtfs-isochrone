@@ -48,8 +48,8 @@ SA2_PATH = DATA_SA2 / "sa2_equity.gpkg"
 if not (SA2_PATH.exists() and SA2_PATH.stat().st_size > 0):
     raise FileNotFoundError(f"No equity file at {SA2_PATH}. Run stage4 first.")
 print(f"Reading equity layer: {SA2_PATH.name}")
-CI_CSV        = OUTPUT / "equity_summary.csv"
-CROSSTAB_CSV  = OUTPUT / "burden_crosstab.csv"
+CI_CSV        = OUTPUT / "intermediate" / "equity_summary.csv"
+CROSSTAB_CSV  = OUTPUT / "intermediate" / "burden_crosstab.csv"
 
 sa2        = safe_read_gpkg(SA2_PATH)
 # The SA2 layer is stored in EPSG:2193 (NZTM2000, metres). MAP_XLIM and

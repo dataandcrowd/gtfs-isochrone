@@ -151,6 +151,43 @@ if "SA22023_V1_00" not in sa2.columns:
 sa2 = sa2.to_crs(epsg=4326)
 print(f"SA2 retained from {SA2_SOURCE.name}: {len(sa2)} units")
 
+# ── 1c-ii. Restrict to the major urban area ─────────────────────────────────
+# Study area = SA2s overlapping the Auckland "Major urban area" polygon
+# (IUR2025 class 11) from the Stats NZ urban/rural layer. This reproduces the
+# 504-SA2 study area exactly.
+#
+# Overlap, not centroid-within: four coastal SA2s (Takapuna Central, Pakuranga
+# West, Rosebank Peninsula, Te Atatū Peninsula West) have geometric centroids
+# that fall in the harbour, outside the urban polygon. The rule is otherwise
+# insensitive to the threshold — all 504 selected SA2s overlap the urban area
+# by more than 50%, and none of the 115 excluded ones reach even 0.1%.
+UR_GPKG = DATA_URBAN / "urban-rural.gpkg"
+MAJOR_URBAN_CLASS = "11"
+URBAN_OVERLAP_MIN = 0.5
+
+if UR_GPKG.exists():
+    _ur = gpd.read_file(UR_GPKG).to_crs(epsg=2193)
+    _ur["_cls"] = _ur["IUR2025_V1_00"].astype(str)
+    _mu = _ur.loc[_ur["_cls"] == MAJOR_URBAN_CLASS, "geometry"]
+    if _mu.empty:
+        raise ValueError(
+            f"No IUR2025 class {MAJOR_URBAN_CLASS} (major urban area) polygon in "
+            f"{UR_GPKG}. Classes present: {sorted(_ur['_cls'].unique())}"
+        )
+    _mu_geom = _mu.iloc[0]
+
+    _sa2_nztm = sa2.to_crs(epsg=2193)
+    _frac = _sa2_nztm.geometry.intersection(_mu_geom).area / _sa2_nztm.geometry.area
+    _keep = _frac > URBAN_OVERLAP_MIN
+
+    print(f"Urban filter (IUR2025 class {MAJOR_URBAN_CLASS}, overlap > "
+          f"{URBAN_OVERLAP_MIN:.0%}): {int(_keep.sum())} of {len(sa2)} SA2s retained, "
+          f"{int((~_keep).sum())} rural/peri-urban SA2s dropped")
+    sa2 = sa2[_keep.values].reset_index(drop=True)
+else:
+    print(f"WARNING: {UR_GPKG} not found — keeping all {len(sa2)} SA2s "
+          "(study area will NOT match the 504-SA2 urban definition).")
+
 # ── 1d. Load NZDep 2023 ──────────────────────────────────────────────────────
 # NZDep 2023 — download from:
 # https://www.otago.ac.nz/wellington/departments/publichealth/research/hirp/otago020194.html
@@ -273,6 +310,11 @@ if _has_sa1_geo and SA1_POP_XLSX.exists():
 
     pw_centroids = sa1_merged.groupby("SA22023_code", group_keys=False)[["sa1_cx", "sa1_cy", "pop"]].apply(_popw_centroid).reset_index()
 
+    # SA2 usually-resident population: the same SA1 counts summed per SA2. This
+    # is the weight used by the population-weighted Concentration Index in
+    # stages 4d/4e, so it has to travel down the pipeline with the centroids.
+    sa2_pop_lookup = sa1_merged.groupby("SA22023_code")["pop"].sum().rename("pop")
+
     # Convert NZTM coords to WGS84
     pw_points = gpd.GeoDataFrame(
         pw_centroids,
@@ -320,6 +362,14 @@ if _has_sa1_geo and SA1_POP_XLSX.exists():
     print(f"    mean={dists.mean():.0f}, median={dists.median():.0f}, "
           f"max={dists.max():.0f}, p95={dists.quantile(0.95):.0f}")
 
+    sa2 = sa2.merge(sa2_pop_lookup, left_on="SA22023_V1_00_str",
+                    right_index=True, how="left")
+    _n_nopop = int(sa2["pop"].isna().sum())
+    if _n_nopop:
+        print(f"  WARNING: {_n_nopop} SA2s have no SA1 population — pop set to 0")
+        sa2["pop"] = sa2["pop"].fillna(0)
+    print(f"  SA2 population attached: {int(sa2['pop'].sum()):,} usual residents")
+
     sa2 = sa2.drop(columns=["SA22023_V1_00_str", "geom_lon", "geom_lat"])
     print(f"  Population-weighted centroids assigned to {(~sa2['lon'].isna()).sum()} SA2s")
 
@@ -344,5 +394,10 @@ _drop_cols = [c for c in ["centroid_wgs84"] if c in sa2.columns]
 _layer = sa2.drop(columns=_drop_cols)
 safe_to_gpkg(_layer, OUT_GPKG)
 print(f"\nStage 1 complete. Output saved: {OUT_GPKG}")
-print(sa2[["SA22023_V1_00", "NZDep2023", "NZDep_Decile", "jobs_count",
-           "lon", "lat", "pop_total"]].describe())
+# Summary over whichever of these the layer actually carries. Guarding here
+# because a stale column name in this diagnostic aborts the whole rebuild
+# pipeline (run_popw_rebuild.sh uses `set -e`) after stage 1 has already
+# written its output, leaving the downstream stages on stale inputs.
+_summary_cols = [c for c in ["NZDep2023", "NZDep_Decile", "jobs_count",
+                             "lon", "lat", "pop_total"] if c in sa2.columns]
+print(sa2[_summary_cols].describe())

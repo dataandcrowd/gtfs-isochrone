@@ -441,8 +441,8 @@ print(ci_summary.to_string(index=False))
 OUT_GPKG = DATA_SA2 / "sa2_equity.gpkg"
 safe_to_gpkg(sa2, OUT_GPKG)
 print(f"  equity layer written to {OUT_GPKG.name}")
-crosstab_all.to_csv(OUTPUT / "burden_crosstab.csv", index=False)
-ci_summary.to_csv(OUTPUT / "equity_summary.csv", index=False)
+crosstab_all.to_csv(OUTPUT / "intermediate" / "burden_crosstab.csv", index=False)
+ci_summary.to_csv(OUTPUT / "intermediate" / "equity_summary.csv", index=False)
 
 print(f"\nStage 4 complete.")
 print(f"  sa2_equity.gpkg       — SA2 polygons with burden classification")
@@ -493,12 +493,12 @@ for _sc in SCENARIO_SA2_SETS.keys():
 
 boundaries = gpd.GeoDataFrame(_rows, geometry="geometry", crs=sa2.crs)
 
-_bnd_path = safe_to_gpkg(boundaries, OUTPUT / "scenario_boundaries.gpkg")
+_bnd_path = safe_to_gpkg(boundaries, OUTPUT / "intermediate" / "scenario_boundaries.gpkg")
 print(f"  scenario boundary layer written to {_bnd_path.name}")
 
 # Also write a plain CSV (no geometry) so it can be read anywhere.
 pd.DataFrame(boundaries.drop(columns="geometry")).to_csv(
-    OUTPUT / "scenario_boundaries_summary.csv", index=False
+    OUTPUT / "intermediate" / "scenario_boundaries_summary.csv", index=False
 )
 
 # ── Map: 2x3 grid ────────────────────────────────────────────────────────────

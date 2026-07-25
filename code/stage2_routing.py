@@ -78,8 +78,14 @@ MAX_TRAVEL_TIME    = datetime.timedelta(minutes=60)
 MAX_WALK_TIME      = datetime.timedelta(minutes=15)
 WALK_SPEED_MS      = 1.2    # m/s (~4.3 km/h)
 
-computer = r5py.TravelTimeMatrixComputer(
-    network,
+# ── 2d. Compute travel time matrix ───────────────────────────────────────────
+print(f"Computing travel time matrix for {len(origins)} x {len(origins)} SA2 pairs...")
+print("This is the main computation — expect 10-30 minutes for full Auckland.")
+
+# r5py 1.x: TravelTimeMatrix subclasses DataFrame and computes on construction.
+# r5py 0.x used TravelTimeMatrixComputer(...).compute_travel_times(); keep that
+# path so the script still runs against an older install.
+_matrix_kwargs = dict(
     origins=origins,
     destinations=origins,
     departure=DEPARTURE_DATETIME,
@@ -94,11 +100,10 @@ computer = r5py.TravelTimeMatrixComputer(
     speed_walking=WALK_SPEED_MS * 3.6,   # r5py expects km/h
 )
 
-# ── 2d. Compute travel time matrix ───────────────────────────────────────────
-print(f"Computing travel time matrix for {len(origins)} x {len(origins)} SA2 pairs...")
-print("This is the main computation — expect 10-30 minutes for full Auckland.")
-
-tt = computer.compute_travel_times()
+if hasattr(r5py, "TravelTimeMatrix"):
+    tt = r5py.TravelTimeMatrix(network, **_matrix_kwargs)
+else:
+    tt = r5py.TravelTimeMatrixComputer(network, **_matrix_kwargs).compute_travel_times()
 
 # r5py emits either a single `travel_time` column (when percentiles == [50],
 # which is the default) or `travel_time_p{:02d}` columns when multiple
@@ -115,7 +120,7 @@ print(f"Median travel time: {tt['travel_time_p50'].median():.1f} min")
 # ── 2e. Save ─────────────────────────────────────────────────────────────────
 # Use plain pandas writer: the travel-time matrix has no geometry column, so a
 # normal parquet file (non-geo) is the natural format.
-OUT = OUTPUT / "travel_time_matrix.parquet"
+OUT = OUTPUT / "intermediate" / "travel_time_matrix.parquet"
 pd.DataFrame(tt).to_parquet(OUT, index=False)
 print(f"\nStage 2 complete. Output saved: {OUT}")
 print(tt.describe())
