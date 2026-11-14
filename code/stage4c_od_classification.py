@@ -2,18 +2,24 @@
 Stage 4c: Origin-destination commute classification and OD-based equity
 - Loads the 2023 Census journey-to-work table (SA2 of usual residence x
   SA2 of workplace, with the main-means-of-travel-to-work breakdown).
-- Reconstructs each TOUC scenario's charged SA2 set from the burden_* columns
-  written by stage 4, plus the dissolved corridor footprint for the motorway
-  scenarios.
-- Flags every commute OD pair as charged or not, per scenario:
-    CBD scenarios (1a, 1c, 2c)
+- Flags every commute OD pair as charged or not, per scenario, from the
+  scenario geometry in data/scenarios/ via _scenario_utils.charged_mask
+  (manuscript scenarios 1a, 1c, 3c only):
+    Cordons (1a, 1c)
         charged when the workplace SA2 lies inside the cordon AND the
-        residence SA2 lies outside it.
-    Motorway scenarios (3b, 3c, 3e)
+        residence SA2 lies outside it (cordon SA2s listed in the scenario file).
+    Corridor (3c)
         charged when the straight residence->workplace desire line intersects
-        the dissolved motorway-corridor footprint. This approximates "the
-        peak-hour route crosses a priced motorway segment"; the exact test
-        needs car route geometries, which the pipeline does not produce.
+        the corridor polygon (1 km half-width state-highway buffer plus the 1a
+        cordon, build_scenario_3c.py). This approximates "the peak-hour route
+        crosses a priced motorway segment"; the exact test needs car route
+        geometries, which the pipeline does not produce.
+  FIX 2026-11-14: this stage previously took the charged sets from the
+  hand-listed SA2 names in stage4_equity.py (burden_* columns in
+  sa2_equity.gpkg) and, for motorways, dissolved those whole SA2 polygons into
+  the corridor. That disagreed with the manuscript (3c: 209,619 charged vs
+  66,027). The rules above reproduce the manuscript exactly:
+  1a 18,996 / 1c 37,005 / 3c 66,027 charged car commuters.
 - A "viable public-transit alternative" is decided per OD pair, not by a
   residence-level proxy: the residence->workplace transit travel time is read
   from the stage-2 travel-time matrix. A charged commuter is a "trapped payer"
@@ -22,10 +28,19 @@ Stage 4c: Origin-destination commute classification and OD-based equity
     no_charge                -- the OD pair does not cross the priced corridor
     pays_with_alternative    -- charged, the trip is transit-feasible
     pays_without_alternative -- charged, the trip has no viable transit option
-- Spatial autocorrelation diagnostics:
-    Global Moran's I (queen contiguity) on access_45min and trapped commuters
-    per scenario.
-    Local Moran's I (LISA) identifies HH/HL/LH/LL clusters at p < 0.05.
+- Equity and spatial statistics, as in the manuscript Methods (helpers in
+  _equity_utils, shared with stage 4d):
+    Three weighted CIs per scheme (charged share, trapped share of the
+    charged, trapped share of all car commuters), ranked most -> least
+    deprived, positive = concentrated among the less deprived.
+    Global Moran's I (queen contiguity, 999 permutations) of the TRAPPED SHARE.
+    Bivariate local Moran: trapped share x neighbours' mean NZDep2023, HH / HL /
+    LH / LL at p < 0.05. Both on SA2s sending >= 1 charged commuter.
+    Global Moran's I and univariate LISA of access_45min are kept as a
+    baseline diagnostic.
+  FIX 2026-11-14: previously Moran's I and the LISA were on the trapped COUNT
+  (univariate) and the CIs were unweighted count CIs, neither of which is what
+  the manuscript reports.
 - Outputs:
     outputs/intermediate/od_pairs_classified.parquet  -- one row per OD pair
     outputs/intermediate/od_charged_by_scenario.csv   -- one row per residence SA2 x scenario
@@ -39,17 +54,19 @@ Stage 4c: Origin-destination commute classification and OD-based equity
 import sys
 from pathlib import Path
 
-from functools import reduce
-
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-import shapely
 from esda.moran import Moran, Moran_Local
 from libpysal.weights import Queen
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _io_utils import safe_read_gpkg, safe_to_gpkg  # noqa: E402
+from _equity_utils import scheme_cis, trapped_share_spatial  # noqa: E402
+from _scenario_utils import (  # noqa: E402
+    SCENARIOS, CBD_SCENARIOS, MOTORWAY_SCENARIOS,
+    charged_mask, desire_lines, scenario_sa2_codes, corridor_polygon,
+)
 
 DATA        = Path("data")
 DATA_CENSUS = DATA / "census"
@@ -69,10 +86,6 @@ for _p, _hint in [
 ]:
     if not (_p.exists() and _p.stat().st_size > 0):
         raise FileNotFoundError(f"Missing input {_p}. {_hint}")
-
-SCENARIOS          = ["1a", "1c", "2c", "3b", "3c", "3e"]
-CBD_SCENARIOS      = {"1a", "1c", "2c"}
-MOTORWAY_SCENARIOS = {"3b", "3c", "3e"}
 
 BURDEN_CLASSES = ["no_charge", "pays_with_alternative", "pays_without_alternative"]
 
@@ -98,40 +111,26 @@ SUPPRESSED = -999
 VIABLE_PT_MINUTES = 45
 
 
-def concentration_index(values, deprivation):
-    """CI = (2 / mu) * Cov(values, fractional NZDep rank). Matches stage 4."""
-    df = pd.DataFrame({"y": values, "rank": deprivation}).dropna()
-    if len(df) < 2:
-        return np.nan
-    n = len(df)
-    df["r_frac"] = df["rank"].rank(method="average") / n
-    mu = df["y"].mean()
-    if mu == 0:
-        return np.nan
-    cov = np.cov(df["y"], df["r_frac"], bias=True)[0, 1]
-    return round(2 * cov / mu, 4)
-
-
-# -- 4c.a  Load the equity layer and rebuild scenario footprints --------------
+# -- 4c.a  Load the equity layer and the scenario geometry --------------------
 sa2 = safe_read_gpkg(SA2_EQUITY)
 sa2["SA22023_V1_00"] = sa2["SA22023_V1_00"].astype(str)
 sa2 = sa2.to_crs(epsg=2193)
 valid_codes = set(sa2["SA22023_V1_00"])
 print(f"Auckland SA2 units: {len(sa2)}")
 
-# Charged SA2 set per scenario = SA2s that stage 4 did not label 'no_charge'.
-scenario_sets = {}
-for s in SCENARIOS:
-    col = f"burden_{s}"
-    if col not in sa2.columns:
-        raise KeyError(f"{SA2_EQUITY.name} has no '{col}' column. Re-run stage4.")
-    scenario_sets[s] = set(sa2.loc[sa2[col] != "no_charge", "SA22023_V1_00"])
+# The stage-4 burden_* columns come from the superseded hand-listed SA2 sets;
+# drop them so nothing below can pick them up by accident.
+sa2 = sa2.drop(columns=[c for c in sa2.columns if c.startswith("burden_")])
 
-# Dissolved corridor footprint for the motorway scenarios (NZTM, metres).
-corridor_poly = {}
+print("Scenario geometry (data/scenarios/):")
+for s in CBD_SCENARIOS:
+    codes = scenario_sa2_codes(s)
+    missing = codes - valid_codes
+    if missing:
+        raise ValueError(f"Cordon {s}: SA2 codes not in the study area: {sorted(missing)}")
+    print(f"  {s}: cordon of {len(codes)} SA2s")
 for s in MOTORWAY_SCENARIOS:
-    charged = sa2[sa2["SA22023_V1_00"].isin(scenario_sets[s])]
-    corridor_poly[s] = reduce(lambda a, b: a.union(b), charged.geometry)
+    print(f"  {s}: corridor polygon {corridor_polygon(s).area / 1e6:.1f} km2")
 
 # SA2 centroid lookup (population-weighted lon/lat from stage 1), in NZTM.
 _cent = gpd.GeoSeries(
@@ -188,21 +187,11 @@ for thr in (30, 45, 60):
           f"{100 * feasible / max(od['car_commuters'].sum(), 1):.1f}%")
 
 # -- 4c.e  Classify each OD pair, then assign burden --------------------------
-# CBD: workplace inside the cordon, residence outside it.
-for s in CBD_SCENARIOS:
-    cset = scenario_sets[s]
-    od[f"charged_{s}"] = od[DEST_COL].isin(cset) & ~od[ORIGIN_COL].isin(cset)
-
-# Motorway: the residence->workplace desire line intersects the corridor.
-_o = np.column_stack([od[ORIGIN_COL].map(cx).to_numpy(),
-                      od[ORIGIN_COL].map(cy).to_numpy()])
-_d = np.column_stack([od[DEST_COL].map(cx).to_numpy(),
-                      od[DEST_COL].map(cy).to_numpy()])
-desire_lines = gpd.GeoSeries(
-    shapely.linestrings(np.stack([_o, _d], axis=1)), crs="EPSG:2193"
-)
-for s in MOTORWAY_SCENARIOS:
-    od[f"charged_{s}"] = desire_lines.intersects(corridor_poly[s]).to_numpy()
+# Cordons: workplace inside, residence outside. Corridor: desire line crosses
+# the corridor polygon. Both from _scenario_utils, shared with stage 4f.
+_lines = desire_lines(od[ORIGIN_COL], od[DEST_COL], cx, cy)
+for s in SCENARIOS:
+    od[f"charged_{s}"] = charged_mask(s, od[ORIGIN_COL], od[DEST_COL], lines=_lines)
 
 # Burden: charged trips split by whether the trip itself is transit-feasible.
 _has_alt = od["has_pt_alt"].to_numpy()
@@ -233,6 +222,10 @@ for s in SCENARIOS:
     sa2[f"od_charged_share_{s}"] = (
         ((payer + trapped) / sa2["car_commuters_out"]).fillna(0).round(4)
     )
+    # Trapped share of the charged; NaN where the SA2 sends no charged commuter.
+    _ch = sa2[f"od_charged_commuters_{s}"]
+    sa2[f"od_trapped_share_{s}"] = (
+        sa2[f"od_trapped_commuters_{s}"] / _ch.where(_ch > 0)).round(4)
 
     # Per-SA2 label: the burden class carrying the most of the SA2's car
     # commuters. Threshold-free; SA2s with no car outflow are 'no_charge'.
@@ -271,18 +264,9 @@ for s in SCENARIOS:
         "trapped_pct_of_charged": round(100 * trapped_tot / max(charged_tot, 1), 1),
         "trapped_deprived_share": round(
             100 * deprived_trapped / max(trapped_tot, 1), 1),
-        # NOTE (A1): CI_charged / CI_trapped below are CIs on COMMUTER COUNTS
-        # (charged and trapped) and therefore use the OPPOSITE sign convention
-        # from the CI reported in the paper's Table 2. The reported CI
-        # (CI_charged_pw in equity_summary_final.csv) is on 45-min job
-        # ACCESSIBILITY over the charged commuters' residence SA2s,
-        # population-weighted, where NEGATIVE = regressive. The two counts CIs
-        # here are POSITIVE = regressive (burden concentrated in deprived SA2s)
-        # and are retained only as a diagnostic; they are not the reported CI.
-        "CI_charged": concentration_index(
-            sa2[f"od_charged_commuters_{s}"], sa2["NZDep2023"]),
-        "CI_trapped": concentration_index(
-            sa2[f"od_trapped_commuters_{s}"], sa2["NZDep2023"]),
+        # Manuscript CIs: positive = concentrated among the LESS deprived.
+        **scheme_cis(sa2["car_commuters_out"], sa2[f"od_charged_commuters_{s}"],
+                     sa2[f"od_trapped_commuters_{s}"], sa2["NZDep2023"]),
     })
 
 equity_df = pd.DataFrame(equity_rows)
@@ -301,18 +285,12 @@ print("Q3  Which scenario concentrates the trapped-payer burden on "
       "deprived areas?")
 print("=" * 78)
 print(equity_df[["scenario", "trapped_commuters", "trapped_deprived_share",
-                 "CI_trapped"]].to_string(index=False))
+                 "CI_charged_share", "CI_trapped_share", "CI_trapped_all"]]
+      .to_string(index=False))
 print("\n  trapped_deprived_share = % of trapped payers living in NZDep "
       "deciles 8-10")
-print("  CI_trapped > 0 => trapped-payer burden concentrated in MORE deprived "
-      "SA2s (regressive).")
-print("  NB: CI_trapped is on the trapped COUNT (positive = regressive) and is a "
-      "diagnostic only;")
-print("      the paper's reported CI is on 45-min ACCESSIBILITY (negative = "
-      "regressive) — opposite sign.")
-_worst = equity_df.loc[equity_df["CI_trapped"].idxmax()]
-print(f"  most regressive: scenario {_worst['scenario']} "
-      f"(CI_trapped = {_worst['CI_trapped']})")
+print("  CI sign (manuscript): positive = concentrated among the LESS deprived, "
+      "negative = among the MORE deprived.")
 
 # -- 4c.h  Global Moran's I ---------------------------------------------------
 w = Queen.from_dataframe(sa2, use_index=False)
@@ -321,67 +299,63 @@ print(f"\nQueen contiguity weights: {w.n} SA2s, {w.n_components} component(s), "
       f"{w.islands} island(s)")
 
 morans_rows = []
+lisa_counts = {}
 
+# Baseline diagnostic: accessibility (all SA2s, univariate).
+np.random.seed(42)
 mi_access = Moran(sa2["access_45min"].fillna(0).to_numpy(), w)
 morans_rows.append({
-    "variable": "access_45min", "scenario": "-",
+    "variable": "access_45min", "scenario": "-", "n_SA2": w.n,
     "morans_I": round(mi_access.I, 4), "p_value": round(mi_access.p_sim, 4),
 })
 print(f"\nGlobal Moran's I  access_45min: {mi_access.I:.4f}  (p={mi_access.p_sim:.4f})")
 
-print(f"\n{'scenario':>10}  {'Moran I':>8}  {'p':>6}")
-for s in SCENARIOS:
-    col = f"od_trapped_commuters_{s}"
-    mi = Moran(sa2[col].fillna(0).to_numpy(), w)
-    morans_rows.append({
-        "variable": "od_trapped_commuters", "scenario": s,
-        "morans_I": round(mi.I, 4), "p_value": round(mi.p_sim, 4),
-    })
-    print(f"{s:>10}  {mi.I:>8.4f}  {mi.p_sim:>6.4f}")
-
-morans_df = pd.DataFrame(morans_rows)
-
-# -- 4c.i  Local Moran's I (LISA) --------------------------------------------
-lisa_counts = {}
-
 lm_access = Moran_Local(sa2["access_45min"].fillna(0).to_numpy(), w, seed=42)
 sig = lm_access.p_sim < 0.05
 labels = np.full(len(sa2), "ns", dtype=object)
-labels[(lm_access.q == 1) & sig] = "HH"
-labels[(lm_access.q == 2) & sig] = "LH"
-labels[(lm_access.q == 3) & sig] = "LL"
-labels[(lm_access.q == 4) & sig] = "HL"
+for q, lab in {1: "HH", 2: "LH", 3: "LL", 4: "HL"}.items():
+    labels[(lm_access.q == q) & sig] = lab
 sa2["lisa_access45"] = labels
 lisa_counts["access_45min"] = pd.Series(labels).value_counts().to_dict()
 
+# -- 4c.i  Trapped share: global Moran's I + bivariate local Moran -----------
+print(f"\nTrapped share (SA2s with >= 1 charged commuter):")
+print(f"{'scenario':>10}  {'n':>4}  {'Moran I':>8}  {'p':>6}   HH   HL   LH   LL")
 for s in SCENARIOS:
-    col = f"od_trapped_commuters_{s}"
-    lm = Moran_Local(sa2[col].fillna(0).to_numpy(), w, seed=42)
-    sig = lm.p_sim < 0.05
-    labels = np.full(len(sa2), "ns", dtype=object)
-    labels[(lm.q == 1) & sig] = "HH"
-    labels[(lm.q == 2) & sig] = "LH"
-    labels[(lm.q == 3) & sig] = "LL"
-    labels[(lm.q == 4) & sig] = "HL"
-    sa2[f"lisa_trapped_{s}"] = labels
-    lisa_counts[s] = pd.Series(labels).value_counts().to_dict()
+    summ, labs = trapped_share_spatial(
+        sa2, sa2[f"od_charged_commuters_{s}"], sa2[f"od_trapped_commuters_{s}"],
+        sa2["NZDep2023"])
+    sa2[f"lisa_trapped_{s}"] = labs.to_numpy()
+    morans_rows.append({
+        "variable": "od_trapped_share", "scenario": s, "n_SA2": summ["n_moran"],
+        "morans_I": summ["moran_I"], "p_value": summ["moran_p"],
+    })
+    lisa_counts[s] = labs.value_counts().to_dict()
+    print(f"{s:>10}  {summ['n_moran']:>4}  {summ['moran_I']:>8.3f}  {summ['moran_p']:>6.3f}"
+          f"  {summ['n_HH']:>3}  {summ['n_HL']:>3}  {summ['n_LH']:>3}  {summ['n_LL']:>3}")
 
-lisa_df = pd.DataFrame(lisa_counts).T.reindex(columns=["HH", "HL", "LH", "LL", "ns"]).fillna(0).astype(int)
+morans_df = pd.DataFrame(morans_rows)
+lisa_df = (pd.DataFrame(lisa_counts).T
+           .reindex(columns=["HH", "HL", "LH", "LL", "ns", "none"]).fillna(0).astype(int))
 lisa_df.index.name = "variable_or_scenario"
 
 print("\n" + "=" * 78)
-print("LISA cluster counts (p < 0.05)")
+print("Cluster counts (p < 0.05). access_45min: univariate LISA. Scenarios:")
+print("bivariate local Moran, trapped share x neighbours' NZDep2023; "
+      "'none' = no charged commuters")
 print("=" * 78)
 print(lisa_df.to_string())
 
 for s in SCENARIOS:
-    hh_sa2 = sa2[sa2[f"lisa_trapped_{s}"] == "HH"].nlargest(
-        8, f"od_trapped_commuters_{s}"
-    )
-    if len(hh_sa2) > 0:
-        print(f"\nTrapped-payer hotspots (scenario {s}, HH, top {len(hh_sa2)}):")
-        for _, row in hh_sa2.iterrows():
-            print(f"  {row['SA22026_V1_00_NAME']:40s}  {int(row[f'od_trapped_commuters_{s}']):>6,}")
+    for lab, desc in [("HH", "high trapped share, deprived neighbours"),
+                      ("HL", "high trapped share, affluent neighbours")]:
+        top = sa2[sa2[f"lisa_trapped_{s}"] == lab].nlargest(6, f"od_trapped_commuters_{s}")
+        if len(top):
+            print(f"\n{s} {lab} ({desc}), top {len(top)} by trapped commuters:")
+            for _, row in top.iterrows():
+                print(f"  {row['SA22026_V1_00_NAME']:40s}  "
+                      f"share {row[f'od_trapped_share_{s}']:.2f}  "
+                      f"NZDep dec {row['NZDep_Decile']:.0f}")
 
 # -- 4c.j  Write outputs ------------------------------------------------------
 od_out = od.rename(columns={ORIGIN_COL: "residence_sa2", DEST_COL: "workplace_sa2"})
@@ -420,13 +394,15 @@ od_gpkg_path = safe_to_gpkg(sa2, OUTPUT / "intermediate" / "od_classification.gp
 # pipeline runs end to end.
 _burden_renames = {f"od_burden_{s}": f"burden_{s}" for s in SCENARIOS}
 _burden_renames.update({f"lisa_trapped_{s}": f"lisa_{s}" for s in SCENARIOS})
+_burden_renames.update({f"od_trapped_share_{s}": f"trapped_share_{s}" for s in SCENARIOS})
 
 _burden_cols = (
     ["SA22023_V1_00", "SA22026_V1_00_NAME", "NZDep2023", "NZDep_Decile",
-     "pop", "access_30min", "access_45min"]
+     "pop", "access_30min", "access_45min", "car_commuters_out"]
     + [f"od_burden_{s}" for s in SCENARIOS]
     + [f"od_charged_commuters_{s}" for s in SCENARIOS]
     + [f"od_trapped_commuters_{s}" for s in SCENARIOS]
+    + [f"od_trapped_share_{s}" for s in SCENARIOS]
     + [f"lisa_trapped_{s}" for s in SCENARIOS]
     + ["geometry"]
 )

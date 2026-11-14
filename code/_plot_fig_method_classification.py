@@ -2,9 +2,10 @@
 Methods schematic for section 3.3: how each car commute is classified.
 
 Three panels, drawn on the real study geometry:
-    (a) CBD cordon test, using 2c so the double cordon is visible
-    (b) Motorway corridor test, using the 3b 2 km buffer
+    (a) Cordon test, scenario 1c (1a outlined inside it)
+    (b) Corridor test, scenario 3c (1 km state-highway buffer + 1a cordon)
     (c) The two-way classification and the trapped rate
+    (d) Sensitivity of 3c to corridor half-width (stage 4f)
 
 Output: outputs/figures/fig_method_classification.png
 """
@@ -21,6 +22,7 @@ from matplotlib.patches import FancyArrowPatch, Rectangle
 from shapely.geometry import LineString
 
 sys.path.insert(0, str(Path(__file__).parent))
+from _scenario_utils import STORED_HALF_WIDTH  # noqa: E402
 
 OUT = Path("outputs") / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -96,32 +98,32 @@ def pick(od, sa2, res_pred, wrk_pred, win=None, min_len=3500, used=None):
 
 
 def panel_cordon(ax, sa2, od):
-    outer, g2c = codes("2c")
-    inner, _ = codes("1c")
-    ring = outer - inner
+    # FIX 2026-11-14: manuscript scenarios only. 1c (city centre + fringe) is
+    # the cordon shown; the 1a core inside it is outlined for context.
+    cordon, g1c = codes("1c")
+    core, _ = codes("1a")
 
-    minx, miny, maxx, maxy = g2c.total_bounds
-    pad = 5200
+    minx, miny, maxx, maxy = g1c.total_bounds
+    pad = 6500
     box = (minx - pad, miny - pad, maxx + pad, maxy + pad)
     win = sa2.cx[box[0]:box[2], box[1]:box[3]]
     win.plot(ax=ax, color="#f4f4f2", edgecolor="white", linewidth=0.4, zorder=0)
-    sa2[sa2["k"].isin(ring)].dissolve().plot(
-        ax=ax, color=CORDON_OUT, edgecolor="#a35555", linewidth=1.2, alpha=.85, zorder=1)
-    sa2[sa2["k"].isin(inner)].dissolve().plot(
+    sa2[sa2["k"].isin(cordon)].dissolve().plot(
         ax=ax, color=CORDON_IN, edgecolor="#b8860b", linewidth=1.2, alpha=.95, zorder=2)
+    sa2[sa2["k"].isin(core)].dissolve().boundary.plot(
+        ax=ax, color="#8a6d0b", linewidth=1.0, linestyle=(0, (2, 2)), zorder=3)
 
     used = set()
     ex = [
-        # outside -> inner: crosses BOTH boundaries
-        (pick(od, sa2, lambda k: k not in outer, lambda k: k in inner, box, 6000, used), CHARGED, "1"),
-        # fringe ring -> inner: crosses the INNER boundary only (the double-cordon case)
-        (pick(od, sa2, lambda k: k in ring, lambda k: k in inner, box, 3000, used), CHARGED, "2"),
-        # outside -> fringe ring: crosses the OUTER boundary only
-        (pick(od, sa2, lambda k: k not in outer, lambda k: k in ring, box, 6000, used), CHARGED, "3"),
-        # inner -> inner: intra-cordon, never charged
-        (pick(od, sa2, lambda k: k in inner, lambda k: k in inner, box, 1200, used), NOCHARGE, "4"),
-        # outside -> outside: neither endpoint in a cordon
-        (pick(od, sa2, lambda k: k not in outer, lambda k: k not in outer, box, 6000, used), NOCHARGE, "5"),
+        # outside -> inside: charged
+        (pick(od, sa2, lambda k: k not in cordon, lambda k: k in cordon, box, 6000, used), CHARGED, "1"),
+        (pick(od, sa2, lambda k: k not in cordon, lambda k: k in cordon, box, 4000, used), CHARGED, "2"),
+        # inside -> inside: intra-cordon, never charged
+        (pick(od, sa2, lambda k: k in cordon, lambda k: k in cordon, box, 1200, used), NOCHARGE, "3"),
+        # inside -> outside: outbound, not charged
+        (pick(od, sa2, lambda k: k in cordon, lambda k: k not in cordon, box, 4000, used), NOCHARGE, "4"),
+        # outside -> outside: neither endpoint in the cordon
+        (pick(od, sa2, lambda k: k not in cordon, lambda k: k not in cordon, box, 6000, used), NOCHARGE, "5"),
     ]
     for pr, col, tag in ex:
         if pr is None:
@@ -134,26 +136,26 @@ def panel_cordon(ax, sa2, od):
         ax.text(a[0], a[1], tag, fontsize=7.5, ha="center", va="center",
                 color=col, zorder=7, fontweight="bold")
 
-    ax.set_title("(a)  CBD cordon test — scenario 2c", loc="left",
+    ax.set_title("(a)  Cordon test — scenario 1c", loc="left",
                  fontsize=16, fontweight="bold")
     if SHOW_CAPTIONS:
       ax.text(0.02, 0.03,
-            "Charged when the workplace lies inside a cordon\n"
-            "and the residence outside it. 2c is a double cordon,\n"
-            "so a trip from the fringe ring into the centre is\n"
-            "charged at the inner boundary.",
+            "Charged when the workplace lies inside the cordon\n"
+            "and the residence outside it.",
             transform=ax.transAxes, fontsize=10.5, va="bottom", zorder=9,
             bbox=dict(boxstyle="round,pad=0.55", fc="white", ec="#cccccc", alpha=.93))
     ax.legend(handles=[
-        plt.Rectangle((0, 0), 1, 1, fc=CORDON_IN, ec="#b8860b", label="Inner cordon (city centre + fringe)"),
-        plt.Rectangle((0, 0), 1, 1, fc=CORDON_OUT, ec="#a35555", label="Outer cordon (isthmus ring)"),
+        plt.Rectangle((0, 0), 1, 1, fc=CORDON_IN, ec="#b8860b", label="Cordon 1c (city centre + fringe)"),
+        Line2D([], [], color="#8a6d0b", lw=1.0, ls=(0, (2, 2)), label="Cordon 1a (city centre)"),
         Line2D([], [], color=CHARGED, lw=2.4, label="Charged commute"),
         Line2D([], [], color=NOCHARGE, lw=1.8, ls="--", label="Not charged"),
     ], loc="upper right", fontsize=16, framealpha=.94)
 
 
 def panel_motorway(ax, sa2, od):
-    poly = gpd.read_file("data/scenarios/scenario_3b.gpkg").to_crs(2193)
+    # FIX 2026-11-14: scenario 3c, the 1 km state-highway corridor plus the 1a
+    # cordon (build_scenario_3c.py), instead of the 3b 2 km buffer.
+    poly = gpd.read_file("data/scenarios/scenario_3c.gpkg").to_crs(2193)
     corridor = poly.geometry.union_all()
 
     minx, miny, maxx, maxy = poly.total_bounds
@@ -196,18 +198,19 @@ def panel_motorway(ax, sa2, od):
         arrow(ax, a, b, NOCHARGE, ls=(0, (4, 3)), lw=1.9, alpha=.95)
         ax.plot(*a, "o", ms=7, mfc="white", mec=NOCHARGE, mew=1.6, zorder=6)
 
-    ax.set_title("(b)  Motorway corridor test — scenario 3b", loc="left",
+    ax.set_title("(b)  Corridor test — scenario 3c", loc="left",
                  fontsize=16, fontweight="bold")
     if SHOW_CAPTIONS:
       ax.text(0.02, 0.03,
             "Charged when the straight-line desire path between\n"
             "the population-weighted residence and workplace\n"
-            "centroids intersects the corridor. The corridor is a\n"
-            "2 km buffer of the priced motorway alignment.",
+            "centroids intersects the corridor: a 1 km buffer of\n"
+            "the state highways plus the 1a city-centre cordon.",
             transform=ax.transAxes, fontsize=10.5, va="bottom", zorder=9,
             bbox=dict(boxstyle="round,pad=0.55", fc="white", ec="#cccccc", alpha=.93))
     ax.legend(handles=[
-        plt.Rectangle((0, 0), 1, 1, fc=CORRIDOR, alpha=.32, ec=CORRIDOR, label="Priced corridor (2 km buffer)"),
+        plt.Rectangle((0, 0), 1, 1, fc=CORRIDOR, alpha=.32, ec=CORRIDOR,
+                      label="Priced corridor (1 km buffer + 1a cordon)"),
         Line2D([], [], color=CHARGED, lw=2.4, label="Desire path intersects — charged"),
         Line2D([], [], color=NOCHARGE, lw=1.8, ls="--", label="No intersection — not charged"),
     ], loc="upper right", fontsize=16, framealpha=.94)
@@ -244,7 +247,7 @@ def panel_matrix(ax, od=None):
 
 def panel_sensitivity(ax):
     """How the charged count and the equity reading respond to corridor width."""
-    s = pd.read_csv("outputs/scenario_geometry_sensitivity.csv")
+    s = pd.read_csv("outputs/sensitivity_analysis/2_corridor_width/scenario_geometry_sensitivity.csv")
     s = s[s["half_width_m"].notna()]
     g = s.groupby("half_width_m").agg(charged=("charged_commuters", "mean"),
                                       ci=("CI_nzdep", "mean"),
@@ -257,14 +260,15 @@ def panel_sensitivity(ax):
     ax.set_ylabel("Charged commuters (thousands)", color=CHARGED, fontsize=14)
     ax.tick_params(axis="y", labelcolor=CHARGED, labelsize=13)
     ax.tick_params(axis="x", labelsize=13)
-    ax.axvline(2.0, color="#888888", ls=":", lw=1.6, zorder=0)
-    ax.annotate("adopted width", xy=(2.0, ax.get_ylim()[1]), xytext=(-8, -6),
+    adopted = STORED_HALF_WIDTH / 1000
+    ax.axvline(adopted, color="#888888", ls=":", lw=1.6, zorder=0)
+    ax.annotate("adopted width", xy=(adopted, ax.get_ylim()[1]), xytext=(-8, -6),
                 textcoords="offset points", fontsize=13, color="#666666",
                 va="top", ha="right", rotation=90)
 
     ax2 = ax.twinx()
-    ax2.plot(x, g["ci"], "s--", color="#1f4e79", lw=2.0, ms=6, label="CI (NZDep2023)")
-    ax2.plot(x, g["ci_eq"], "^--", color="#2a7f62", lw=2.0, ms=6, label="CI (equivalised income)")
+    ax2.plot(x, g["ci"], "s--", color="#1f4e79", lw=2.0, ms=6, label="CI trapped share (NZDep2023)")
+    ax2.plot(x, g["ci_eq"], "^--", color="#2a7f62", lw=2.0, ms=6, label="CI trapped share (equiv. income)")
     ax2.axhspan(-0.05, 0.05, color="#dddddd", alpha=.55, zorder=0)
     ax2.set_ylabel("Concentration Index", fontsize=14)
     ax2.set_ylim(-0.22, 0.06)
@@ -288,6 +292,7 @@ def panel_sensitivity(ax):
 def _finish_map(ax):
     ax.set_aspect("equal", adjustable="datalim")
     ax.set_xticks([]); ax.set_yticks([])
+    ax.set_xlabel(""); ax.set_ylabel("")   # geopandas >= 1.0 adds CRS axis labels
     for sp in ax.spines.values():
         sp.set_edgecolor("#cccccc")
 

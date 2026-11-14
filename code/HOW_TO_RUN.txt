@@ -101,15 +101,16 @@ missing. None of it is in the repository; download it to these paths.
       variant has empty optional tables removed, which R5's validator
       rejects.
 
-  data/scenarios/scenario_{1a,1c,2c,3b,3c,3e}.gpkg
-      The six Auckland Transport ToU charging scenarios. THESE ARE THE
-      AUTHORITATIVE SCENARIO DEFINITIONS.
-        1a, 1c, 2c  collections of SA2 polygons forming the cordons.
-                    scenario_2c holds BOTH rings of the double cordon: its
-                    inner 21 SA2s are exactly the 1c cordon, plus 38
-                    outer-ring SA2s.
-        3b, 3c, 3e  a single polygon each, a 2 km buffer of the priced
-                    motorway alignment (see the layer names, *_2km).
+  data/scenarios/scenario_{1a,1c,3c}.gpkg
+      The three scenarios analysed in the manuscript. THESE ARE THE
+      AUTHORITATIVE SCENARIO DEFINITIONS, read through code/_scenario_utils.py.
+        1a, 1c  collections of SA2 polygons forming the cordons (16 / 21 SA2s).
+        3c      one polygon: a 1 km half-width buffer of the state-highway
+                centrelines plus the 1a cordon, built by build_scenario_3c.py
+                from data/roads/sh_clipped_with_bridge.gpkg. The 500 m and
+                2,000 m variants for the width sensitivity go to
+                data/scenarios/archive/.
+      scenario_{2c,3b,3e}.gpkg are still in the folder but are not analysed.
 
 
 3. WHAT EACH STAGE DOES
@@ -142,13 +143,20 @@ stage4b_scenario_boundaries.py
 stage4c_od_classification.py
     Classifies every intra-Auckland car commute: whether the specific
     residence-to-workplace trip has a 45-minute transit alternative, and
-    whether it is charged under each scenario. Trapped payer = charged with
-    no alternative. Also Moran's I and LISA.
+    whether it is charged under each scenario (from data/scenarios/ via
+    _scenario_utils). Trapped payer = charged with no alternative. Also the
+    trapped share per SA2, its global Moran's I and the bivariate local Moran
+    (trapped share x neighbours' NZDep2023), as in the manuscript.
     -> outputs/burden_by_sa2_final.gpkg  (the layer stages 4d-4f read)
     -> outputs/intermediate/od_*.csv, od_pairs_classified.parquet
 
 stage4d_equity_summary_final.py --rank {nzdep|income|income_eq|income_percap}
-    Table 2, once per ranking variable.
+    Table 2, once per ranking variable: charged and trapped counts, charged
+    and trapped rates for NZDep 1-3 vs 8-10, the baseline accessibility CI
+    and the three per-scheme CIs (charged share, trapped share, trapped share
+    of all car commuters), Moran's I of the trapped share and the bivariate
+    cluster counts. CI sign as in the manuscript: positive = concentrated
+    among the less deprived.
       nzdep         NZDep2023                       (headline)
       income        raw median household income     (comparison only; not
                     size-adjusted, so it misreads large households)
@@ -158,14 +166,13 @@ stage4d_equity_summary_final.py --rank {nzdep|income|income_eq|income_percap}
 
 stage4e_ci_income_check.py
     Compares all four ranking variables side by side on a common sample.
-    -> outputs/ci_income_vs_nzdep.csv, trapped_decile_income_vs_nzdep.csv
+    -> outputs/sensitivity_analysis/3_deprivation_measure/
 
 stage4f_scenario_geometry.py
-    Recomputes scenario burden from data/scenarios/, and runs the corridor
-    half-width sensitivity (250 m to 3 km). THIS PRODUCES THE HEADLINE
-    SCENARIO NUMBERS; stage 4c uses hardcoded SA2 name lists that disagree
-    with the authoritative geometry.
-    -> outputs/scenario_geometry_headline.csv, *_sensitivity.csv
+    3c corridor half-width sensitivity (500 / 1,000 / 2,000 m, the files
+    build_scenario_3c.py writes). Uses the same _scenario_utils definitions as
+    stage 4c, so its 1,000 m row equals Table 2.
+    -> outputs/sensitivity_analysis/2_corridor_width/
 
 stage4g_route_motorway_share.py -n 0                 SLOW (20-40 min)
     Validation: routes every commute on the OSM driving network and measures
@@ -180,15 +187,17 @@ stage4g_route_motorway_share.py -n 0                 SLOW (20-40 min)
 4. OUTPUT LAYOUT
 ----------------
 outputs/                        files used in the manuscript
-    scenario_geometry_headline.csv     scenario burden, authoritative geometry
-    scenario_geometry_sensitivity.csv  corridor half-width sensitivity
     equity_summary_final.csv           Table 2 (NZDep2023)
-    equity_summary_final_income*.csv   Table 2, income-ranked variants
-    ci_income_vs_nzdep.csv             four ranking variables side by side
-    trapped_decile_income_vs_nzdep.csv trapped share by decile band
     route_motorway_share.csv           driving-route validation, per commute
     burden_by_sa2_final.gpkg           SA2 layer behind the maps
     figures/                           manuscript figures
+    sensitivity_analysis/              all robustness checks, plus a Word summary
+                                       (Sensitivity_analysis_summary.docx)
+        1_pt_threshold/                45-min cut-off: 20-60 min and PT/car
+                                       ratio (stage4h)
+        2_corridor_width/              3c corridor 500 / 1,000 / 2,000 m (stage4f)
+        3_deprivation_measure/         income-ranked Table 2 variants and the
+                                       NZDep vs income comparison (stage4d/4e)
 
 outputs/intermediate/           pipeline artefacts, regenerated on every run
 outputs/archive/                superseded material, not read by any script
@@ -209,12 +218,14 @@ Running a stage on its own
     All paths in the scripts are relative to the project root.
 
 Moran's I
-    Uses 999 permutations, so the reported I moves by roughly +/-0.003
-    between runs. The p-values do not change.
+    999 permutations with a fixed seed (42), so I and the cluster labels are
+    reproducible. Computed on the trapped share, which is undefined where an
+    SA2 sends no charged commuter: those SA2s, and any left without a
+    neighbour in the remaining set, are excluded (n_moran in Table 2).
 
 Scenario definitions
-    stage4_equity.py still defines the scenarios from hardcoded SA2 name
-    lists, which disagree with data/scenarios/ (2c has 158 SA2s there versus
-    59 in the authoritative file, and the 3b corridor is 263 km2 versus
-    108 km2). stage4f is the corrected path. Quote stage4f for scenario
-    counts; stage 4c output remains the source for the trapped-rate maps.
+    stage4_equity.py still writes burden_* columns from hardcoded SA2 name
+    lists (all six scenarios). Nothing downstream reads them any more: since
+    2026-11-14 stage 4c drops them and classifies from data/scenarios/ via
+    _scenario_utils, which reproduces the manuscript (1a 18,996 / 1c 37,005 /
+    3c 66,027 charged car commuters).

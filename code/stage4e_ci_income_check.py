@@ -15,18 +15,20 @@ VAR_4_225 from "2023 Census totals by topic for households by SA2":
     Measure: Median, Var1: Total household income (Median ($))
 Value -999 is Stats NZ's suppressed/not-available code and is treated as NaN.
 
-Sign convention (kept identical to stage4d)
--------------------------------------------
-The rank axis runs from LEAST to MOST disadvantaged, so that
-    CI < 0  ==  accessibility concentrated in the less-disadvantaged SA2s
-               (regressive on the access-to-jobs axis).
-For NZDep2023 that is ascending NZDep (higher score = more deprived).
-For income that is DESCENDING income (lower income = more disadvantaged), so we
-rank on -median_income.
+Measures and sign convention (identical to stage4d / the manuscript)
+--------------------------------------------------------------------
+The baseline accessibility CI and the three per-scheme CIs (charged share,
+trapped share of the charged, trapped share of all car commuters), each
+weighted by its denominator. SA2s are ranked from MOST to LEAST disadvantaged,
+so POSITIVE = concentrated among the less disadvantaged. Every ranking variable
+is passed on a "higher = more disadvantaged" axis: NZDep2023 as is, income as
+-median_income. (FIX 2026-11-14: previously the CI on accessibility over
+charged-origin SA2s, with the opposite sign.)
 
 Input : outputs/burden_by_sa2_final.gpkg          (from stage 4c)
         data/income/statsnz-2023-census-...-GPKG.zip
-Output: outputs/ci_income_vs_nzdep.csv
+Output: outputs/sensitivity_analysis/3_deprivation_measure/
+            ci_income_vs_nzdep.csv, trapped_decile_income_vs_nzdep.csv
 """
 
 import sys
@@ -40,13 +42,15 @@ from scipy.stats import spearmanr
 sys.path.insert(0, str(Path(__file__).parent))
 from _equity_utils import (  # noqa: E402
     attach_income,
-    ci_population_weighted,
+    concentration_index,
     equity_reading,
+    scheme_cis,
 )
 
 OUTPUT    = Path("outputs")
 BURDEN    = OUTPUT / "burden_by_sa2_final.gpkg"
-SCENARIOS = ["1a", "1c", "2c", "3b", "3c", "3e"]
+SENS      = OUTPUT / "sensitivity_analysis" / "3_deprivation_measure"
+from _scenario_utils import SCENARIOS  # noqa: E402  (1a, 1c, 3c)
 
 
 def main():
@@ -98,29 +102,38 @@ def main():
     complete = sa2[list(RANKS.values())].notna().all(axis=1)
     print(f"\nCommon complete-case sample: {int(complete.sum())} of {len(sa2)} SA2s")
 
+    # The manuscript's CIs (stage 4d / _equity_utils), one row per measure x
+    # scheme plus the RQ1 baseline. Positive = concentrated among the less
+    # disadvantaged.
+    cc = sa2[complete]
     rows = []
+    base = {"scenario": "baseline", "measure": "CI_baseline_access45"}
+    for label, col in RANKS.items():
+        ci = concentration_index(cc["access_45min"], cc[col], cc["pop"])
+        base[f"CI_{label}"], base[f"reading_{label}"] = ci, equity_reading(ci)
+    rows.append(base)
     for s_ in SCENARIOS:
-        chg = f"od_charged_commuters_{s_}"
-        charged = sa2[(sa2[chg] > 0) & complete]
-
-        row = {"scenario": s_, "n_charged_SA2": int((sa2[chg] > 0).sum())}
-        for label, col in RANKS.items():
-            ci = ci_population_weighted(
-                charged["access_45min"], charged[col], charged["pop"]
-            )
-            row[f"CI_{label}"] = ci
-            row[f"reading_{label}"] = equity_reading(ci)
-        row["diff_income_minus_nzdep"]    = round(row["CI_income"] - row["CI_nzdep"], 4)
-        row["diff_income_eq_minus_nzdep"] = round(row["CI_income_eq"] - row["CI_nzdep"], 4)
-        rows.append(row)
+        per_rank = {label: scheme_cis(cc["car_commuters_out"],
+                                      cc[f"od_charged_commuters_{s_}"],
+                                      cc[f"od_trapped_commuters_{s_}"], cc[col])
+                    for label, col in RANKS.items()}
+        for measure in ("CI_charged_share", "CI_trapped_share", "CI_trapped_all"):
+            row = {"scenario": s_, "measure": measure}
+            for label in RANKS:
+                ci = per_rank[label][measure]
+                row[f"CI_{label}"], row[f"reading_{label}"] = ci, equity_reading(ci)
+            rows.append(row)
 
     out = pd.DataFrame(rows)
-    dest = OUTPUT / "ci_income_vs_nzdep.csv"
+    out["diff_income_minus_nzdep"] = (out["CI_income"] - out["CI_nzdep"]).round(4)
+    out["diff_income_eq_minus_nzdep"] = (out["CI_income_eq"] - out["CI_nzdep"]).round(4)
+    SENS.mkdir(parents=True, exist_ok=True)
+    dest = SENS / "ci_income_vs_nzdep.csv"
     out.to_csv(dest, index=False)
 
-    print("\nCI on 45-min job accessibility over charged-origin SA2s "
-          "(population-weighted; negative = regressive):")
-    print(out.to_string(index=False))
+    print("\nManuscript CIs by ranking variable (complete-case sample; "
+          "positive = concentrated among the less disadvantaged):")
+    print(out[["scenario", "measure"] + [f"CI_{k}" for k in RANKS]].to_string(index=False))
     print(f"\nWritten: {dest}")
 
     # ── Decile-level check ───────────────────────────────────────────────────
@@ -142,7 +155,7 @@ def main():
         dec_rows.append(row)
 
     dec = pd.DataFrame(dec_rows)
-    dec_dest = OUTPUT / "trapped_decile_income_vs_nzdep.csv"
+    dec_dest = SENS / "trapped_decile_income_vs_nzdep.csv"
     dec.to_csv(dec_dest, index=False)
     print("\nShare of trapped commuters in the most-disadvantaged deciles "
           "(d8-10, %), by ranking variable:")

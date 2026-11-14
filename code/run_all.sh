@@ -114,6 +114,8 @@ done
 run "Stage 4e  Income robustness comparison"  code/stage4e_ci_income_check.py
 run "Stage 4f  Scenario geometry + buffer sensitivity" \
     code/stage4f_scenario_geometry.py
+run "Stage 4h  PT-threshold sensitivity (20-60 min, PT/car ratio)" \
+    code/stage4h_threshold_sensitivity.py
 
 if [ "$SKIP_VALIDATION" -eq 0 ]; then
     run "Stage 4g  Driving-route validation (SLOW: 20-40 min)" \

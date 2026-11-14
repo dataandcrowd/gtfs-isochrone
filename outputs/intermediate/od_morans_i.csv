@@ -1,8 +1,5 @@
-variable,scenario,morans_I,p_value
-access_45min,-,0.8374,0.001
-od_trapped_commuters,1a,0.4641,0.001
-od_trapped_commuters,1c,0.5054,0.001
-od_trapped_commuters,2c,0.6165,0.001
-od_trapped_commuters,3b,0.3456,0.001
-od_trapped_commuters,3c,0.3387,0.001
-od_trapped_commuters,3e,0.6191,0.001
+variable,scenario,n_SA2,morans_I,p_value
+access_45min,-,504,0.8374,0.001
+od_trapped_share,1a,391,0.788,0.001
+od_trapped_share,1c,425,0.855,0.001
+od_trapped_share,3c,456,0.788,0.001

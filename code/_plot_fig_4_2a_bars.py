@@ -9,10 +9,10 @@ import numpy as np
 sns.set_theme(style="whitegrid", context="talk", font_scale=1.2)
 
 e = pd.read_csv("outputs/equity_summary_final.csv").set_index("scenario")
-order = ["1a", "1c", "2c", "3b", "3c", "3e"]
+order = ["1a", "1c", "3c"]   # manuscript scenarios (_scenario_utils.SCENARIOS)
 e = e.loc[order]
 
-fig, ax = plt.subplots(figsize=(11, 7.5))
+fig, ax = plt.subplots(figsize=(8, 7.5))
 xpos = np.arange(len(order))
 withalt = (e["charged_commuters"] - e["trapped_commuters"]) / 1000
 trapped = e["trapped_commuters"] / 1000

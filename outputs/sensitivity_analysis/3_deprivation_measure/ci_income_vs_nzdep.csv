@@ -1,0 +1,11 @@
+scenario,measure,CI_nzdep,reading_nzdep,CI_income,reading_income,CI_income_eq,reading_income_eq,CI_income_percap,reading_income_percap,diff_income_minus_nzdep,diff_income_eq_minus_nzdep
+baseline,CI_baseline_access45,0.0401,Neutral,0.0097,Neutral,0.111,"Moderate, towards less disadvantaged",0.198,"Moderate, towards less disadvantaged",-0.0304,0.0709
+1a,CI_charged_share,0.2162,"Strong, towards less disadvantaged",0.2288,"Strong, towards less disadvantaged",0.2943,"Strong, towards less disadvantaged",0.3224,"Strong, towards less disadvantaged",0.0126,0.0781
+1a,CI_trapped_share,-0.089,"Mild, towards more disadvantaged",-0.1126,"Moderate, towards more disadvantaged",-0.1641,"Moderate, towards more disadvantaged",-0.1918,"Moderate, towards more disadvantaged",-0.0236,-0.0751
+1a,CI_trapped_all,0.1304,"Moderate, towards less disadvantaged",0.1219,"Moderate, towards less disadvantaged",0.1463,"Moderate, towards less disadvantaged",0.1559,"Moderate, towards less disadvantaged",-0.0085,0.0159
+1c,CI_charged_share,0.1983,"Moderate, towards less disadvantaged",0.2146,"Strong, towards less disadvantaged",0.2713,"Strong, towards less disadvantaged",0.2981,"Strong, towards less disadvantaged",0.0163,0.073
+1c,CI_trapped_share,-0.0776,"Mild, towards more disadvantaged",-0.1204,"Moderate, towards more disadvantaged",-0.158,"Moderate, towards more disadvantaged",-0.1791,"Moderate, towards more disadvantaged",-0.0428,-0.0804
+1c,CI_trapped_all,0.123,"Moderate, towards less disadvantaged",0.1023,"Moderate, towards less disadvantaged",0.1292,"Moderate, towards less disadvantaged",0.1412,"Moderate, towards less disadvantaged",-0.0207,0.0062
+3c,CI_charged_share,0.2022,"Strong, towards less disadvantaged",0.2212,"Strong, towards less disadvantaged",0.3038,"Strong, towards less disadvantaged",0.3472,"Strong, towards less disadvantaged",0.019,0.1016
+3c,CI_trapped_share,-0.0432,Neutral,-0.0764,"Mild, towards more disadvantaged",-0.1127,"Moderate, towards more disadvantaged",-0.1345,"Moderate, towards more disadvantaged",-0.0332,-0.0695
+3c,CI_trapped_all,0.1608,"Moderate, towards less disadvantaged",0.1518,"Moderate, towards less disadvantaged",0.2037,"Strong, towards less disadvantaged",0.2309,"Strong, towards less disadvantaged",-0.009,0.0429

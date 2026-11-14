@@ -1,0 +1,6 @@
+scenario,definition,half_width_m,charged_commuters,charged_pct_of_all,trapped_commuters,trapped_pct,n_charged_SA2,CI_nzdep,reading_nzdep,CI_income_eq,reading_income_eq
+1a,cordon (data/scenarios),,18996,7.6,12966,68.3,395,-0.089,"Mild, towards more disadvantaged",-0.1641,"Moderate, towards more disadvantaged"
+1c,cordon (data/scenarios),,37005,14.8,25866,69.9,427,-0.0776,"Mild, towards more disadvantaged",-0.158,"Moderate, towards more disadvantaged"
+3c,corridor buffer + 1a cordon (data/scenarios),500.0,56898,22.8,40512,71.2,452,-0.0493,Neutral,-0.1238,"Moderate, towards more disadvantaged"
+3c,corridor buffer + 1a cordon (data/scenarios),1000.0,66027,26.4,46506,70.4,459,-0.0432,Neutral,-0.1127,"Moderate, towards more disadvantaged"
+3c,corridor buffer + 1a cordon (data/scenarios),2000.0,83547,33.4,58371,69.9,461,-0.0399,Neutral,-0.0963,"Mild, towards more disadvantaged"

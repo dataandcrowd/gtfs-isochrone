@@ -1,24 +1,26 @@
 """
 Stage 4d: Regenerate outputs/equity_summary_final.csv (the source of Table 2).
 
-Provenance note (A1): this table was previously produced by an uncommitted step,
-so the column CI_charged_pw appeared nowhere in code/. This script commits that
-step. The CI, decile-share, commuter-count and trapped-% columns reproduce the
-existing equity_summary_final.csv exactly. moran_I reproduces to within ~0.003
-(new vs committed: 1a 0.483/0.486, 1c 0.512/0.514, 2c 0.508/0.510,
-3b 0.549/0.553, 3c 0.534/0.538, 3e 0.582/0.584) — a data-vintage difference
-between gpkg snapshots. At two decimals 4 of 6 match; 1a (0.48 vs 0.49) and
-3c (0.53 vs 0.54) differ by one in the last place. If regenerated on the current
-gpkg, update the reported Moran's I range accordingly (new values span 0.48 to
-0.58, vs 0.49 to 0.58 in the committed CSV).
+FIX 2026-11-14: rebuilt to the measures defined in the manuscript Methods
+(Nov 10 draft). The earlier CI_charged_pw (accessibility over charged-origin
+SA2s, opposite sign) and the Moran's I on the trapped COUNT are gone.
 
-The reported Concentration Index (column CI_charged_pw) is:
-    population-weighted CI of 45-minute job ACCESSIBILITY (access_45min),
-    computed over the residence SA2s that send >= 1 charged commuter,
-    SA2s ranked by NZDep2023.
-Sign convention: NEGATIVE = regressive on the access-to-jobs axis (accessibility
-lower in more-deprived charged SA2s). This is the OPPOSITE convention from the
-count-based CI_trapped diagnostic in stage4c (positive = regressive).
+Columns (one row per scheme, 1a / 1c / 3c):
+    charged / trapped counts and %                  RQ2 headline numbers
+    charged_rate_d1_3 / _d8_10                      % of the group's car commuters charged
+    trapped_rate_d1_3 / _d8_10                      % of the group's charged who are trapped
+    d1_3_pct / d8_10_pct                            % of all trapped living in the group
+    CI_charged_share   h = charged / car commuters, w = car commuters
+    CI_trapped_share   h = trapped / charged,       w = charged
+    CI_trapped_all     h = trapped / car commuters, w = car commuters
+    CI_baseline_access45  RQ1, h = access_45min, w = population (same every row)
+    moran_I / moran_p  global Moran's I of the trapped share (queen, 999 perms)
+    n_HH .. n_LL       bivariate local Moran clusters, trapped share x
+                       neighbours' disadvantage, p < 0.05
+CI sign (manuscript): SA2s ranked most -> least disadvantaged, so POSITIVE =
+concentrated among the less disadvantaged, NEGATIVE = among the more
+disadvantaged. Bands: <0.05 neutral, 0.05-0.10 mild, 0.10-0.20 moderate, >0.20
+strong.
 
 Ranking variable (--rank)
 -------------------------
@@ -33,8 +35,10 @@ Ranking variable (--rank)
                        defensible income-based ranking.
     income_percap    — divided by household size outright (no economies of
                        scale). Brackets income_eq from the other side.
-Every other column (commuter counts, trapped %, Moran's I) is independent of
-the ranking variable and is identical in both tables by construction.
+Commuter counts, trapped % and Moran's I are independent of the ranking
+variable. The CIs, decile rates and bivariate clusters use the chosen ranking
+(its disadvantage column for the CI and the neighbour lag, its deciles for the
+group rates).
 
 Input : outputs/burden_by_sa2_final.gpkg  (from stage 4c)
         data/income/statsnz-2023-census-...-GPKG.zip   (--rank income only)
@@ -48,30 +52,33 @@ from pathlib import Path
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-from esda.moran import Moran
-from libpysal.weights import Queen
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _equity_utils import (  # noqa: E402
     attach_income,
-    ci_population_weighted,
+    concentration_index,
     equity_reading,
+    scheme_cis,
+    trapped_share_spatial,
 )
 
 OUTPUT   = Path("outputs")
 BURDEN   = OUTPUT / "burden_by_sa2_final.gpkg"
-SCENARIOS = ["1a", "1c", "2c", "3b", "3c", "3e"]
+from _scenario_utils import SCENARIOS  # noqa: E402  (1a, 1c, 3c)
 
 # Ranking variable -> (continuous disadvantage column, decile column, output file)
+# The NZDep table is the manuscript's Table 2 (outputs/); the income-ranked
+# variants are robustness checks and go with the other sensitivity analyses.
+_SENS = "sensitivity_analysis/3_deprivation_measure/"
 RANK_SPECS = {
     "nzdep":         ("NZDep2023", "NZDep_Decile",
                       "equity_summary_final.csv"),
     "income":        ("income_disadv", "income_decile",
-                      "equity_summary_final_income.csv"),
+                      _SENS + "equity_summary_final_income.csv"),
     "income_eq":     ("income_equiv_sqrt_disadv", "income_equiv_sqrt_decile",
-                      "equity_summary_final_income_eq.csv"),
+                      _SENS + "equity_summary_final_income_eq.csv"),
     "income_percap": ("income_equiv_percap_disadv", "income_equiv_percap_decile",
-                      "equity_summary_final_income_percap.csv"),
+                      _SENS + "equity_summary_final_income_percap.csv"),
 }
 
 
@@ -89,45 +96,67 @@ def main(rank="nzdep"):
               f"residents ({100 * sa2.loc[sa2['median_hh_income'].isna(), 'pop'].sum() / sa2['pop'].sum():.2f}% "
               f"of population), excluded from the CI.")
 
-    # Global Moran's I on the trapped-payer count (queen contiguity), per scenario.
-    w = Queen.from_dataframe(sa2, use_index=False)
-    w.transform = "r"
+    dep = sa2[rank_col]
+    car = sa2["car_commuters_out"]
+    dec = sa2[decile_col]
+    lo, hi = dec.between(1, 3), dec.between(8, 10)
+
+    # RQ1 baseline: CI of 45-min job accessibility, population-weighted, all
+    # SA2s with a score (497 for NZDep2023). Manuscript: +0.040.
+    ci_base = concentration_index(sa2["access_45min"], dep, sa2["pop"])
+    n_base = int((sa2["pop"] > 0).mul(dep.notna()).sum())
+    print(f"Baseline CI (access_45min, population-weighted, n={n_base}): {ci_base:+.4f}"
+          f"  [{equity_reading(ci_base)}]")
+
+    def pct(num, den):
+        return round(100 * num / den, 1) if den > 0 else np.nan
 
     rows = []
     for s in SCENARIOS:
-        chg = f"od_charged_commuters_{s}"
-        trp = f"od_trapped_commuters_{s}"
-        charged_sa2 = sa2[sa2[chg] > 0]
-
-        ci = ci_population_weighted(
-            charged_sa2["access_45min"], charged_sa2[rank_col], charged_sa2["pop"]
-        )
-        charged = int(sa2[chg].sum())
-        trapped = int(sa2[trp].sum())
-        dec = sa2[decile_col]
-        d13  = round(100 * sa2.loc[dec.between(1, 3), trp].sum() / max(trapped, 1), 1)
-        d810 = round(100 * sa2.loc[dec.between(8, 10), trp].sum() / max(trapped, 1), 1)
-
-        mi = Moran(sa2[trp].fillna(0).to_numpy(), w, permutations=999)
+        ch = sa2[f"od_charged_commuters_{s}"]
+        tr = sa2[f"od_trapped_commuters_{s}"]
+        charged, trapped = int(ch.sum()), int(tr.sum())
+        cis = scheme_cis(car, ch, tr, dep)
+        spatial, _ = trapped_share_spatial(sa2, ch, tr, dep)
 
         rows.append({
             "scenario": s,
             "charged_commuters": charged,
+            "charged_pct": pct(charged, car.sum()),
             "trapped_commuters": trapped,
-            "trapped_pct": round(100 * trapped / max(charged, 1), 1),
-            "d1_3_pct": d13,
-            "d8_10_pct": d810,
-            "CI_charged_pw": ci,
-            "equity_reading": equity_reading(ci),
-            "moran_I": round(mi.I, 3),
-            "moran_p": round(mi.p_sim, 3),
-            "n_charged_SA2": int((sa2[chg] > 0).sum()),
+            "trapped_pct": pct(trapped, charged),
+            # Share of each group's car commuters who are charged, and share of
+            # each group's charged commuters who are trapped (manuscript RQ2:
+            # "20 per cent ... but only 7 per cent"; "60 ... over 90 out of 100").
+            "charged_rate_d1_3": pct(ch[lo].sum(), car[lo].sum()),
+            "charged_rate_d8_10": pct(ch[hi].sum(), car[hi].sum()),
+            "trapped_rate_d1_3": pct(tr[lo].sum(), ch[lo].sum()),
+            "trapped_rate_d8_10": pct(tr[hi].sum(), ch[hi].sum()),
+            # Where the trapped live: share of all trapped in each group.
+            "d1_3_pct": pct(tr[lo].sum(), trapped),
+            "d8_10_pct": pct(tr[hi].sum(), trapped),
+            **cis,
+            **{k.replace("CI_", "reading_"): equity_reading(v) for k, v in cis.items()},
+            "CI_baseline_access45": ci_base,
+            **{k: spatial[k] for k in ("moran_I", "moran_p", "n_moran",
+                                       "n_HH", "n_HL", "n_LH", "n_LL")},
+            "n_charged_SA2": int((ch > 0).sum()),
         })
 
     out = pd.DataFrame(rows)
     dest = OUTPUT / out_name
+    dest.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(dest, index=False)
-    print(out.to_string(index=False))
+    show = ["scenario", "charged_commuters", "charged_pct", "trapped_pct",
+            "charged_rate_d1_3", "charged_rate_d8_10",
+            "trapped_rate_d1_3", "trapped_rate_d8_10"]
+    print(out[show].to_string(index=False))
+    print()
+    print(out[["scenario", "CI_charged_share", "CI_trapped_share", "CI_trapped_all",
+               "reading_trapped_share"]].to_string(index=False))
+    print()
+    print(out[["scenario", "moran_I", "moran_p", "n_moran", "n_HH", "n_HL", "n_LH",
+               "n_LL"]].to_string(index=False))
     print(f"\nWritten: {dest}")
 
 

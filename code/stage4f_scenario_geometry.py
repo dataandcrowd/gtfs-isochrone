@@ -18,23 +18,28 @@ the pipeline), so the two disagree substantially:
     3c         2 km buffer, 111.4 km2    186 SA2s, 267.5 km2
     3e         2 km buffer,  72.7 km2     22 SA2s,  28.5 km2
 
+(Historical: since 2026-11-14 stage 4c also classifies from data/scenarios/
+via _scenario_utils, so stage 4c and this stage agree. Only the manuscript
+scenarios 1a, 1c and 3c are analysed; 2c, 3b and 3e were dropped.)
+
 Classification rules follow the manuscript (section 3.3):
-    CBD cordons (1a, 1c, 2c) -- workplace inside the cordon, residence outside.
-    Motorways  (3b, 3c, 3e)  -- residence->workplace desire line intersects the
-                                corridor polygon.
+    Cordons (1a, 1c) -- workplace inside the cordon, residence outside.
+    Corridor (3c)    -- residence->workplace desire line intersects the
+                        corridor polygon.
 
 Buffer sensitivity
 ------------------
-The stored motorway polygons are 2 km buffers of a centreline (layer names
-scenario_3?_2km). For a buffer of a line, buffer(r).buffer(d) == buffer(r + d),
-so re-buffering the stored polygon by (w - 2000) recovers the same corridor at
-half-width w exactly, without needing to recover the centreline.
+3c is a buffer of the state-highway centrelines plus the 1a cordon, built at
+each half-width separately by build_scenario_3c.py (500 m and 2,000 m in
+data/scenarios/archive/, 1,000 m headline in data/scenarios/). Widths whose
+file has not been built are skipped.
 
 Input : data/scenarios/scenario_*.gpkg
         outputs/intermediate/od_pairs_classified.parquet   (for car_commuters, has_pt_alt)
         outputs/burden_by_sa2_final.gpkg      (access_45min, pop, NZDep2023)
-Output: outputs/scenario_geometry_sensitivity.csv
-        outputs/scenario_geometry_headline.csv
+Output: outputs/sensitivity_analysis/2_corridor_width/
+            scenario_geometry_sensitivity.csv
+            scenario_geometry_headline.csv
 """
 
 import sys
@@ -46,18 +51,23 @@ import pandas as pd
 from shapely.geometry import LineString
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _equity_utils import attach_income, ci_population_weighted, equity_reading  # noqa: E402
+from _equity_utils import attach_income, concentration_index, equity_reading  # noqa: E402
+# FIX 2026-11-14: scenario definitions now come from _scenario_utils (shared
+# with stage 4c). Only 1a, 1c and 3c are analysed; the 3c corridor widths are
+# the separately built 500 / 1000 / 2000 m buffers (build_scenario_3c.py), not
+# re-buffers of a stored 2 km polygon. The 1000 m row is the headline.
+from _scenario_utils import (  # noqa: E402
+    CBD_SCENARIOS, MOTORWAY_SCENARIOS, STORED_HALF_WIDTH, CORRIDOR_FILES,
+    scenario_sa2_codes, corridor_polygon,
+)
 
-DATA_SCEN = Path("data") / "scenarios"
 OUTPUT    = Path("outputs")
 BURDEN    = OUTPUT / "burden_by_sa2_final.gpkg"
+SENS      = OUTPUT / "sensitivity_analysis" / "2_corridor_width"
 SA2_PREPARED = Path("data") / "sa2" / "sa2_prepared.gpkg"
 OD        = OUTPUT / "intermediate" / "od_pairs_classified.parquet"
 
-CBD_SCENARIOS      = ["1a", "1c", "2c"]
-MOTORWAY_SCENARIOS = ["3b", "3c", "3e"]
-STORED_HALF_WIDTH  = 2000.0                      # metres, per the layer names
-HALF_WIDTHS        = [250.0, 500.0, 1000.0, 2000.0, 3000.0]
+HALF_WIDTHS = sorted(CORRIDOR_FILES)
 
 RANKS = {
     "nzdep":     "NZDep2023",
@@ -77,20 +87,6 @@ def load_sa2():
     if sa2["lon"].isna().any():
         raise ValueError(f"{int(sa2['lon'].isna().sum())} SA2s have no centroid")
     return sa2
-
-
-def scenario_sa2_codes(s):
-    """SA2 codes making up a CBD cordon, from the scenario file."""
-    g = gpd.read_file(DATA_SCEN / f"scenario_{s}.gpkg")
-    col = next(c for c in g.columns if c.startswith("SA22") and c.endswith("V1_00"))
-    return set(g[col].astype(str))
-
-
-def corridor_polygon(s, half_width):
-    """Motorway corridor at an arbitrary half-width, from the stored 2 km buffer."""
-    poly = gpd.read_file(DATA_SCEN / f"scenario_{s}.gpkg").to_crs(2193).geometry.union_all()
-    delta = half_width - STORED_HALF_WIDTH
-    return poly if delta == 0 else poly.buffer(delta)
 
 
 def main():
@@ -119,61 +115,52 @@ def main():
         charged = ch["car_commuters"].sum()
         trapped = ch.loc[~ch["has_pt_alt"], "car_commuters"].sum()
         by_res = ch.groupby("res")["car_commuters"].sum()
-        origins = sa2[sa2["k"].isin(by_res[by_res > 0].index)]
+        tr_res = (ch.loc[~ch["has_pt_alt"]].groupby("res")["car_commuters"].sum()
+                  .reindex(by_res.index, fill_value=0))
         row = {
             "scenario": s, "definition": label, "half_width_m": half_width,
             "charged_commuters": int(charged),
             "charged_pct_of_all": round(100 * charged / total_car, 1),
             "trapped_commuters": int(trapped),
             "trapped_pct": round(100 * trapped / max(charged, 1), 1),
-            "n_charged_SA2": int(len(origins)),
+            "n_charged_SA2": int((by_res > 0).sum()),
         }
+        # Manuscript CI of the trapped share (h = trapped / charged, w = charged);
+        # positive = concentrated among the less disadvantaged.
+        idx = sa2.set_index("k")
         for name, col in RANKS.items():
-            ci = ci_population_weighted(origins["access_45min"], origins[col], origins["pop"])
+            with np.errstate(divide="ignore", invalid="ignore"):
+                ci = concentration_index(tr_res / by_res,
+                                         idx[col].reindex(by_res.index), by_res)
             row[f"CI_{name}"] = ci
             row[f"reading_{name}"] = equity_reading(ci)
         return row
 
     rows = []
 
-    # ── CBD cordons ─────────────────────────────────────────────────────────
-    # 1a and 1c are single cordons: charged when the workplace is inside and
-    # the residence outside.
-    #
-    # 2c is the "isthmus DOUBLE cordon" (see Figure 4): scenario_2c.gpkg holds
-    # both rings — its inner 21 SA2s are exactly the 1c cordon, plus 38
-    # outer-ring SA2s across Grey Lynn, Ponsonby, Mount Eden, Epsom and
-    # Remuera. A commuter pays on crossing EITHER boundary, so a trip from the
-    # outer ring into the city centre is charged even though both endpoints
-    # sit inside the outer cordon. Treating 2c as one merged cordon would
-    # wrongly class those trips as intra-cordon and drop them.
-    inner_2c = scenario_sa2_codes("2c") & scenario_sa2_codes("1c")
-
+    # ── CBD cordons: workplace inside, residence outside ─────────────────────
     for s in CBD_SCENARIOS:
         codes = scenario_sa2_codes(s)
         mask = od["wrk"].isin(codes) & ~od["res"].isin(codes)
-        if s == "2c":
-            if inner_2c != scenario_sa2_codes("1c"):
-                raise ValueError("2c does not contain the full 1c inner cordon")
-            crosses_inner = od["wrk"].isin(inner_2c) & ~od["res"].isin(inner_2c)
-            mask = mask | crosses_inner
-            label = "double cordon (data/scenarios)"
-        else:
-            label = "cordon (data/scenarios)"
-        rows.append(summarise(label, s, mask, np.nan))
+        rows.append(summarise("cordon (data/scenarios)", s, mask, np.nan))
 
     # ── Motorway corridors: sensitivity across half-widths ──────────────────
     for s in MOTORWAY_SCENARIOS:
         for w in HALF_WIDTHS:
+            if not CORRIDOR_FILES[w].exists():
+                print(f"  {s} @ {w:,.0f} m: {CORRIDOR_FILES[w]} not built "
+                      f"(run build_scenario_3c.py), skipped")
+                continue
             poly = corridor_polygon(s, w)
             if poly.is_empty:
                 print(f"  {s} @ {w:,.0f} m: corridor empty, skipped")
                 continue
             mask = pd.Series(lines.intersects(poly).to_numpy(), index=od.index)
-            rows.append(summarise("motorway buffer (data/scenarios)", s, mask, w))
+            rows.append(summarise("corridor buffer + 1a cordon (data/scenarios)", s, mask, w))
 
     out = pd.DataFrame(rows)
-    out.to_csv(OUTPUT / "scenario_geometry_sensitivity.csv", index=False)
+    SENS.mkdir(parents=True, exist_ok=True)
+    out.to_csv(SENS / "scenario_geometry_sensitivity.csv", index=False)
 
     show = ["scenario", "half_width_m", "charged_commuters", "charged_pct_of_all",
             "trapped_commuters", "trapped_pct", "CI_nzdep", "CI_income_eq", "n_charged_SA2"]
@@ -181,11 +168,11 @@ def main():
     print(out[show].to_string(index=False))
 
     headline = out[out["half_width_m"].isna() | (out["half_width_m"] == STORED_HALF_WIDTH)]
-    headline.to_csv(OUTPUT / "scenario_geometry_headline.csv", index=False)
-    print("\n── Headline (cordons + stored 2 km buffers) ──")
+    headline.to_csv(SENS / "scenario_geometry_headline.csv", index=False)
+    print(f"\n── Headline (cordons + {STORED_HALF_WIDTH:,.0f} m corridor) ──")
     print(headline[show].to_string(index=False))
-    print(f"\nWritten: {OUTPUT/'scenario_geometry_sensitivity.csv'}")
-    print(f"Written: {OUTPUT/'scenario_geometry_headline.csv'}")
+    print(f"\nWritten: {SENS/'scenario_geometry_sensitivity.csv'}")
+    print(f"Written: {SENS/'scenario_geometry_headline.csv'}")
 
 
 if __name__ == "__main__":
